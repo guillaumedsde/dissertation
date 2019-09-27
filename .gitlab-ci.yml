@@ -1,0 +1,18 @@
+image: blang/latex:ctanfull
+build:
+  script:
+    - latexmk -pdf ./l4proj.tex
+  artifacts:
+    paths:
+      - "*.pdf"
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - cp l4proj.pdf public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
