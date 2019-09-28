@@ -1,5 +1,10 @@
-image: blang/latex:ctanfull
+stages:
+  - build
+  - deploy
+
 build:
+  image: blang/latex:ctanfull
+  stage: build
   script:
     - latexmk -pdf ./l4proj.tex
   artifacts:
