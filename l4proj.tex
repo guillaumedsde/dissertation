@@ -9,7 +9,7 @@
 %
 \usepackage{graphicx}
 \usepackage{subcaption}
-
+\usepackage{float}
 
 \begin{document}
 
@@ -172,17 +172,19 @@ key "features" code overview
 %==================================================================================================================================
 \chapter{Evaluation}
 
-A user evaluation was conducted to evaluate the effectiveness of the application for reviewing sensitive documents. 
+\section{Preparations and Experimental Setup}
 
 An important consideration in the decisions that follow is that we did not have access to professional document reviewers, as such the evaluation was conducted with students in the role of reviewers. 
+
 % TODO can you really say ground truth for sensitivity?
 Our document collection's ground truth for sensitivity was established with respect to sections 40 (International Relations) and 27 (Personal Information) of the Freedom of Information Act (FOIA).
 Out test reviewers were asked to identify sensitivities according to section 27 of the FOIA since our reviewers are not experts, finding Personal Information in a document is easier than identifying sensitivites harming International Relations (Section 40).
 
 Due to time constraints we only selected short documents to show our reviewers, that is, documents under 2000 characters. 
 We selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier with the following counts:
+
 % TODO update with actual document selection
-\begin{table}[h]
+\begin{table}[H]
     \begin{tabular}{l ll}
                                 & Actually non-sensitive & Actually Sensitive \\ 
         Predicted non-sensitive & 3                      & 1                  \\
@@ -193,12 +195,14 @@ We selected both sensitive and non-sensitive documents in order to represent eve
 \end{table}
 
 
-\section{Preparations and Experimental Setup}
+Multiple interfaces were required to evaluate the effectiveness of the application.
+One interface \textit{test mode 1} (Figure \ref{fig:test_mode_1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
+The other, \textit{test mode 2} (Figure \ref{fig:test_mode_2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
 
-Multiple interfaces were required to evaluate the effectiveness o
+Our reviewers will review documents with both interfaces, the first interface displayed will be chosen at random.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.7\textwidth}
         \centering
@@ -218,9 +222,25 @@ Multiple interfaces were required to evaluate the effectiveness o
     \label{fig:test_modes}
 \end{figure}
 
+% TODO put questionnaire in appendix 
+% TODO link questionnaire here
+Lastly, a questionnaire will be handed out to the testers
+
+\section{Evaluation}
+
+% TODO correct collection document count
+As mentioned, each user will be asked to review a collection of 6 documents for personal information sensitivities (FOIA Section 27)
+
+The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables:
+
+\begin{itemize}
+    \item Firstly, we will measure the time to review an entire collection with each interface.
+    \item Secondly, we will evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
+    \item Lastly we will record the accuracy of each reviewer on each interface for all documents.
+\end{itemize}
 
 
-\section{Guidance}
+
 
 Research questions
 dependent/indepdent variables
