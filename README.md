@@ -1,4 +1,4 @@
-<div align="center"><h1>Dissertation</h1></div>
+<div align="center"><h1>📝 Dissertation</h1></div>
 
 [![Rendered preview](https://harpocrates-app.gitlab.io/dissertation/dissertation.jpg)](https://harpocrates-app.gitlab.io/dissertation/dissertation.pdf)
 
