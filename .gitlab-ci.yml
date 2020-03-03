@@ -1,21 +1,37 @@
 stages:
-  - build
+  - pdf
+  - preview
   - deploy
 
-build:
+build-pdf:
   image: blang/latex:ctanfull
-  stage: build
+  stage: pdf
   script:
-    - latexmk -pdf ./l4proj.tex
+    - latexmk -pdf ./dissertation.tex
   artifacts:
     paths:
       - "*.pdf"
+
+build-preview:
+  image:
+    name: debian:stable-slim
+    entrypoint: [""]
+  stage: preview
+  before_script:
+    - apt update
+    - apt install -y --no-install-recommends imagemagick ghostscript
+  script:
+    - convert -density 600 -depth 8 -quality 100 "dissertation.pdf[0]" dissertation.jpg
+  artifacts:
+    paths:
+      - "*.jpg"
 
 pages:
   stage: deploy
   script:
     - mkdir public
-    - cp l4proj.pdf public
+    - cp dissertation.pdf public
+    - cp dissertation.jpg public
   artifacts:
     paths:
       - public
