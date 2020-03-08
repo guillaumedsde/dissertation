@@ -1,4 +1,5 @@
 % !TeX root = ./dissertation.tex
+% !TeX spellcheck = en-GB
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
 \documentclass{l4proj}
@@ -11,11 +12,26 @@
 \usepackage{subcaption}
 \usepackage{float}
 
+
+% license
+\usepackage[
+    type={CC},
+    modifier={by-nc-sa},
+    version={4.0},
+]{doclicense}
+
+\usepackage{appendix}
+
+% \usepackage{csquotes}
+
+
+
+
 \begin{document}
 
 %==============================================================================
 %% METADATA
-\title{Why is This Sensitive? Visualising Important Sensitivity Classification Features}
+\title{Why is This Sensitive? \\ Visualising Important Sensitivity Classification Features}
 \author{Guillaume de Susanne d'Epinay}
 \date{\today}
 
@@ -110,10 +126,27 @@ bulle tpoi t of chapter ocntent
 %==================================================================================================================================
 \chapter{Background}
 
-Macdonald et al papers
-
-
 need for explanations in ML
+
+CITE SOME WORKS
+
+\section{Literature Review}
+
+
+\cite{de_rijke_towards_2014} A first implementation of Machine Learning classifier for sensitivity Review
+
+\cite{mcdonaldUsingPartofSpeechNgrams2015} Improving classification with Part of Speech tagging
+
+\cite{jose_enhancing_2017} Improving classification with word embeddings
+
+\cite{pasi_active_2018} Active Learning ("loopback learning") implemeting reviewer feedback in Sensitivity prediction
+
+\cite{mcdonaldHowSensitivityClassification2019} User study with Machine Learning classification
+
+CITE SOME GENERAL ML EXPLANATIONS PAPERS
+
+
+\section{Related products}
 
 related products
 
@@ -172,18 +205,26 @@ key "features" code overview
 %==================================================================================================================================
 \chapter{Evaluation}
 
+We conducted a user evaluation in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review. We sought to answer a handeful of research questions.
+
+\begin{itemize}
+    \item Firstly, does our visualization of predicted document sensitivity and explanation features help reviewers conduct a sensitivity review faster?
+    \item Secondly, does it improve the accuracy of the sensitivity review process.
+    \item Lastly, does it improve reviewers' confidence in the completeness of their sensitivity review
+\end{itemize}
+
 \section{Preparations and Experimental Setup}
 
-An important consideration in the decisions that follow is that we did not have access to professional document reviewers, as such the evaluation was conducted with students in the role of reviewers. 
-
+The collection is a set of 3801 Government documents relating to International Activities.
 % TODO can you really say ground truth for sensitivity?
-Our document collection's ground truth for sensitivity was established with respect to sections 40 (International Relations) and 27 (Personal Information) of the Freedom of Information Act (FOIA).
-Out test reviewers were asked to identify sensitivities according to section 27 of the FOIA since our reviewers are not experts, finding Personal Information in a document is easier than identifying sensitivites harming International Relations (Section 40).
+Our collection's ground truth for sensitivity was established with respect to sections 40 (International Relations) and 27 (Personal Information) of the Freedom of Information Act (FOIA).
 
+An important consideration in the decisions that follow is that we did not have access to professional document reviewers, as such the evaluation was conducted with students in the role of reviewers. 
+Out test reviewers were asked to identify sensitivities according to section 27 of the FOIA. Since our reviewers are not experts, thus finding Personal Information in a document is easier than identifying sensitivities harming International Relations (Section 40).
 Due to time constraints we only selected short documents to show our reviewers, that is, documents under 2000 characters. 
+
 We selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier with the following counts:
 
-% TODO update with actual document selection
 \begin{table}[H]
     \begin{tabular}{l ll}
                                 & Actually non-sensitive & Actually Sensitive \\ 
@@ -199,7 +240,7 @@ Multiple interfaces were required to evaluate the effectiveness of the applicati
 One interface \textit{test mode 1} (Figure \ref{fig:test_mode_1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
 The other, \textit{test mode 2} (Figure \ref{fig:test_mode_2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
 
-Our reviewers will review documents with both interfaces, the first interface displayed will be chosen at random.
+Our reviewers reviewed documents with both interfaces, the first interface displayed was chosen at random.
 
 
 \begin{figure}[H]
@@ -224,19 +265,19 @@ Our reviewers will review documents with both interfaces, the first interface di
 
 % TODO put questionnaire in appendix 
 % TODO link questionnaire here
-Lastly, a questionnaire will be handed out to the testers
+Lastly, after the review of a batch of documents with each interface, a questionnaire was handed out to the testers
 
 \section{Evaluation}
 
-% TODO correct collection document count
-As mentioned, each user will be asked to review a collection of 6 documents for personal information sensitivities (FOIA Section 27)
+As mentioned, each user will be asked to review one collection of 6 documents for personal information sensitivities (FOIA Section 27) per user interface
 
 The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables:
 
 \begin{itemize}
     \item Firstly, we will measure the time to review an entire collection with each interface.
-    \item Secondly, we will evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
-    \item Lastly we will record the accuracy of each reviewer on each interface for all documents.
+    \item Secondly we will record the accuracy of each reviewer on each interface for all documents.
+    \item Lastly, we will evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
+          
 \end{itemize}
 
 
