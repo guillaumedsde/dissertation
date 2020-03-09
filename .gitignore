@@ -11,11 +11,11 @@
 *.cb
 *.cb2
 .*.lb
-l4proj*.pdf
+dissertation*.pdf
 
 test/
 
-bad_l4proj*.*
+bad_dissertation*.*
 
 ## Intermediate documents:
 *.dvi
