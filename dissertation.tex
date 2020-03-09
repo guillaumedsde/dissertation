@@ -12,6 +12,8 @@
 \usepackage{subcaption}
 \usepackage{float}
 
+\usepackage{appendix}
+
 
 % license
 \usepackage[
@@ -20,8 +22,7 @@
     version={4.0},
 ]{doclicense}
 
-\usepackage{appendix}
-
+% \usepackage[toc,page]{appendix}
 % \usepackage{csquotes}
 
 
@@ -132,6 +133,8 @@ CITE SOME WORKS
 
 \section{Literature Review}
 
+\subsection{Technology Assisted Review}
+
 
 \cite{de_rijke_towards_2014} A first implementation of Machine Learning classifier for sensitivity Review
 
@@ -145,13 +148,30 @@ CITE SOME WORKS
 
 CITE SOME GENERAL ML EXPLANATIONS PAPERS
 
+\subsection{Document visualization techniques}
+
+and elaborate on why didnt choose them
+"people have done this"
 
 \section{Related products}
 
-related products
+Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \cite{thenationalarchivesRedactionToolkitPaper2016}. 
+Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \cite{scottishgovernmentRedactingInformation2019}.
 
-Document visualization techniques and elaborate on why didnt choose them
-"people have done this"
+\subsection{PDF editors}
+
+Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents. 
+The principle is common: select text, click redact and browse a nested context menu to select an exemption (Figure \ref{fig:adobe_redaction}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images/adobe_redaction.png}
+    \caption{Adobe Acrobat redaction workflow}
+    \label{fig:adobe_redaction}
+\end{figure}
+
+There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow. 
+For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit_menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit_redact_all}), something which Adobe implement quite poorly.
 
 %==================================================================================================================================
 \chapter{Requirements}
@@ -161,6 +181,33 @@ Document visualization techniques and elaborate on why didnt choose them
 \section{(non)Functional definition}
 
 user study
+
+\section{Wireframes}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{\linewidth}
+        \centering
+        \includegraphics[width=0.6\linewidth]{images/wireframe_doc_view.jpg}
+        \caption{Document View Wireframe}
+        \label{fig:document_wireframe}
+    \end{subfigure}
+    \begin{subfigure}[b]{\linewidth}
+        \begin{subfigure}[b]{0.5\linewidth}
+            \includegraphics[width=\linewidth]{images/wireframe_tooltip.jpg}
+            \caption{minimized tooltip wireframe}
+            \label{fig:tooltip_wireframe}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.4\linewidth}
+            \includegraphics[width=\linewidth]{images/wireframe_tooltip_comment.jpg}
+            \caption{Expanded tooltip wireframe}
+            \label{fig:document_wireframe}
+        \end{subfigure}
+    \end{subfigure}
+    \caption{Selection of some of the Wireframes drawn up during the design process}
+    \label{fig:wireframes} 
+    
+\end{figure}
 
 
 %==================================================================================================================================
@@ -318,31 +365,26 @@ future work
 %  APPENDICES  
 
 \begin{appendices}
-
-    \chapter{Appendices}
-    
-    Typical inclusions in the appendices are:
-    
-    \begin{itemize}
-        \item
-              Copies of ethics approvals (required if obtained)
-        \item
-              Copies of questionnaires etc. used to gather data from subjects.
-        \item
-              Extensive tables or figures that are too bulky to fit in the main body of
-              the report, particularly ones that are repetitive and summarised in the body.
-              
-        \item Outline of the source code (e.g. directory structure), or other architecture documentation like class diagrams.
-              
-        \item User manuals, and any guides to starting/running the software.
-              
-    \end{itemize}
-    
-    \textbf{Don't include your source code in the appendices}. It will be
-    submitted separately.
-    
+    \chapter{PDF Editors}
+    \section{PhantomPDF context menu}
+    \label{fig:foxit_menu}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/foxit_redaction.png}
+    \end{figure}
+    \section{PhantomPDF redact all}
+    \label{fig:foxit_redact_all}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/foxit_redact_all.png}
+    \end{figure}
+    \section{Adobe Acrobat redact all}
+    \label{fig:adobe_redact_all}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/adobe_redact_all.png}
+    \end{figure}
 \end{appendices}
-
 %==================================================================================================================================
 %   BIBLIOGRAPHY   
 
