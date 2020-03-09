@@ -171,7 +171,7 @@ The principle is common: select text, click redact and browse a nested context m
 \end{figure}
 
 There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow. 
-For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit_menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit_redact_all}), something which Adobe implement quite poorly.
+For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit_menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit_redact_all}), something which Adobe implement quite poorly (Appendix \ref{fig:adobe_redact_all}).
 
 %==================================================================================================================================
 \chapter{Requirements}
@@ -220,6 +220,17 @@ choice of technologies
 \section{Application Structure and Technology stack}
 
 \section{Machine Learning Model}
+
+% TODO this sounds too much like a list
+To create the Machine Learning model for sensitivity classification, I have used the renowed Scikit-Learn Python framework from \cite{pedregosaScikitlearnMachineLearning2011}.
+For performance reasons, I later replaced its SVC implementation with a drop-in parrallelized replacement called ThunderSVM which can operate on multicore CPUs or CUDA enabled GPUs \cite{wenThunderSVMFastSVM2018}.
+I was able to resample my highly unbalanced dataset using the imblearn sampling library which extends Scikit-Learn \cite{lemaitreImbalancedlearnPythonToolbox2017}.
+
+% TODO elaborate on this
+Then, in order to explain the model's predictions to the reviewer, I explored the Lime Framework, which calculates feature weights by toggling feature on or off to calculate their contributions to the prediction \cite{ribeiroWhyShouldTrust2016a}.
+
+% TODO 
+\cite{lundbergUnifiedApproachInterpreting2017a} Shapley values
 
 \section{API}
 
