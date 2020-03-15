@@ -12,19 +12,23 @@
 \usepackage{subcaption}
 \usepackage{float}
 
-\usepackage{appendix}
+% Referencing
+\usepackage[backend=biber,bibstyle=apa,citestyle=apa]{biblatex}
+
+\bibliography{l4proj.bib}
+
+% break bilbatex reference URL on number
+\setcounter{biburlnumpenalty}{9000}
+
+\usepackage{csquotes}
 
 
 % license
 \usepackage[
-    type={CC},
+    type={CC}, 
     modifier={by-nc-sa},
     version={4.0},
 ]{doclicense}
-
-% \usepackage[toc,page]{appendix}
-% \usepackage{csquotes}
-
 
 
 
@@ -133,20 +137,31 @@ CITE SOME WORKS
 
 \section{Literature Review}
 
-\subsection{Technology Assisted Review}
+\subsection{Technology Assisted Sensitivity Review}
 
 
-\cite{de_rijke_towards_2014} A first implementation of Machine Learning classifier for sensitivity Review
+\autocite{de_rijke_towards_2014} A first implementation of Machine Learning classifier for sensitivity Review
 
-\cite{mcdonaldUsingPartofSpeechNgrams2015} Improving classification with Part of Speech tagging
+\autocite{mcdonaldUsingPartofSpeechNgrams2015} Improving classification with Part of Speech tagging
 
-\cite{jose_enhancing_2017} Improving classification with word embeddings
+\autocite{jose_enhancing_2017} Improving classification with word embeddings
 
-\cite{pasi_active_2018} Active Learning ("loopback learning") implemeting reviewer feedback in Sensitivity prediction
+\autocite{pasi_active_2018} Active Learning ("loopback learning") implemeting reviewer feedback in Sensitivity prediction
 
-\cite{mcdonaldHowSensitivityClassification2019} User study with Machine Learning classification
+\autocite{mcdonaldHowSensitivityClassification2019} User study with Machine Learning classification
 
 CITE SOME GENERAL ML EXPLANATIONS PAPERS
+
+\subsection{``Predictive Coding'' or \textit{TAR} for legal electronic discovery}
+
+Ongoing research in the area of Judicial practice has applied the concept of TAR to the process of legal discovery. 
+This research has coined the term ``Predictive Coding'' \autocite{carrollGrossmancormackGlossaryTechnologyassisted2013} as an industry specific use of TAR in the legal practice, particularly for ``legal discovery'', the pre-trial exchange of evidence by both parties. 
+
+\textcite{grossmanTechnologyAssistedReviewEDiscovery2010} compared the performances of a manual and TAR aided eDiscovery process with data from the various teams of the TREC 2009 Legal Track \autocite{hedinOverviewTREC2009}. They conclude that TAR methods lead to more accurate eDiscovery relevance estimations with significantly lower effort than with an exhaustive manual discovery process.
+
+
+One of these teams, \textcite{cormackEvaluationMachinelearningProtocols2014}, constructed various training sets for a given list of discovery topics from a corpus of eDiscovery documents using IR techniques (a search engine). They then fitted Logistic regression classifiers on these training sets to classify the rest of the collection as relevant or not for each topic.
+
 
 \subsection{Document visualization techniques}
 
@@ -155,23 +170,23 @@ and elaborate on why didnt choose them
 
 \section{Related products}
 
-Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \cite{thenationalarchivesRedactionToolkitPaper2016}. 
-Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \cite{scottishgovernmentRedactingInformation2019}.
+Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}. 
+Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
 
 \subsection{PDF editors}
 
 Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents. 
-The principle is common: select text, click redact and browse a nested context menu to select an exemption (Figure \ref{fig:adobe_redaction}).
+The principle is common: select text, click redact and browse a nested context menu to select an exemption (Figure \ref{fig:adobe-redaction}).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{images/adobe_redaction.png}
     \caption{Adobe Acrobat redaction workflow}
-    \label{fig:adobe_redaction}
+    \label{fig:adobe-redaction}
 \end{figure}
 
 There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow. 
-For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit_menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit_redact_all}), something which Adobe implement quite poorly (Appendix \ref{fig:adobe_redact_all}).
+For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit-menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit-redact-all}), something which Adobe implement quite poorly (Appendix \ref{fig:adobe-redact-all}).
 
 %==================================================================================================================================
 \chapter{Requirements}
@@ -190,22 +205,22 @@ user study
         \centering
         \includegraphics[width=0.6\linewidth]{images/wireframe_doc_view.jpg}
         \caption{Document View Wireframe}
-        \label{fig:document_wireframe}
+        \label{fig:document-wireframe}
     \end{subfigure}
     \begin{subfigure}[b]{\linewidth}
         \begin{subfigure}[b]{0.5\linewidth}
             \includegraphics[width=\linewidth]{images/wireframe_tooltip.jpg}
             \caption{minimized tooltip wireframe}
-            \label{fig:tooltip_wireframe}
+            \label{fig:tooltip-wireframe}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
             \includegraphics[width=\linewidth]{images/wireframe_tooltip_comment.jpg}
             \caption{Expanded tooltip wireframe}
-            \label{fig:document_wireframe}
+            \label{fig:expanded-tooltip-wireframe}
         \end{subfigure}
     \end{subfigure}
     \caption{Selection of some of the Wireframes drawn up during the design process}
-    \label{fig:wireframes} 
+    \label{fig:wireframes}
     
 \end{figure}
 
@@ -222,15 +237,15 @@ choice of technologies
 \section{Machine Learning Model}
 
 % TODO this sounds too much like a list
-To create the Machine Learning model for sensitivity classification, I have used the renowed Scikit-Learn Python framework from \cite{pedregosaScikitlearnMachineLearning2011}.
-For performance reasons, I later replaced its SVC implementation with a drop-in parrallelized replacement called ThunderSVM which can operate on multicore CPUs or CUDA enabled GPUs \cite{wenThunderSVMFastSVM2018}.
-I was able to resample my highly unbalanced dataset using the imblearn sampling library which extends Scikit-Learn \cite{lemaitreImbalancedlearnPythonToolbox2017}.
+To create the Machine Learning model for sensitivity classification, I have used the renowed Scikit-Learn Python framework from \textcite{pedregosaScikitlearnMachineLearning2011}.
+For performance reasons, I later replaced its SVC implementation with a drop-in parrallelized replacement called ThunderSVM which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
+I was able to resample my highly unbalanced dataset using the imblearn sampling library which extends Scikit-Learn \autocite{lemaitreImbalancedlearnPythonToolbox2017}.
 
 % TODO elaborate on this
-Then, in order to explain the model's predictions to the reviewer, I explored the Lime Framework, which calculates feature weights by toggling feature on or off to calculate their contributions to the prediction \cite{ribeiroWhyShouldTrust2016a}.
+Then, in order to explain the model's predictions to the reviewer, I explored the Lime Framework, which calculates feature weights by toggling feature on or off to calculate their contributions to the prediction \autocite{ribeiroWhyShouldTrust2016a}.
 
 % TODO 
-\cite{lundbergUnifiedApproachInterpreting2017a} Shapley values
+\autocite{lundbergUnifiedApproachInterpreting2017a} Shapley values
 
 \section{API}
 
@@ -243,7 +258,7 @@ show coponennt code and how it gets data from backend
 
 show lime explanations generation
 
-key "features" code overview
+key ``features'' code overview
 
 
 \begin{itemize}
@@ -295,8 +310,8 @@ We selected both sensitive and non-sensitive documents in order to represent eve
 
 
 Multiple interfaces were required to evaluate the effectiveness of the application.
-One interface \textit{test mode 1} (Figure \ref{fig:test_mode_1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
-The other, \textit{test mode 2} (Figure \ref{fig:test_mode_2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
+One interface \textit{test mode 1} (Figure \ref{fig:test-mode-1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
+The other, \textit{test mode 2} (Figure \ref{fig:test-mode-2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
 
 Our reviewers reviewed documents with both interfaces, the first interface displayed was chosen at random.
 
@@ -307,7 +322,7 @@ Our reviewers reviewed documents with both interfaces, the first interface displ
         \centering
         \includegraphics[width=\linewidth]{images/ui_test_mode_1.png}
         \caption{Test mode 1}
-        \label{fig:test_mode_1}
+        \label{fig:test-mode-1}
     \end{subfigure}
     
     
@@ -315,10 +330,10 @@ Our reviewers reviewed documents with both interfaces, the first interface displ
         \centering
         \includegraphics[width=\linewidth]{images/ui_test_mode_2.png}
         \caption{Test mode 2}
-        \label{fig:test_mode_2}
+        \label{fig:test-mode-2}
     \end{subfigure}
     \caption{The two test modes used for evaluation}
-    \label{fig:test_modes}
+    \label{fig:test-modes}
 \end{figure}
 
 % TODO put questionnaire in appendix 
@@ -378,19 +393,19 @@ future work
 \begin{appendices}
     \chapter{PDF Editors}
     \section{PhantomPDF context menu}
-    \label{fig:foxit_menu}
+    \label{fig:foxit-menu}
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/foxit_redaction.png}
     \end{figure}
     \section{PhantomPDF redact all}
-    \label{fig:foxit_redact_all}
+    \label{fig:foxit-redact-all}
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/foxit_redact_all.png}
     \end{figure}
     \section{Adobe Acrobat redact all}
-    \label{fig:adobe_redact_all}
+    \label{fig:adobe-redact-all}
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/adobe_redact_all.png}
@@ -399,11 +414,16 @@ future work
 %==================================================================================================================================
 %   BIBLIOGRAPHY   
 
-% The bibliography style is abbrvnat
-% The bibliography always appears last, after the appendices.
 
-\bibliographystyle{abbrvnat}
+\newpage
 
-\bibliography{l4proj}
+
+\section*{References}
+
+\printbibliography[heading=none]
+
+\vspace*{\fill}
+% print license
+\doclicenseThis
 
 \end{document}
