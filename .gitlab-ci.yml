@@ -7,7 +7,7 @@ build-pdf:
   image: aergus/latex:latest
   stage: pdf
   script:
-    - latexmk -xelatex -synctex=1 -interaction=nonstopmode -file-line-error ./dissertation.tex
+    - latexmk -xelatex -interaction=nonstopmode ./dissertation.tex
   artifacts:
     paths:
       - "*.pdf"
