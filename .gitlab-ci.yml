@@ -4,10 +4,10 @@ stages:
   - deploy
 
 build-pdf:
-  image: blang/latex:ctanfull
+  image: aergus/latex:latest
   stage: pdf
   script:
-    - latexmk -xelatex ./dissertation.tex
+    - latexmk -xelatex -synctex=1 -interaction=nonstopmode -file-line-error --shell-escape ./dissertation.tex
   artifacts:
     paths:
       - "*.pdf"
