@@ -48,9 +48,9 @@
 \begin{abstract}
     Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
     \vskip 0.5em
-    ``XYZ is bad. This project investigated ABC to determine if it was better. 
+    ``XYZ is bad. This project investigated ABC to determine if it was better.
     ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
-    never been used together. It was found that  
+    never been used together. It was found that
     ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
 \end{abstract}
 
@@ -140,10 +140,19 @@ CITE SOME WORKS
 
 \subsection{Technology Assisted Sensitivity Review}
 
+% TODO should I compare results between papers, can I talk about "improvements" over time? or not really since some results are not comparable (ex: focus on a particular FOIA exemption as opposed to all of S27 and S40)
 
-\autocite{de_rijke_towards_2014} A first implementation of Machine Learning classifier for sensitivity Review
+% TODO elaborate on results
+Research into the application of TAR to sensitivity review began with \textcite{de_rijke_towards_2014} which established an initial Machine Learning classifier combining the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition.
 
-\autocite{mcdonaldUsingPartofSpeechNgrams2015} Improving classification with Part of Speech tagging
+\autocite{sanchezDetectingSensitiveInformation2012}
+
+% TODO be more specific about results compared to baseline
+\textcite{mcdonaldUsingPartofSpeechNgrams2015} expanded on the idea by using Part of S Improving classification with Part-of-Speech tagging of large N-grams to improve both recall and precision albeit on a more focused task of identifying a subset of S27 FOIA exemptions: ``information supplied in confidence''.
+
+% TODO talk about F2 improvements with best SVM kernel (Gaussian) for POS standalone classification?
+This work was expanded with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
+The paper also combines the POS sequence classification with full text classification to obtain a 6.09\% improvement in the $F_{2}$ measure compared to the standalone baseline text classification.
 
 \autocite{jose_enhancing_2017} Improving classification with word embeddings
 
@@ -155,13 +164,17 @@ CITE SOME GENERAL ML EXPLANATIONS PAPERS
 
 \subsection{``Predictive Coding'' or \textit{TAR} for legal electronic discovery}
 
-Ongoing research in the area of Judicial practice has applied the concept of TAR to the process of legal discovery. 
-This research has coined the term ``Predictive Coding'' \autocite{carrollGrossmancormackGlossaryTechnologyassisted2013} as an industry specific use of TAR in the legal practice, particularly for ``legal discovery'', the pre-trial exchange of evidence by both parties. 
+Ongoing research in the area of Judicial practice has applied the concept of TAR to the process of legal discovery.
+This research has coined the term ``Predictive Coding'' \autocite{carrollGrossmancormackGlossaryTechnologyassisted2013} as an industry specific use of TAR in the legal practice, particularly for ``legal discovery'', the pre-trial exchange of evidence by both parties.
 
-\textcite{grossmanTechnologyAssistedReviewEDiscovery2010} compared the performances of a manual and TAR aided eDiscovery process with data from the various teams of the TREC 2009 Legal Track \autocite{hedinOverviewTREC2009}. They conclude that TAR methods lead to more accurate eDiscovery relevance estimations with significantly lower effort than with an exhaustive manual discovery process.
+\textcite{grossmanTechnologyAssistedReviewEDiscovery2010} compared the performances of a manual and TAR aided eDiscovery process with data from the various teams of the TREC 2009 Legal Track \autocite{hedinOverviewTREC2009}.
+They conclude that TAR methods lead to more accurate eDiscovery relevance estimations with significantly lower effort than with an exhaustive manual discovery process.
 
 
-One of these teams, \textcite{cormackEvaluationMachinelearningProtocols2014}, constructed various training sets for a given list of discovery topics from a corpus of eDiscovery documents using IR techniques (a search engine). They then fitted Logistic regression classifiers on these training sets to classify the rest of the collection as relevant or not for each topic.
+One of these teams, \textcite{cormackMachineLearningInformation2009}, constructed various training sets for a given list of discovery topics from a corpus of eDiscovery documents using IR techniques (a search engine).
+They then fitted Logistic regression classifiers on these training sets to classify the rest of the collection as relevant or not for each topic.
+Ultimately, this team obtained the best F1 measure averaged across all topics \autocite{hedinOverviewTREC2009}.
+Moreover, ``by all measures, the average efficiency and effectiveness of the five technology-assisted reviews surpasses that of the five manual reviews'' \autocite[p.~43]{grossmanTechnologyAssistedReviewEDiscovery2010}.
 
 
 \subsection{Document visualization techniques}
@@ -171,12 +184,12 @@ and elaborate on why didnt choose them
 
 \section{Related products}
 
-Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}. 
+Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
 Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
 
 \subsection{PDF editors}
 
-Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents. 
+Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents.
 The principle is common: select text, click redact and browse a nested context menu to select an exemption (Figure \ref{fig:adobe-redaction}).
 
 \begin{figure}[H]
@@ -186,7 +199,7 @@ The principle is common: select text, click redact and browse a nested context m
     \label{fig:adobe-redaction}
 \end{figure}
 
-There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow. 
+There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow.
 For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit-menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit-redact-all}), something which Adobe implement quite poorly (Appendix \ref{fig:adobe-redact-all}).
 
 %==================================================================================================================================
@@ -222,7 +235,7 @@ user study
     \end{subfigure}
     \caption{Selection of some of the Wireframes drawn up during the design process}
     \label{fig:wireframes}
-    
+
 \end{figure}
 
 
@@ -289,32 +302,35 @@ We conducted a user evaluation in order to evaluate the effectiveness of our app
 
 \section{Preparations and Experimental Setup}
 
-The collection is a set of 3801 Government documents relating to International Activities.
-% TODO can you really say ground truth for sensitivity?
-Our collection's ground truth for sensitivity was established with respect to sections 40 (International Relations) and 27 (Personal Information) of the Freedom of Information Act (FOIA).
+Our collection is a set of 3801 Government documents relating to International Activities sensitivity reviewed by government sensitivity reviewers.
+The ground truth for document sensitivity was established with respect to sections 40 (S40) (Personal Information) and 27 (S27) (International Relations) of the Freedom of Information Act (FOIA).
 
-An important consideration in the decisions that follow is that we did not have access to professional document reviewers, as such the evaluation was conducted with students in the role of reviewers. 
-Out test reviewers were asked to identify sensitivities according to section 27 of the FOIA. Since our reviewers are not experts, thus finding Personal Information in a document is easier than identifying sensitivities harming International Relations (Section 40).
-Due to time constraints we only selected short documents to show our reviewers, that is, documents under 2000 characters. 
+Due to our lack of access to expert document reviewers, we conducted our study thanks to students either from an academic politics background or with International Relations awareness.
+We focused on identifying ``Personal Information'' exceptions to the FOIA which we deemed more ``attainable'' given our non-expert test subjects.
 
-We selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier with the following counts:
+Our dataset contains 289 documents with S40 exemptions, we split the collection in order to obtain a stratified sample ``test set'' 20\% the size of the entire collection.
+We vectorized the remaining 80\% ``train set'' using Scikit-Learn's \verb|TfidfVectorizer| \autocite{pedregosaScikitlearnMachineLearning2011}.
+We resampled the resulting vectors to achieve better class balance with imblearn's \verb|SMOTEENN|, a combination of majority class downsampling and minority class upsampling \autocite{lemaitreImbalancedlearnPythonToolbox2017}.
+We used the resulting vectorized and resampled documents to train a GPU accelerated SVC \autocite{wenThunderSVMFastSVM2018} for binary classification of documents depending on whether or not they contain sensitive information.
+
+Due to time constraints, we sampled only sampled documents to review from the test set that were under 2000 characters.
+We then selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier with the following counts:
 
 \begin{table}[H]
     \begin{tabular}{l ll}
-                                & Actually non-sensitive & Actually Sensitive \\ 
+                                & Actually non-sensitive & Actually Sensitive \\
         Predicted non-sensitive & 3                      & 1                  \\
-        Predicted Sensitive     & 1                      & 1                 
+        Predicted Sensitive     & 1                      & 1
     \end{tabular}
-    \caption{Document selection in the classifier's confusion matrix}
+    \caption{Count of selected documents in the classifier's confusion matrix}
     \label{tab:confusion-matrix-selection}
 \end{table}
 
 
-Multiple interfaces were required to evaluate the effectiveness of the application.
+We sampled test documents accordingly twice: once for each User Interface (UI) used in the evaluation.
 One interface \textit{test mode 1} (Figure \ref{fig:test-mode-1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
 The other, \textit{test mode 2} (Figure \ref{fig:test-mode-2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
-
-Our reviewers reviewed documents with both interfaces, the first interface displayed was chosen at random.
+Our reviewers reviewed documents with both interfaces, the first interface displayed was selected randomly.
 
 
 \begin{figure}[H]
@@ -325,8 +341,8 @@ Our reviewers reviewed documents with both interfaces, the first interface displ
         \caption{Test mode 1}
         \label{fig:test-mode-1}
     \end{subfigure}
-    
-    
+
+
     \begin{subfigure}[b]{0.7\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/ui_test_mode_2.png}
@@ -351,7 +367,6 @@ The independent variables will a set of two user interfaces: with and without th
     \item Firstly, we will measure the time to review an entire collection with each interface.
     \item Secondly we will record the accuracy of each reviewer on each interface for all documents.
     \item Lastly, we will evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
-          
 \end{itemize}
 
 
@@ -367,7 +382,7 @@ document, subject seleciton
 results
 
 
-link back to requirements 
+link back to requirements
 how have they been met
 unit testing
 
@@ -381,7 +396,7 @@ unit testing
 requirements I've met
 
 
-reflections 
+reflections
 
 future work
 
