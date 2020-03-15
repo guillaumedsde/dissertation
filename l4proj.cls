@@ -8,11 +8,11 @@
 % =============================================================================
 
 \ProvidesClass{l4proj}[%
-2009/01/09 Colin Perkins <csp@dcs.gla.ac.uk>.%
-2009/09/16 Modified by Tim Storer <tws@dcs.gla.ac.uk> to support non pdf modes.%
-2011/02/15 Modified by Gregg Hamilton <hamiltgr@dcs.gla.ac.uk> for use in final year projects.%
-2012/10/18 Modified by Patrick Prosser, use geometry to control margins, simplified.%
-2018/09/14 Modified by John Williamson, improve typographic appearance%
+  2009/01/09 Colin Perkins <csp@dcs.gla.ac.uk>.%
+  2009/09/16 Modified by Tim Storer <tws@dcs.gla.ac.uk> to support non pdf modes.%
+  2011/02/15 Modified by Gregg Hamilton <hamiltgr@dcs.gla.ac.uk> for use in final year projects.%
+  2012/10/18 Modified by Patrick Prosser, use geometry to control margins, simplified.%
+  2018/09/14 Modified by John Williamson, improve typographic appearance%
 ]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 
@@ -61,7 +61,7 @@
 \usepackage{listings} % nice code listings
 
 % remove dots from ToC
-\usepackage[titles]{tocloft} 
+\usepackage[titles]{tocloft}
 \renewcommand{\cftdot}{}
 \usepackage[nottoc]{tocbibind}
 
@@ -75,26 +75,26 @@
 \usepackage{lstautogobble}
 \usepackage{listings}
 \lstset{
-    autogobble,    
-    columns=fullflexible,
-    showspaces=false,
-    showtabs=false,
-    breaklines=true,
-    showstringspaces=false,
-    breakatwhitespace=true,
-    escapeinside={(*@}{@*)},
-    rulecolor=\color{lightgray},
-    backgroundcolor=\color{subtlegray},
-    commentstyle=\color{greencomments},
-    keywordstyle=\color{bluekeywords},
-    stringstyle=\color{redstrings},
-    numberstyle=\color{graynumbers},
-    basicstyle=\ttfamily\linespread{1.15}\footnotesize,
-    frame=tb,
-    framesep=12pt,
-    framexleftmargin=12pt,
-    tabsize=4,
-    captionpos=b
+  autogobble,    
+  columns=fullflexible,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  escapeinside={(*@}{@*)},
+  rulecolor=\color{lightgray},
+  backgroundcolor=\color{subtlegray},
+  commentstyle=\color{greencomments},
+  keywordstyle=\color{bluekeywords},
+  stringstyle=\color{redstrings},
+  numberstyle=\color{graynumbers},
+  basicstyle=\ttfamily\linespread{1.15}\footnotesize,
+  frame=tb,
+  framesep=12pt,
+  framexleftmargin=12pt,
+  tabsize=4,
+  captionpos=b
 }
 %% ---
 
@@ -112,8 +112,8 @@
 
 % enable styled captions
 \usepackage[format=plain,
-labelfont={bf,it},
-textfont=it,tableposition=above]{caption}
+  labelfont={bf,it},
+  textfont=it,tableposition=above]{caption}
 
 \newcommand{\secfont}{\normalfont\sffamily}
 % % style the sections and the abstract
@@ -136,45 +136,45 @@ textfont=it,tableposition=above]{caption}
 % define the title page
 \renewcommand\maketitle{
   \begin{titlepage}%
-      \definecolor{UniBlue}{HTML}{00355F}
-        
-      \let\footnotesize\small
-      \let\footnoterule\relax
-      \let\footnote \thanks
+    \definecolor{UniBlue}{HTML}{00355F}
+    
+    \let\footnotesize\small
+    \let\footnoterule\relax
+    \let\footnote \thanks
+    
+    % the logo, full page width
+    \vspace{1in}
+    \includegraphics[width=\linewidth]{images/CompSci_colour.pdf}
+    \vskip 0.5em
+    \color{UniBlue}
+    {\large \sffamily Honours Individual Project Dissertation}\\ 
+    
+    % title and author
+    
+    \vspace{2cm}
+    \Large
+    \vskip 8em%
+    
+    \begin{center}
 
-      % the logo, full page width
-      \vspace{1in}
-      \includegraphics[width=\linewidth]{images/CompSci_colour.pdf}
-      \vskip 0.5em
       \color{UniBlue}
-      {\large \sffamily Honours Individual Project Dissertation}\\ 
-
-      % title and author
+      \noindent
+      {\Huge \scshape  \@title \par}%
       
-      \vspace{2cm}
-        \Large
-        \vskip 8em%
       
-        \begin{center}
-          
-          \color{UniBlue}
-            \noindent
-            {\Huge \scshape  \@title \par}%
-            
-            
-            
-            
-          
-        \end{center}
-        \vfill
-        {\Large
-        \textbf{\@author}\\
-        \@date}
-            
-
+      
+      
+      
+    \end{center}
+    \vfill
+    {\Large
+      \textbf{\@author}\\
+      \@date}
+    
+    
     
   \end{titlepage}%
-
+  
   \setcounter{footnote}{0}%
   \global\let\thanks\relax
   \global\let\maketitle\relax
@@ -183,7 +183,7 @@ textfont=it,tableposition=above]{caption}
   \global\let\@date\@empty
   \global\let\@consentname\@empty
   \global\let\@consentdate\@empty
-
+  
   \global\let\@title\@empty
   \global\let\title\relax
   \global\let\author\relax
@@ -200,62 +200,62 @@ textfont=it,tableposition=above]{caption}
 \fancyhead[R]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \fancypagestyle{plain}{%
-    \renewcommand{\headrulewidth}{0pt}%
-    \fancyhf{}%
-    \fancyhead[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyhf{}%
+  \fancyhead[R]{\thepage}%
 }
 
 \usepackage{titlesec}
 % set up chapter headings
 \usepackage{xstring}
 \titleformat{\chapter}[display]
-  % only show numbers if they aren't Chapter 0 (i.e. front matter)
-  {\normalfont}{}{0pt}{
-    \huge\bfseries\secfont
-    \IfInteger{\thechapter}{\ifnum0=0\thechapter\relax\else\relax {\Huge \thechapter}\ \rule[-0.25em]{0.5pt}{1.5em}\ \fi}
-    {\thechapter \ \rule[-0.25em]{0.5pt}{1.5em}\ }}
-  %[\titlerule]
-  \titlespacing*{\chapter}      
-  {0pt}{0pt}{15pt}  
+% only show numbers if they aren't Chapter 0 (i.e. front matter)
+{\normalfont}{}{0pt}{
+  \huge\bfseries\secfont
+  \IfInteger{\thechapter}{\ifnum0=0\thechapter\relax\else\relax {\Huge \thechapter}\ \rule[-0.25em]{0.5pt}{1.5em}\ \fi}
+  {\thechapter \ \rule[-0.25em]{0.5pt}{1.5em}\ }}
+%[\titlerule]
+\titlespacing*{\chapter}
+{0pt}{0pt}{15pt}
 
 % Educational consent form
 \newcommand{\educationalconsent}{
-    \ifdefined\consentname
-          \newpage
-          \chapter*{Education Use Consent}
-
-          I hereby grant my permission for this project to be stored, distributed and shown to other
-          University of Glasgow students and staff for educational purposes. 
-          \textbf{Please note that you are under no obligation to sign 
-          this declaration, but doing so would help future students.}
-
-          \begin{tabular}{@{}llll}
-                &                     &            &                     \\
-                &                     &            &                     \\
-          Signature: & \consentname & Date: & \consentdate \\
-                &                     &            &                     \\
-                &                     &            &                     \\
-          \end{tabular}
-    \else
+  \ifdefined\consentname
     \newpage
-        \chapter*{Education Use Consent}
-        Consent for educational reuse withheld. Do not distribute.
-    \fi 
-
+    \chapter*{Education Use Consent}
+    
+    I hereby grant my permission for this project to be stored, distributed and shown to other
+    University of Glasgow students and staff for educational purposes. 
+    \textbf{Please note that you are under no obligation to sign
+      this declaration, but doing so would help future students.}
+    
+    \begin{tabular}{@{}llll}
+                 &              &       &              \\
+                 &              &       &              \\
+      Signature: & \consentname & Date: & \consentdate \\
+                 &              &       &              \\
+                 &              &       &              \\
+    \end{tabular}
+  \else
+    \newpage
+    \chapter*{Education Use Consent}
+    Consent for educational reuse withheld. Do not distribute.
+  \fi
+  
 }
 
 % highlight boxes
 \usepackage{tcolorbox}
 \newenvironment{highlight}
 {\begin{tcolorbox}[notitle,boxrule=0pt,colback=green!10,colframe=green!10]}
-{
-\end{tcolorbox}
+    {
+  \end{tcolorbox}
 }
 
 \newenvironment{highlight_title}[1]
 {\begin{tcolorbox}[title=#1,boxrule=2pt,colback=green!10,colframe=green!20,coltitle=black,fonttitle=\bfseries]}
-{
-\end{tcolorbox}
+    {
+  \end{tcolorbox}
 }
 
 
@@ -275,21 +275,21 @@ textfont=it,tableposition=above]{caption}
 \titlespacing{\section}{10pt}{1.5\baselineskip}{8pt plus 3pt minus 3pt}
 \titlespacing{\subsection}{10pt}{\baselineskip}{8pt plus 4pt minus 1pt}
 \titleformat{\subsubsection}[runin]{\bfseries }{}{}{}[]
-\titlespacing{\chapter}{0pt}{0pt}{40pt plus 10pt minus 5pt} 
+\titlespacing{\chapter}{0pt}{0pt}{40pt plus 10pt minus 5pt}
 
 % switch to roman numeral for frontmatter
 \pagenumbering{roman}
 
 % fix itemise so it looks reasonable
 \renewcommand{\@listI}{%
-      \leftmargin=25pt
-      \rightmargin=0pt
-      \labelsep=5pt
-      \labelwidth=20pt
-      \itemindent=0pt
-      \listparindent=0pt
-      \topsep=0pt plus 2pt minus 4pt
-      \partopsep=0pt plus 1pt minus 1pt
-      \parsep=1pt plus 1pt
-      \itemsep=\parsep}
+  \leftmargin=25pt
+  \rightmargin=0pt
+  \labelsep=5pt
+  \labelwidth=20pt
+  \itemindent=0pt
+  \listparindent=0pt
+  \topsep=0pt plus 2pt minus 4pt
+  \partopsep=0pt plus 1pt minus 1pt
+  \parsep=1pt plus 1pt
+  \itemsep=\parsep}
 
