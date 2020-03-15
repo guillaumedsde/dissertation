@@ -7,7 +7,7 @@ build-pdf:
   image: blang/latex:ctanfull
   stage: pdf
   script:
-    - latexmk -pdf ./dissertation.tex
+    - latexmk -xelatex ./dissertation.tex
   artifacts:
     paths:
       - "*.pdf"
