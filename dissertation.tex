@@ -14,7 +14,7 @@
 \usepackage{csquotes}
 
 % Referencing 
-\usepackage[backend=biber,style=apa]{biblatex}
+\usepackage[backend=biber,bibstyle=apa,citestyle=authoryear]{biblatex}
 \DeclareLanguageMapping{english}{english-apa}
 \bibliography{l4proj.bib}
 
@@ -316,7 +316,23 @@ In order to provide explanations for our model's predictions utilized techniques
 % TODO 
 \autocite{lundbergUnifiedApproachInterpreting2017a} Shapley values
 
-\section{API}
+
+\subsection{OpenAPI specification and generator}
+
+``The OpenAPI Specification is a community-driven open specification within the OpenAPI Initiative, a Linux Foundation Collaborative Project.'' \autocite{OAIOpenAPISpecification2020}. 
+% TODO elaborate a bit more on this
+It is an increasingly popular formal definition of a REST API contract. 
+Its precision and specificity is such that it has allowed powerful tools to expand it.
+Notably, the OpenAPI generator \autocite{OpenAPIToolsOpenapigenerator2020} which, given an OpenAPI specification, allows for the \textit{automatic} generation of API server code in more than 40 languages and API client code in more than 50.
+Hence, we chose to write our API specification in OpenAPI format \textit{before} developing the API.
+This allowed us to generate boilerplate API server code and a full fledged API client with only the precise documentation.
+
+
+\section{API Server}
+
+Most of our data science tools are written in Python which is why we selected it to write our API server.
+The question of the choice of framework, 
+
 
 \section{Frontend}
 
