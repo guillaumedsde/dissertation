@@ -207,6 +207,60 @@ For instance, Foxit PhantomPDF is another well known PDF editor that implements 
 
 \section{Scope}
 
+\section{Functional Requirements (MoSCoW)}
+
+% TODO reformulate this into something more formal
+\begin{minipage}[t]{.5\linewidth}
+    \centerline{\textbf{Must Have}}
+    \begin{itemize}
+        \item document Set creation and deletion
+        \item within a set, plaintext document creation and deletion
+        \item for a document, binary sensitivity classification (sensitive or not?)
+        \item explanation for aforementioned classifications
+        \item user binary classification of a document (sensitive or not?)
+        \item for a set of document, overall sensitivity statistics (number of sensitive documents etc…)
+        \item for a set of documents, ordered of documents by sensitivity
+        \item User redactions of a document with text highlighting, with possible edits and save functionality
+        \item final redacted document exporting
+        \item documentation for API
+    \end{itemize}
+\end{minipage}
+\hfill
+\noindent
+\begin{minipage}[t]{.5\linewidth}
+    \centerline{\textbf{Should Have}}
+    \begin{itemize}
+        \item user redactions helper (highlight all instances of redacted text, could do this on a document set level)
+        \item for a document, suggest redaction of sensitive elements
+        \item fulltext document search
+    \end{itemize}
+\end{minipage}
+
+\vspace{0.5cm}
+
+\begin{minipage}[t]{.5\linewidth}
+    \centerline{\textbf{Could Have}}
+    \begin{itemize}
+        \item extract entities from document and display them (spaCy)
+        \item possibility of using different text Classifiers (what for?)
+        \item documentation for API SDK
+        \item documentation for frontend
+        \item specified and enforced document upload limitations (number and size of documents)
+        \item reviewer authentication
+    \end{itemize}
+\end{minipage}
+\hfill
+\noindent
+\begin{minipage}[t]{.5\linewidth}
+    \centerline{\textbf{Would Have}}
+    \begin{itemize}
+        \item handle more than plain text files (PDF, Word etc…)
+        \item specified and enforced document size and count upload limits
+        \item ``Loopback Learning'' user redactions help improve future predictions
+        \item deployed web application
+    \end{itemize}
+\end{minipage}
+
 \section{(non)Functional definition}
 
 user study
@@ -251,12 +305,11 @@ choice of technologies
 \section{Machine Learning Model}
 
 % TODO this sounds too much like a list
-To create the Machine Learning model for sensitivity classification, I have used the renowed Scikit-Learn Python framework from \textcite{pedregosaScikitlearnMachineLearning2011}.
-For performance reasons, I later replaced its SVC implementation with a drop-in parrallelized replacement called ThunderSVM which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
-I was able to resample my highly unbalanced dataset using the imblearn sampling library which extends Scikit-Learn \autocite{lemaitreImbalancedlearnPythonToolbox2017}.
 
-% TODO elaborate on this
-Then, in order to explain the model's predictions to the reviewer, I explored the Lime Framework, which calculates feature weights by toggling feature on or off to calculate their contributions to the prediction \autocite{ribeiroWhyShouldTrust2016a}.
+We used the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011}, for performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
+We resampled our highly unbalanced dataset with an extension to Scikit-Learn: ``imblearn'' which implements common resampling techniques\autocite{lemaitreImbalancedlearnPythonToolbox2017}.
+% TODO elaborate on this, how it works
+In order to provide explanations for our model's predictions utilized techniques implemented by Lime which provides per-feature weights explaining the feature's contribution to the final classification \autocite{ribeiroWhyShouldTrust2016a}.
 
 % TODO 
 \autocite{lundbergUnifiedApproachInterpreting2017a} Shapley values
