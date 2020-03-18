@@ -150,11 +150,11 @@ Research into the application of TAR to sensitivity review began with \textcite{
 \autocite{sanchezDetectingSensitiveInformation2012}
 
 % TODO be more specific about results compared to baseline
-\textcite{mcdonaldUsingPartofSpeechNgrams2015} expanded on the idea by using Part of S Improving classification with Part-of-Speech tagging of large N-grams to improve both recall and precision albeit on a more focused task of identifying a subset of S27 FOIA exemptions: ``information supplied in confidence''.
+\textcite{mcdonaldUsingPartofSpeechNgrams2015} expanded on the idea and Improved classification with Part-of-Speech tagging of large N-grams to improve both recall and precision albeit on a more focused task of identifying a subset of S27 FOIA exemptions: ``information supplied in confidence''.
 
 % TODO talk about F2 improvements with best SVM kernel (Gaussian) for POS standalone classification?
-This work was expanded with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
-The paper also combines the POS sequence classification with full text classification to obtain a 6.09\% improvement in the $F_{2}$ measure compared to the standalone baseline text classification.
+This work was continued with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
+The paper also combined the POS sequence classification with full text classification to obtain a 6.09\% improvement in the $F_{2}$ measure compared to the standalone baseline text classification.
 
 \autocite{jose_enhancing_2017} Improving classification with word embeddings
 
@@ -168,6 +168,8 @@ CITE SOME GENERAL ML EXPLANATIONS PAPERS
 
 Ongoing research in the area of Judicial practice has applied the concept of TAR to the process of legal discovery.
 This research has coined the term ``Predictive Coding'' \autocite{carrollGrossmancormackGlossaryTechnologyassisted2013} as an industry specific use of TAR in the legal practice, particularly for ``legal discovery'', the pre-trial exchange of evidence by both parties.
+Parallels can be drawn with the task of sensitivity review, specifically the process of identifying ``privileged information'' in a legal discovery corpus.
+% TODO elaborate on privilege (both attorney-client and common interest)
 
 \textcite{grossmanTechnologyAssistedReviewEDiscovery2010} compared the performances of a manual and TAR aided eDiscovery process with data from the various teams of the TREC 2009 Legal Track \autocite{hedinOverviewTREC2009}.
 They conclude that TAR methods lead to more accurate eDiscovery relevance estimations with significantly lower effort than with an exhaustive manual discovery process.
