@@ -191,10 +191,10 @@ Moreover, ``by all measures, the average efficiency and effectiveness of the fiv
 There are quite a few ``document thumbnails'' that abstract textual content away and keep line length for displaying document overviews, much like many modern text editors. Adding emphasis on gray line representation of text lines provides for a good overview of document content and feature `location' in the document, but it does not convey much information beyond that, see Figure \ref{fig:j24}.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\textwidth]{images/document_visualization/j24.png}
-  \caption{``J24'' software's document overview with feature highlighting \\ \protect\autocite{ogdenDocumentThumbnailVisualizations1998a}}
-  \label{fig:j24}
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/document_visualization/j24.png}
+    \caption{``J24'' software's document overview with feature highlighting \\ \protect\autocite{ogdenDocumentThumbnailVisualizations1998a}}
+    \label{fig:j24}
 \end{figure}
 
 \subsection{Lexical Episode Plots}
@@ -203,7 +203,7 @@ There are quite a few ``document thumbnails'' that abstract textual content away
     \includegraphics[width=\linewidth]{images/document_visualization/topic-overview.png}
     \caption{``Lexical Episode Plots''\\ \protect\autocite{goldExploratoryTextAnalysis2015}}
     \label{fig:lexical_plot}
-  \end{wrapfigure}
+\end{wrapfigure}
 
 A variation of this kind of document overview displays highlights beside the document outline also showing the ``topic'' of the highlight (See Figure \ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
 
@@ -216,10 +216,10 @@ I am a bit sceptical as to whether this would be a good thumbnail, the highlight
 \textit{However} varying font size would be an interesting visualization for the Lime explanation's feature importance.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/document_visualization/font-size.png}
-  \caption{Adjusting font size for overview of important features \\ \protect\autocite{stoffelDocumentThumbnailsVariable2012}}
-  \label{fig:font-size}
+    \centering
+    \includegraphics[width=\textwidth]{images/document_visualization/font-size.png}
+    \caption{Adjusting font size for overview of important features \\ \protect\autocite{stoffelDocumentThumbnailsVariable2012}}
+    \label{fig:font-size}
 \end{figure}
 
 
@@ -228,10 +228,10 @@ I am a bit sceptical as to whether this would be a good thumbnail, the highlight
 This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom`` \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure \ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{images/document_visualization/different-fisheyes.png}
-  \caption{Different Fisheye views, from left to right: \\ Manhattan lens, zoomscapes, central perspective and parallel projection \\ \protect\autocite{baudischFishnetFisheyeWeb2004}}
-  \label{fig:fisheyes}
+    \centering
+    \includegraphics[width=\textwidth]{images/document_visualization/different-fisheyes.png}
+    \caption{Different Fisheye views, from left to right: \\ Manhattan lens, zoomscapes, central perspective and parallel projection \\ \protect\autocite{baudischFishnetFisheyeWeb2004}}
+    \label{fig:fisheyes}
 \end{figure}
 
 \textit{Circular Fisheye Distortion} is a circular ``magnifying glass'' effect visible in \textcite{bostockFisheyeGrid2019}. \textit{Cartesian Distortion} ``magnifies continuously so as to avoid local minification'' \autocite{bostockFisheyeDistortion2012}. The effect can also be limited to only one axis (vertical or horizontal) as seen in \textcite{pstuffaCartesianFisheyeDistortion2019}. In our case, Vertical Cartesian Distortion on a per line basis seems like an interesting visualization for document overview with emphasis on hovered lines. There is a D3js implementation of this effect (see the links above), it also seems like there is a React specific implementation of this text fisheye effect \autocite{zhongVincentdchanReactfisheye2019}.
@@ -370,9 +370,9 @@ In order to provide explanations for our model's predictions utilized techniques
 
 \subsection{OpenAPI specification and generator}
 
-``The OpenAPI Specification is a community-driven open specification within the OpenAPI Initiative, a Linux Foundation Collaborative Project.'' \autocite{OAIOpenAPISpecification2020}. 
+``The OpenAPI Specification is a community-driven open specification within the OpenAPI Initiative, a Linux Foundation Collaborative Project.'' \autocite{OAIOpenAPISpecification2020}.
 % TODO elaborate a bit more on this
-It is an increasingly popular formal definition of a REST API contract. 
+It is an increasingly popular formal definition of a REST API contract.
 Its precision and specificity is such that it has allowed powerful tools to expand it.
 Notably, the OpenAPI generator \autocite{OpenAPIToolsOpenapigenerator2020} which, given an OpenAPI specification, allows for the \textit{automatic} generation of API server code in more than 40 languages and API client code in more than 50.
 Hence, we chose to write our API specification in OpenAPI format \textit{before} developing the API.
@@ -389,6 +389,12 @@ The question of the choice of framework, remained, specifically since the OpenAP
 
 %==================================================================================================================================
 \chapter{Implementation}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \includegraphics[width=\linewidth]{figures/tech_stack.png}
+    \caption{Harpocrates tech stack}
+    \label{fig:lexical_plot}
+  \end{wrapfigure}
 
 show coponennt code and how it gets data from backend
 
