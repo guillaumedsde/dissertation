@@ -26,9 +26,9 @@
 
 \usepackage{csquotes}
 
-\usepackage{pdfpages}
-
 \usepackage{enumitem}
+
+\usepackage{tocvsec2}
 
 
 % license
@@ -185,9 +185,9 @@ They then fitted Logistic regression classifiers on these training sets to class
 Ultimately, this team obtained the best F1 measure averaged across all topics \autocite{hedinOverviewTREC2009}.
 Moreover, ``by all measures, the average efficiency and effectiveness of the five technology-assisted reviews surpasses that of the five manual reviews'' \autocite[p.~43]{grossmanTechnologyAssistedReviewEDiscovery2010}.
 
-The task at hand is different from the sensitivity review of sensitive documents. 
-Firstly, the implications of missing a relevant document in sensitivity review can be far greater than in legal discovery. 
-The works we have cited above only manually reviewed fractions of their document collection, accepting a level of ``misclassification'' that is not tolerable in sensitivity review. 
+The task at hand is different from the sensitivity review of sensitive documents.
+Firstly, the implications of missing a relevant document in sensitivity review can be far greater than in legal discovery.
+The works we have cited above only manually reviewed fractions of their document collection, accepting a level of ``misclassification'' that is not tolerable in sensitivity review.
 % TODO Source this in the works of the Macdonalds
 Indeed, even with reliable classifiers, all documents will need to be manually reviewed for sensitivities.
 The task of identifying ``privileged'' information in legal discovery documents is the one that comes closest that of sensitivity review.
@@ -358,13 +358,11 @@ link back to requirements
 
 choice of technologies
 
-\section{Machine Learning Model}
+\section{Machine Learning Model and explainations}
 
 % TODO this sounds too much like a list
 
-We used the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011}, for performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
-
-\section{Machine Learning classifier explanations}
+We used the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitiity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}. For performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
 
 We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the Lime library \autocite{ribeiroWhyShouldTrust2016a} which provides per-feature weights explaining the feature's contribution to the final classification.
 
@@ -390,11 +388,20 @@ The question of the choice of framework, remained, specifically since the OpenAP
 
 We chose the implementation that makes use of an OpenAPI wrapper around Flask called Connexion which handles ``the mapping from the specification to the code.
 This incentivizes you to write the specification'' \autocite{ZalandoConnexion2020}.
-Furthermore, Flask is a Python API framework that is extensible with libraries notably implementing file upload size limits for requirement \textbf{W2}, and is widely used by major technology companies like Reddit or Netflix \autocite{WhyDevelopersFlask}, a testament to its robustness and level of support.
+Furthermore, Flask is a Python API framework that is extensible with libraries notably implementing file upload size limits for requirement \textbf{W2}. Furthemore it is widely used by major technology companies like Reddit or Netflix \autocite{WhyDevelopersFlask}, a testament to its robustness and level of support which streamlines the implementation of requirement \textbf{M9}.
 
 Furthermore, the Connexion+Flask implements the Oauth2 Authentication specification for API endpoints, a state of the art authentication framework that allows us to securely authenticate reviewers for requirements \textbf{C5} \autocite{jonesOAuthAuthorizationFramework2012}.
 
 \section{Frontend}
+
+We chose to implement a web application as the frontend for our application.
+This allows for compatibility with many devices: generally anything that can run a reasonably modern web browser can use a web application without worrying about Operating System choice or GUI library compatibility.
+We identified early on the need for a ``dynamic'' application meaning that in order to implement a web application, the codebase would be prominently Javascript (JS).
+
+There are a number of modern frameworks that facilitate JS web application development and avoid having to write plain JS.
+Their ``component'' approach to UI elements allows for the development of standalone modules that can be combined into an application, streamlining development by relying on high quality component libraries such as \textcite{MuiorgMaterialui} or visualization plotting libraries like \textcite{RechartsRecharts}.
+
+There are three major web JS frameworks: \textcite{AngularAngular,FacebookReact,VuejsVue2020}.
 
 
 \section{Application Structure and Technology stack}
@@ -550,6 +557,7 @@ future work
 %  APPENDICES  
 
 \begin{appendices}
+    \settocdepth{chapter}
     \chapter{PDF Editors}
     \section{PhantomPDF context menu}
     \label{fig:foxit-menu}
