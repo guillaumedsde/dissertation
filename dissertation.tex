@@ -26,7 +26,9 @@
 
 \usepackage{csquotes}
 
-\usepackage{pdfpages}
+\usepackage{enumitem}
+
+\usepackage{tocvsec2}
 
 
 % license
@@ -131,7 +133,7 @@ why technological problem
 
 \section{overview}
 
-bulle tpoi t of chapter ocntent
+bullet point of chapter contents
 
 
 %==================================================================================================================================
@@ -183,6 +185,12 @@ They then fitted Logistic regression classifiers on these training sets to class
 Ultimately, this team obtained the best F1 measure averaged across all topics \autocite{hedinOverviewTREC2009}.
 Moreover, ``by all measures, the average efficiency and effectiveness of the five technology-assisted reviews surpasses that of the five manual reviews'' \autocite[p.~43]{grossmanTechnologyAssistedReviewEDiscovery2010}.
 
+The task at hand is different from the sensitivity review of sensitive documents.
+Firstly, the implications of missing a relevant document in sensitivity review can be far greater than in legal discovery.
+The works we have cited above only manually reviewed fractions of their document collection, accepting a level of ``misclassification'' that is not tolerable in sensitivity review.
+% TODO Source this in the works of the Macdonalds
+Indeed, even with reliable classifiers, all documents will need to be manually reviewed for sensitivities.
+The task of identifying ``privileged'' information in legal discovery documents is the one that comes closest that of sensitivity review.
 
 \section{Document visualization techniques}
 
@@ -207,8 +215,6 @@ There are quite a few ``document thumbnails'' that abstract textual content away
 
 A variation of this kind of document overview displays highlights beside the document outline also showing the ``topic'' of the highlight (See Figure \ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
 
-
-
 \subsection{Playing with font size}
 
 \textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features.
@@ -225,7 +231,7 @@ I am a bit sceptical as to whether this would be a good thumbnail, the highlight
 
 \subsection{Distortion}
 
-This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom`` \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure \ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
+This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom'' \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure \ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
 
 \begin{figure}[H]
     \centering
@@ -260,12 +266,12 @@ For instance, Foxit PhantomPDF is another well known PDF editor that implements 
 
 \section{Scope}
 
-\section{Functional Requirements (MoSCoW)}
+\section{MoSCoW Functional Requirements}
 
 % TODO reformulate this into something more formal
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Must Have}}
-    \begin{itemize}
+    \begin{enumerate}[label=\textbf{M\arabic*}]
         \item document Set creation and deletion
         \item within a set, plaintext document creation and deletion
         \item for a document, binary sensitivity classification (sensitive or not?)
@@ -276,42 +282,41 @@ For instance, Foxit PhantomPDF is another well known PDF editor that implements 
         \item User redactions of a document with text highlighting, with possible edits and save functionality
         \item final redacted document exporting
         \item documentation for API
-    \end{itemize}
+    \end{enumerate}
 \end{minipage}
 \hfill
 \noindent
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Should Have}}
-    \begin{itemize}
+    \begin{enumerate}[label=\textbf{S\arabic*}]
         \item user redactions helper (highlight all instances of redacted text, could do this on a document set level)
         \item for a document, suggest redaction of sensitive elements
         \item fulltext document search
-    \end{itemize}
+    \end{enumerate}
 \end{minipage}
 
 \vspace{0.5cm}
 
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Could Have}}
-    \begin{itemize}
+    \begin{enumerate}[label=\textbf{C\arabic*}]
         \item extract entities from document and display them (spaCy)
         \item possibility of using different text Classifiers (what for?)
         \item documentation for API SDK
         \item documentation for frontend
-        \item specified and enforced document upload limitations (number and size of documents)
         \item reviewer authentication
-    \end{itemize}
+    \end{enumerate}
 \end{minipage}
 \hfill
 \noindent
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Would Have}}
-    \begin{itemize}
+    \begin{enumerate}[label=\textbf{W\arabic*}]
         \item handle more than plain text files (PDF, Word etc…)
         \item specified and enforced document size and count upload limits
         \item ``Loopback Learning'' user redactions help improve future predictions
         \item deployed web application
-    \end{itemize}
+    \end{enumerate}
 \end{minipage}
 
 \section{(non)Functional definition}
@@ -353,48 +358,62 @@ link back to requirements
 
 choice of technologies
 
-\section{Application Structure and Technology stack}
-
-\section{Machine Learning Model}
+\section{Machine Learning Model and explanations}
 
 % TODO this sounds too much like a list
 
-We used the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011}, for performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
-We resampled our highly unbalanced dataset with an extension to Scikit-Learn: ``imblearn'' which implements common resampling techniques\autocite{lemaitreImbalancedlearnPythonToolbox2017}.
-% TODO elaborate on this, how it works
-In order to provide explanations for our model's predictions utilized techniques implemented by Lime which provides per-feature weights explaining the feature's contribution to the final classification \autocite{ribeiroWhyShouldTrust2016a}.
+We used the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitiity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}. For performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
+
+We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the Lime library \autocite{ribeiroWhyShouldTrust2016a} which provides per-feature weights explaining the feature's contribution to the final classification.
 
 % TODO 
 \autocite{lundbergUnifiedApproachInterpreting2017a} Shapley values
 
 
-\subsection{OpenAPI specification and generator}
+\section{OpenAPI specification and generator}
 
 ``The OpenAPI Specification is a community-driven open specification within the OpenAPI Initiative, a Linux Foundation Collaborative Project.'' \autocite{OAIOpenAPISpecification2020}.
 % TODO elaborate a bit more on this
-It is an increasingly popular formal definition of a REST API contract.
+It is an increasingly popular framework for formally defining a REST API contract.
 Its precision and specificity is such that it has allowed powerful tools to expand it.
 Notably, the OpenAPI generator \autocite{OpenAPIToolsOpenapigenerator2020} which, given an OpenAPI specification, allows for the \textit{automatic} generation of API server code in more than 40 languages and API client code in more than 50.
 Hence, we chose to write our API specification in OpenAPI format \textit{before} developing the API.
-This allowed us to generate boilerplate API server code and a full fledged API client with only the precise documentation.
-
+This allowed us to generate boilerplate API server and client code with documentation simply given the precise documentation thus fulfilling requirements \textbf{C3} and \textbf{M10}.
 
 \section{API Server}
 
 Most of our data science tools are written in Python which is why we selected it to write our API server.
-The question of the choice of framework, remained, specifically since the OpenAPI generator allows for the generation of Python Server code with 3 different frameworks
+Furthermore, the language's broad library selection makes development easier, notably for implementing requirements such as \textbf{W1} and \textbf{C5}
+The question of the choice of framework, remained, specifically since the OpenAPI generator allows for the generation of Python Server code with different frameworks.
 
+We chose the implementation that makes use of an OpenAPI wrapper around Flask called Connexion which handles ``the mapping from the specification to the code.
+This incentivizes you to write the specification'' \autocite{ZalandoConnexion2020}.
+Furthermore, Flask is a Python API framework that is extensible with libraries notably implementing file upload size limits for requirement \textbf{W2}. Furthemore it is widely used by major technology companies like Reddit or Netflix \autocite{WhyDevelopersFlask}, a testament to its robustness and level of support which streamlines the implementation of requirement \textbf{M9}.
+
+Furthermore, the Connexion+Flask implements the Oauth2 Authentication specification for API endpoints, a state of the art authentication framework that allows us to securely authenticate reviewers for requirements \textbf{C5} \autocite{jonesOAuthAuthorizationFramework2012}.
 
 \section{Frontend}
 
-%==================================================================================================================================
-\chapter{Implementation}
+We chose to implement a web application as the frontend for our application.
+This allows for compatibility with many devices: generally anything that can run a reasonably modern web browser can use a web application without worrying about Operating System choice or GUI library compatibility.
+We identified early on the need for a ``dynamic'' application meaning that in order to implement a web application, the codebase would be prominently Javascript (JS).
+
+There are a number of modern frameworks that facilitate JS web application development and avoid having to write plain JS.
+Their ``component'' approach to UI elements allows for the development of standalone modules that can be combined into an application, streamlining development by relying on high quality component libraries such as \textcite{MuiorgMaterialui} or visualization plotting libraries like \textcite{RechartsRecharts}.
+
+There are three major web JS frameworks: \textcite{AngularAngular,FacebookReact,VuejsVue2020}.
+
+\section{Application Structure and Technology stack}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \includegraphics[width=\linewidth]{figures/tech_stack.png}
     \caption{Harpocrates tech stack}
     \label{fig:tech_stack}
-  \end{wrapfigure}
+\end{wrapfigure}
+
+%==================================================================================================================================
+\chapter{Implementation}
+
 
 show coponennt code and how it gets data from backend
 
@@ -416,6 +435,10 @@ key ``features'' code overview
     \item created a populator script to load and classify all documents
     \item graph visualization of feature contribution to the classification and other UI tweaks
 \end{itemize}
+
+\section{Documents, labels and sampling}
+
+We resample our highly unbalanced dataset with an extension to Scikit-Learn: ``imblearn'' which implements common resampling techniques\autocite{lemaitreImbalancedlearnPythonToolbox2017}.
 
 %==================================================================================================================================
 \chapter{Evaluation}
@@ -533,6 +556,7 @@ future work
 %  APPENDICES  
 
 \begin{appendices}
+    \settocdepth{chapter}
     \chapter{PDF Editors}
     \section{PhantomPDF context menu}
     \label{fig:foxit-menu}
