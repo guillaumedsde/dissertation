@@ -364,10 +364,10 @@ choice of technologies
 
 We used the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitiity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}. For performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
 
-We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the Lime library \autocite{ribeiroWhyShouldTrust2016a} which provides per-feature weights explaining the feature's contribution to the final classification.
+We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the Lime library \autocite{ribeiroWhyShouldTrust2016} which provides per-feature weights explaining the feature's contribution to the final classification.
 
 % TODO 
-\autocite{lundbergUnifiedApproachInterpreting2017a} Shapley values
+\autocite{lundbergUnifiedApproachInterpreting2017} Shapley values
 
 
 \section{OpenAPI specification and generator}
@@ -399,9 +399,22 @@ This allows for compatibility with many devices: generally anything that can run
 We identified early on the need for a ``dynamic'' application meaning that in order to implement a web application, the codebase would be prominently Javascript (JS).
 
 There are a number of modern frameworks that facilitate JS web application development and avoid having to write plain JS.
-Their ``component'' approach to UI elements allows for the development of standalone modules that can be combined into an application, streamlining development by relying on high quality component libraries such as \textcite{MuiorgMaterialui} or visualization plotting libraries like \textcite{RechartsRecharts}.
+Their ``component'' approach to UI elements allows for the development of standalone modules that can be combined into an application, streamlining development by relying on high quality component libraries such as \textcite{MuiorgMaterialui2020} or visualization plotting libraries like \textcite{RechartsRecharts2020}.
+There are three major web JS frameworks: \textcite{AngularAngular2020,FacebookReact2020,VuejsVue2020}.
 
-There are three major web JS frameworks: \textcite{AngularAngular,FacebookReact,VuejsVue2020}.
+Angular is a web framework developed by Google, development uses TypeScript (TS) which is a type language that can transcompile into Javascript.
+It has a strict separation of styles (CSS), markup (HTML) and function (TS) and is generally much more ``opinionated'' on application structure and development.
+These ``restrictions'' can, at the scale of large projects become standards enabling more streamlined collaboration, at our scale however (one developer), we viewed them as more of a hindrance than an enablement especially since our scope is that of a \textit{Proof of Concept} more than a final large scale project \autocite{wohlgethanSupportingWebDevelopmentDecisions2018}.
+
+VueJS holds similar ``opinions'' on project structure but encapsulates all aspects of a component into a \lstinline{.vue} file albeit while being more ``liberal'' than Angular (by externalizing State management and routing for example) \autocite{wohlgethanSupportingWebDevelopmentDecisions2018}.
+Furthermore, like Angular, VueJS introduces a special syntax for enhancing the templates with \lstinline{for} loops and \lstinline{if} statements.
+
+Perhaps the ``most flexible'' framework is ReactJS which we chose as our frontend framework.
+ReactJS uses \lstinline{.jsx} files which allow for the integration of HTML and CSS within JS, which avoids the custom syntax used by Angular and VueJS and allows for the versatile use of JS for introducing logic into templates.
+Furthermore ReactJS is an Open Source project developed by Facebook, this backing along with its flexibility has given birth to a large ecosystem of both development support and advanced component libraries \autocite{wohlgethanSupportingWebDevelopmentDecisions2018}.
+It does however introduce more complex state management due to its ``one-way data binding'': information flows from parent to child component but the reverse operation needs to be done through callbacks or using a state management libraries like \textcite{ReduxjsRedux2020}.
+These problems mostly become prominent on larger scale projects, hence we opted for the flexibility of ReactJS for a quickly starting development, albeit encountering some of these state management issues in the latter stages of the project.
+% TODO refer back to proof of concept scope of project to justify this
 
 \section{Application Structure and Technology stack}
 
