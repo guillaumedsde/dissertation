@@ -17,8 +17,17 @@
 \usepackage{csquotes}
 
 % Referencing 
-\usepackage[backend=biber,bibstyle=apa,citestyle=apa]{biblatex}
+\usepackage[backend=biber,bibstyle=apa,date=year,alldates=year,urldate=short,citestyle=authoryear]{biblatex}
 \DeclareLanguageMapping{english}{english-apa}
+\AtEveryCite{%
+  \clearfield{month}%
+  \clearfield{day}%
+  \clearfield{labelmonth}%
+  \clearfield{labelday}%
+  \clearfield{labelendmonth}%
+  \clearfield{labelendday}%
+}
+
 \bibliography{l4proj.bib}
 
 % break bilbatex reference URL on number
@@ -166,12 +175,19 @@ A lot of effort has been dedicated to these Machine Learning algorithms, some wo
 
 We want to introduce an approach to visualizing sensitive information within documents based on these Machine Learning classifiers.
 Our objective is to design, build and evaluate a proof of concept fullstack application for classifying, visualizing and redacting potentially sensitive documents.
-
-% TODO transition?
+Ideally, we aim to decrease the time reviewers spend on documents and/or allow them to more accurately identify sensitive documents.
 
 \section{Overview}
 
-bullet point of chapter contents
+We start with a review of the literature on the application of TAR to sensitivity review, then explore some of the works on the use of TAR in the legal profession, notably in legal discovery and finally we survey some of the research into visualization of dense information spaces.
+% TODO dense information spaces might a little bullshitty?
+We then evaluate similar or otherwise related products, picking out key interesting features as well as antipatterns we wish to avoid.
+
+In order to build the application, we delineate a scope, clarifying our end product, we also establish a set of requirements to prioritize features and we
+
+
+
+
 
 
 %==================================================================================================================================
@@ -613,13 +629,13 @@ future work
     \label{fig:foxit-menu}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=\linewidth]{images/foxit_redaction.png}
+        \includegraphics[width=0.7\linewidth]{images/foxit_redaction.png}
     \end{figure}
     \section{PhantomPDF redact all}
     \label{fig:foxit-redact-all}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=\linewidth]{images/foxit_redact_all.png}
+        \includegraphics[width=0.7\linewidth]{images/foxit_redact_all.png}
     \end{figure}
     \section{Adobe Acrobat redact all}
     \label{fig:adobe-redact-all}
