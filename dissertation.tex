@@ -17,7 +17,7 @@
 \usepackage{csquotes}
 
 % Referencing 
-\usepackage[backend=biber,bibstyle=apa,citestyle=authoryear]{biblatex}
+\usepackage[backend=biber,bibstyle=apa,citestyle=apa]{biblatex}
 \DeclareLanguageMapping{english}{english-apa}
 \bibliography{l4proj.bib}
 
@@ -91,6 +91,13 @@
 
 \educationalconsent
 
+\newpage
+
+\vspace*{\fill}
+
+\epigraph{\Large{``Transparency is for those who carry out public duties and exercise public power. Privacy is for everyone else''}}{\fullcite[178]{greenwaldNoPlaceHide2014}}
+
+\vspace*{\fill}
 
 %==============================================================================
 \tableofcontents
@@ -123,7 +130,7 @@
 %
 %==================================================================================================================================
 
-\epigraph{\Large{``Transparency is for those who carry out public duties and exercise public power. Privacy is for everyone else''}}{\fullcite[178]{greenwaldNoPlaceHide2014}}
+
 
 \chapter{Introduction}
 
@@ -133,8 +140,7 @@
 \section{The need for Technology Assisted Sensitivity Review}
 
 On June 2nd 2013, in a busy Hongkongese commercial district, refuged in one of the 492 rooms of the Mira Hotel, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists.
-It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been
-produced by virtually every unit and subdivision within the sprawling agency, and [...] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
+It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been produced by virtually every unit and subdivision within the sprawling agency, and [...] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
 Months later, even after developîng indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
 Despite this, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
 
@@ -147,15 +153,20 @@ These documents have to be sensitivity reviewed in order to redact information e
 This sensitivity review process is particularly time consuming because it has to be thorough: everything that is released has to be reviewed.
 The scale of this task cannot be understated: in 2014 the total number of documents pending release stood at a staggering 817,615 records across all British government departments \autocite{allanRecordsReview2014,thenationalarchivesRecordTransferReport2014}.
 Morever, this number only represents the records that have been accounted for, only within departments that keep track of these figures and must legally transfer their record to TNA.
-It is safe to say that Greenwald's team's work on the Snowden archive is dwarfed in scale by the British government's Herculean backlog of records.
+It is safe to say that Greenwald's team's work on the Snowden archive is dwarfed in scale by the British government's Herculean backlog of records, challenging the established principle of thorough document review.
 
-% why technological problem
-
-
+In order to preserve this paradigm, the magnitude of records calls for digital tools to accelerate the sensitivity review process.
+Otherwise, the risk is for Public Institutions to become overwhelmed by their review backlog forcing them to resort to blanket closure of records for extended periods (a century), delegating the handling of sensitive information to the erosion of time and preventing rightful Public access.
 
 \section{Objectives}
 
+Our aim is to contribute to the research into these tools to assist sensitivity reviewers with Technology Assisted Review (TAR).
+Notably, we seek to extend the work in this emerging field which has produced Machine Learning classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources and thus process documents faster.
+A lot of effort has been dedicated to these Machine Learning algorithms, some work has focused on evaluating their impact on reducing review time, but there is little work on representing these sensitivities and displaying them in a modern user friendly interface.
+We want to introduce an approach to visualizing sensitive information within documents based on these Machine Learning classifiers.
+Our objective is to design, build and evaluate a proof of concept fullstack application for classifying, visualizing and redacting potentially sensitive documents.
 
+% TODO transition?
 
 \section{overview}
 
