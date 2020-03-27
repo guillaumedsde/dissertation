@@ -13,6 +13,9 @@
 
 \usepackage{wrapfig}
 
+
+% \setlength{\belowcaptionskip}{-15pt}
+
 \setmainlanguage{english}
 \usepackage{csquotes}
 
@@ -150,7 +153,7 @@
 
 On June 2nd 2013, in a busy Hongkongese commercial district, refuged in one of the 492 rooms of the Mira Hotel, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists.
 It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been produced by virtually every unit and subdivision within the sprawling agency, and [...] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
-Months later, even after developîng indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
+Months later, even after developï¿½ng indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
 Despite this, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
 
 In the United Kingdom (UK), the \textcite{PublicRecordsAct1958} created what is today known as The National Archives (TNA), a public institution keeper of governmental records that the act stipulates, should be released within thirty years of their creation.
@@ -178,24 +181,26 @@ Our objective is to design, build and evaluate a proof of concept fullstack appl
 Ideally, we aim to decrease the time reviewers spend on documents and/or allow them to more accurately identify sensitive documents.
 
 \section{Overview}
+% TODO update overview with newly added sections:
+%   - Literature Review - Explanations in Machine Learning
 
 We start with a review of the literature on the application of TAR to sensitivity review, then explore some of the works on the use of TAR in the legal profession, notably in legal discovery and finally we survey some of the research into visualization of dense information spaces.
 % TODO dense information spaces might a little bullshitty?
 We then evaluate similar or otherwise related products, picking out key interesting features as well as antipatterns we wish to avoid.
 
-In order to build the application, we delineate a scope, clarifying our end product, we also establish a set of requirements to prioritize features and we
+In order to build the application, we delineate a scope, clarifying our end product, we also establish a set of requirements to prioritize features to implement.
+We elaborate on the testing methodology for our user study and lastly we draw up wireframe diagrams to have a draft layout of components in the application and to get a better sense of feature priorities
 
+We then discuss our application design process. We elaborate on our choice of technologies, the reasons for our final choice as well alternative options and why we did not choose them. We ultimately summarize our technology stack.
 
+We detail some of the key pieces of software, highlight key sections of the code as well as our Repository and Continuous Integration setup.
+We explain the issues we ran into, from data storage concerns to frontend implementation struggles as well as Machine Learning classifier optimization and debugging.
 
-
+Lastly before concluding, we detail the findings from an evaluation by an expert panel, as well as the user evaluation we would have conducted had the COVID-19 pandemic not rendered it infeasible.
 
 
 %==================================================================================================================================
 \chapter{Background}
-
-need for explanations in ML
-
-CITE SOME WORKS
 
 \section{Literature Review}
 
@@ -246,38 +251,55 @@ The works we have cited above only manually reviewed fractions of their document
 Indeed, even with reliable classifiers, all documents will need to be manually reviewed for sensitivities.
 The task of identifying ``privileged'' information in legal discovery documents is the one that comes closest that of sensitivity review.
 
+\section{Explanations in Machine Learning}
+
+
+\autocite{ribeiroWhyShouldTrust2016}
+
+\autocite{lundbergUnifiedApproachInterpreting2017}
+
 \section{Document visualization techniques}
 
-\subsection{Document body outline with emphasis as overview thumbnails}
-
-There are quite a few ``document thumbnails'' that abstract textual content away and keep line length for displaying document overviews, much like many modern text editors. Adding emphasis on gray line representation of text lines provides for a good overview of document content and feature `location' in the document, but it does not convey much information beyond that, see Figure \ref{fig:j24}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/document_visualization/j24.png}
-    \caption{``J24'' software's document overview with feature highlighting \\ \protect\autocite{ogdenDocumentThumbnailVisualizations1998a}}
-    \label{fig:j24}
-\end{figure}
-
 \subsection{Lexical Episode Plots}
-
-\begin{wrapfigure}{r}{0.2\textwidth}
-    \includegraphics[width=\linewidth]{images/document_visualization/topic-overview.png}
-    \caption{``Lexical Episode Plots''\\ \protect\autocite{goldExploratoryTextAnalysis2015}}
-    \label{fig:lexical_plot}
+%
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \centering
+    \begin{subfigure}[c]{0.2\textwidth}
+        \centering
+        \small
+        \includegraphics[width=\linewidth]{images/document_visualization/topic-overview.png}
+        \caption{Lexical Episode Plots}
+        \label{fig:lexical_plot}
+    \end{subfigure}
+    \hspace{0.01\textwidth}
+    \begin{subfigure}[c]{0.17\textwidth}
+        \centering
+        \small
+        \includegraphics[width=\linewidth]{images/related_products/vscode_minimap.png}
+        \caption{VSCode Minimap}
+        \label{fig:vscode_minimap}
+    \end{subfigure}
+    \caption{Document Overviews}
+    \vspace{-40pt}
+    \label{fig:test-modes}
 \end{wrapfigure}
 
-A variation of this kind of document overview displays highlights beside the document outline also showing the ``topic'' of the highlight (See Figure \ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
+A variation of this kind of document overview displays highlights beside the document outline also showing the ``topic'' of the highlight (Figure \ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
+
+It is reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure \ref{fig:vscode_minimap}).
+
+An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
+This shows that perhaps, these sort of overviews could also be used before viewing a document, as a popup view when a document is hovered on within a collection.
 
 \subsection{Playing with font size}
 
 \textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features.
-I am a bit sceptical as to whether this would be a good thumbnail, the highlighted portions definitely show where key features are in the document, but the font size change does not contribute much at the document scale: most words are too small to be legible.
-\textit{However} varying font size would be an interesting visualization for the Lime explanation's feature importance.
+It is not certain this would be a good thumbnail, the highlighted portions definitely show where key features are in the document, but a lot of the document structure is lost.
+However varying font size within a \textit{reasonable range} ould be an interesting visualization for the visualizing feature importance in a prediction.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/document_visualization/font-size.png}
+    \includegraphics[width=0.5\textwidth]{images/document_visualization/font-size.png}
     \caption{Adjusting font size for overview of important features \\ \protect\autocite{stoffelDocumentThumbnailsVariable2012}}
     \label{fig:font-size}
 \end{figure}
@@ -289,7 +311,7 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/document_visualization/different-fisheyes.png}
+    \includegraphics[width=0.6\textwidth]{images/document_visualization/different-fisheyes.png}
     \caption{Different Fisheye views, from left to right: \\ Manhattan lens, zoomscapes, central perspective and parallel projection \\ \protect\autocite{baudischFishnetFisheyeWeb2004}}
     \label{fig:fisheyes}
 \end{figure}
@@ -298,22 +320,55 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
 
 \section{Related products}
 
-Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
-Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
-
 \subsection{PDF editors}
 
-Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents.
-The principle is common: select text, click redact and browse a nested context menu to select an exemption (Figure \ref{fig:adobe-redaction}).
-
 \begin{wrapfigure}{r}{0.5\textwidth}
-    \includegraphics[width=\linewidth]{images/adobe_redaction.png}
-    \caption{Adobe Acrobat redaction workflow}
+    \includegraphics[width=\linewidth]{images/related_products/adobe_redaction.png}
+    \caption{Acrobat redaction workflow}
+    \vspace{-20pt}
     \label{fig:adobe-redaction}
 \end{wrapfigure}
 
+Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
+Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
+
+Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents.
+The principle is simple: select text, click redact and browse a nested context menu to select an exemption (Figure \ref{fig:adobe-redaction}).
+This can be repetitive as their does not seem to be a way to redact multiple identical instances of the same piece of text at once.
+
 There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow.
 For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit-menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit-redact-all}), something which Adobe implement quite poorly (Appendix \ref{fig:adobe-redact-all}).
+
+\subsection{Dedicated document redaction tools}
+
+\begin{wrapfigure}{l}{0.4\textwidth}
+    \includegraphics[width=\linewidth]{images/related_products/eredact_dropdown.png}
+    \caption{e-Redact exemption select}
+    \vspace{-17pt}
+    \label{fig:eredact-dropdown}
+\end{wrapfigure}
+
+There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is an Office plugin that for redacting sensitive information from Word documents.
+It's context menu is even more deeply nested than adobe Reader and contains exemptions from many legislations (Figure \ref{fig:eredact-dropdown}).
+We want to avoid such a deep nesting of regularly used actions, for example in this case, it seems like a reviewer would rarely redact a document for US and UK FOIA at the same time.
+e-Redact also adds the ability to collaborate with multiple people on document redactions, but beyond this, it is very similar to PDF Editors and their built-in functionalities.
+
+e-Redact is also a purely manual tool, providing no ``aid'' to sensitivity redaction, contrarily to what we are trying to build.
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \includegraphics[width=\linewidth]{images/related_products/redactedai_tooltip.png}
+    \caption{Redacted.ai Tooltip}
+    \label{fig:redactedai-tooltip}
+\end{wrapfigure}
+
+A lot of the PDF editors' redaction functionality also require one to traverse the screen to select a redaction.
+
+Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection: the menu appears next to the selected text with actions to take on a selection which avoids having to cross long screen distances (Figure \ref{fig:redactedai-tooltip}).
+
+In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying to achieve. It is a web application for redacting sensitive documents using Natural Language Processing (NLP) methods (namely: entity extraction) to provide an aid to document reviewers.
+
+
+
 
 %==================================================================================================================================
 \chapter{Requirements}
@@ -629,19 +684,19 @@ future work
     \label{fig:foxit-menu}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{images/foxit_redaction.png}
+        \includegraphics[width=0.7\linewidth]{images/related_products/foxit_redaction.png}
     \end{figure}
     \section{PhantomPDF redact all}
     \label{fig:foxit-redact-all}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\linewidth]{images/foxit_redact_all.png}
+        \includegraphics[width=0.7\linewidth]{images/related_products/foxit_redact_all.png}
     \end{figure}
     \section{Adobe Acrobat redact all}
     \label{fig:adobe-redact-all}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=\linewidth]{images/adobe_redact_all.png}
+        \includegraphics[width=\linewidth]{images/related_products/adobe_redact_all.png}
     \end{figure}
     \chapter{Wireframes}
     \section{Homepage}
