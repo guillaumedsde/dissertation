@@ -13,8 +13,7 @@
 
 \usepackage{wrapfig}
 
-
-% \setlength{\belowcaptionskip}{-15pt}
+\usepackage[justification=centering]{caption}
 
 \setmainlanguage{english}
 \usepackage{csquotes}
@@ -312,11 +311,13 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{images/document_visualization/different-fisheyes.png}
-    \caption{Different Fisheye views, from left to right: \\ Manhattan lens, zoomscapes, central perspective and parallel projection \\ \protect\autocite{baudischFishnetFisheyeWeb2004}}
+    \caption{Fisheye views, from left to right: \\
+        Manhattan lens, zoomscapes, central perspective and parallel projection \\
+        \protect\autocite{baudischFishnetFisheyeWeb2004}}
     \label{fig:fisheyes}
 \end{figure}
 
-\textit{Circular Fisheye Distortion} is a circular ``magnifying glass'' effect visible in \textcite{bostockFisheyeGrid2019}. \textit{Cartesian Distortion} ``magnifies continuously so as to avoid local minification'' \autocite{bostockFisheyeDistortion2012}. The effect can also be limited to only one axis (vertical or horizontal) as seen in \textcite{pstuffaCartesianFisheyeDistortion2019}. In our case, Vertical Cartesian Distortion on a per line basis seems like an interesting visualization for document overview with emphasis on hovered lines. There is a D3js implementation of this effect (see the links above), it also seems like there is a React specific implementation of this text fisheye effect \autocite{zhongVincentdchanReactfisheye2019}.
+\textit{Circular Fisheye Distortion} is a circular ``magnifying glass'' effect visible in \textcite{bostockFisheyeGrid2019}. \textit{Cartesian Distortion} ``magnifies continuously so as to avoid local minification'' \autocite{bostockFisheyeDistortion2012}. The effect can also be limited to only one axis (vertical or horizontal) as seen in \textcite{pstuffaCartesianFisheyeDistortion2019}. In our case, Vertical Cartesian Distortion on a per line basis seems like an interesting visualization for document overview with emphasis on hovered lines. There is a D3js implementation of this effect \autocite{pstuffaCartesianFisheyeDistortion2019}, it also seems like there is a React specific implementation of this text fisheye effect \autocite{zhongVincentdchanReactfisheye2019}.
 
 \section{Related products}
 
