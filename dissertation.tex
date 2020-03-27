@@ -35,13 +35,19 @@
 % break bilbatex reference URL on number
 \setcounter{biburlnumpenalty}{9000}
 
-\usepackage{csquotes}
-
 \usepackage{enumitem}
 
 \usepackage{tocvsec2}
 
 \usepackage{epigraph}
+
+\usepackage[outputdir=build]{minted}
+
+\setminted{breaklines=true}
+\setminted{linenos=true}
+\setminted{tabsize=2}
+\setminted{fontsize=\footnotesize}
+
 
 % length of epigraph
 \setlength\epigraphwidth{12cm}
@@ -411,7 +417,6 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
         \item User redactions helper (highlight all instances of redacted text, could do this on a document set level)
         \item For a document, suggest redaction of sensitive elements
         \item Fulltext document search
-        \item Cross platform compatibility
     \end{enumerate}
 \end{minipage}
 
@@ -441,16 +446,16 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 
 \section{Scope and non-functional definition}
 
-We should reiterate that our objective is not to have a ``production ready'' deployable web application.
+We should reiterate that our objective is not to have a ``production ready'' deployable application.
 Rather the emphasis is on producing a proof of concept application to experiment with sensitive document visualizations.
-As such, we de-prioritized features like reviewer authentication and having a deployable web application.
+As such, we de-prioritized features like reviewer authentication and having a deployable application.
 
 We aim to bring a ``modern looking'' interface, tools like PDF editors or the Office plugin we saw provide an ageing interface often with excess complexity.
 We think that an approach with correctly applied modern design guidelines such as Google's \textcite{MaterialDesign} improves user experience, both in terms of aesthetics and usability.
 
 Originally, we set out to focus on both document set visualization as well as single document visualization, ultimately however the focus shifted a lot towards the document viewer.
 
-user study
+As mentioned we include a user study within the scope of this study to evaluate our application.
 
 \section{Wireframing}
 
@@ -491,7 +496,7 @@ choice of technologies
 
 % TODO this sounds too much like a list
 
-We used the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitiity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}. For performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
+We use the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitiity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}. For performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
 
 We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the Lime library \autocite{ribeiroWhyShouldTrust2016} which provides per-feature weights explaining the feature's contribution to the final classification.
 
@@ -548,7 +553,7 @@ These problems mostly become prominent on larger scale projects, hence we opted 
 \section{Application Structure and Technology stack}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
-    \includegraphics[width=\linewidth]{figures/tech_stack.png}
+    \includegraphics[width=\linewidth]{figures/tech_stack_no_background.pdf}
     \caption{Harpocrates tech stack}
     \label{fig:tech_stack}
 \end{wrapfigure}
@@ -578,14 +583,50 @@ key ``features'' code overview
     \item graph visualization of feature contribution to the classification and other UI tweaks
 \end{itemize}
 
-\section{Documents, labels and sampling}
+\section{OpenAPI definitions}
 
-We resample our highly unbalanced dataset with an extension to Scikit-Learn: ``imblearn'' which implements common resampling techniques\autocite{lemaitreImbalancedlearnPythonToolbox2017}.
+\begin{listing}[H]
+    \inputminted{yaml}{code/predictedClassification.yml}
+    \caption{Defining a predictedClassification response object in OpenAPI}
+    \label{listing:predictedClassification_yml}
+\end{listing}
+
+Listings \ref{listing:predictedClassification_yml} and \ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
+
+One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for some strict type and value checking of variables at both the server and client levels (Listing \ref{listing:predictedClassification_yml}, line 11-15).
+
+Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|. This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
+
+\begin{listing}[H]
+    \inputminted{yaml}{code/getPredictedClassification.yml}
+    \caption{Defining a GET endpoint in OpenAPI}
+    \label{listing:getPredictedClassification_yml}
+\end{listing}
+
+\section{Machine Learning Pipeline}
+Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline|.
+
+The first step consist in a TF-IDF transformer to convert the document's text to a numeric vector.
+We optimized our vectorizer parameters by performing a GridSearch with five fold cross-validation, the optimal parameter space depends on the use case.
+
+We then resample our highly unbalanced training data with the \textcite{ScikitlearncontribImbalancedlearn2020} library from \textcite{lemaitreImbalancedlearnPythonToolbox2017}.
+It implements common resampling techniques \autocite{lemaitreImbalancedlearnPythonToolbox2017}, we use a combination over under and over sampling depending on the use case.
+In this example (Listing \ref{listing:ml_pipeline}), we make use of Synthetic Minority Oversampling TEchnique (SMOTE) oversampling combined with Tomek Link removal undersampling \autocite{batistaStudyBehaviorSeveral2004}.
+
+We use a Support Vector Classifier (SVC) which has performed best for sensitive document classification in past research \autocite{mcdonaldClassifierDigitalSensitivity2014,mcdonaldStudySVMKernel2017}.
+We quickly replaced scikit-learn's SVC for a parallelized implementation for multicore CPUs and CUDA enabled GPU in order to improve performance \autocite{wenThunderSVMFastSVM2018}.
+
+\begin{listing}[H]
+    \inputminted{python}{code/ml_pipeline.py}
+    \caption{Machine Learning classification Pipeline}
+    \label{listing:ml_pipeline}
+\end{listing}
+
 
 %==================================================================================================================================
 \chapter{Evaluation}
 
-We conducted a user evaluation in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review. We sought to answer a handeful of research questions.
+We conducted a user evaluation in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review. We sought to answer a handful of research questions.
 
 \begin{itemize}
     \item Firstly, does our visualization of predicted document sensitivity and explanation features help reviewers conduct a sensitivity review faster?

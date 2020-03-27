@@ -10,10 +10,14 @@
           "-interaction=nonstopmode",
           "--output-directory=build",
           "-file-line-error",
-          // "--shell-escape",
+          "--shell-escape",
           "%DOC%"
         ]
       }
+    ],
+    "cSpell.words": [
+      "parallelized",
+      "resampling"
     ]
   }
   

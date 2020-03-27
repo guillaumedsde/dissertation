@@ -1,0 +1,20 @@
+"/documentSet/{setId}/{docId}/predictedClassification":
+  get:
+    summary: Get the predicted classification for the document
+    operationId: get_predicted_classification
+    tags:
+      - document
+    parameters:
+      - $ref: "#/components/parameters/setId"
+      - $ref: "#/components/parameters/docId"
+    responses:
+      "200":
+        description: Successfully got the predicted classification
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/predictedClassification"
+      "400":
+        $ref: "#/components/responses/malformedRequest"
+      "404":
+        $ref: "#/components/responses/notFound"

@@ -1,0 +1,24 @@
+predictedClassification:
+  type: object
+  description: The predicted Sensitivity of a text along with feature explanation for that classification
+  required:
+    - sensitive
+  properties:
+    sensitive:
+      type: boolean
+      description: "true if the document is predicted sensitive, false otherwise"
+    sensitivity:
+      type: number
+      format: double
+      description: Document sensitivity
+      minimum: 0.0
+      maximum: 100.0
+    classifier:
+      type: string
+      description: Classifier algorithm used for this prediction
+    explanations:
+      type: array
+      uniqueItems: true
+      items:
+        $ref: "#/components/schemas/predictedClassificationExplanation"
+      description: list of explanations for a predicted classification
