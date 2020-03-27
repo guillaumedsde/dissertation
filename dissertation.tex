@@ -19,7 +19,7 @@
 \usepackage{csquotes}
 
 % Referencing 
-\usepackage[backend=biber,bibstyle=apa,date=year,alldates=year,urldate=short,citestyle=authoryear]{biblatex}
+\usepackage[backend=biber,date=year,alldates=year,urldate=short,bibstyle=apa,maxcitenames=2,uniquelist=false,citestyle=authoryear]{biblatex}
 \DeclareLanguageMapping{english}{english-apa}
 \AtEveryCite{%
   \clearfield{month}%
@@ -208,7 +208,7 @@ Lastly before concluding, we detail the findings from an evaluation by an expert
 % TODO should I compare results between papers, can I talk about "improvements" over time? or not really since some results are not comparable (ex: focus on a particular FOIA exemption as opposed to all of S27 and S40)
 
 % TODO elaborate on results
-Research into the application of TAR to sensitivity review began with \textcite{de_rijke_towards_2014} which established an initial Machine Learning classifier combining the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition.
+Research into the application of TAR to sensitivity review began with \textcite{mcdonaldClassifierDigitalSensitivity2014} which established an initial Machine Learning classifier combining the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition.
 
 \autocite{sanchezDetectingSensitiveInformation2012}
 
@@ -219,13 +219,11 @@ Research into the application of TAR to sensitivity review began with \textcite{
 This work was continued with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
 The paper also combined the POS sequence classification with full text classification to obtain a 6.09\% improvement in the $F_{2}$ measure compared to the standalone baseline text classification.
 
-\autocite{jose_enhancing_2017} Improving classification with word embeddings
+\autocite{mcdonaldEnhancingSensitivityClassification2017} Improving classification with word embeddings
 
-\autocite{pasi_active_2018} Active Learning ("loopback learning") implemeting reviewer feedback in Sensitivity prediction
+\autocite{mcdonaldActiveLearningStrategies2018} Active Learning ("loopback learning") implemeting reviewer feedback in Sensitivity prediction
 
 \autocite{mcdonaldHowSensitivityClassification2019} User study with Machine Learning classification
-
-CITE SOME GENERAL ML EXPLANATIONS PAPERS
 
 \subsection{``Predictive Coding'' or \textit{TAR} for legal electronic discovery}
 
@@ -257,7 +255,7 @@ The task of identifying ``privileged'' information in legal discovery documents 
 
 \autocite{lundbergUnifiedApproachInterpreting2017}
 
-\section{Document visualization techniques}
+\section{Approaches to document visualization}
 
 \subsection{Lexical Episode Plots}
 %
@@ -290,18 +288,30 @@ It is reminiscent of code overviews in text editors, especially those aimed at e
 An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
 This shows that perhaps, these sort of overviews could also be used before viewing a document, as a popup view when a document is hovered on within a collection.
 
-\subsection{Playing with font size}
+\subsection{Varying font size}
 
-\textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features.
+\begin{wrapfigure}{l}{0.4\textwidth}
+    \includegraphics[width=\linewidth]{images/document_visualization/font-size.png}
+    \caption{Adjusting font size}
+
+    \vspace{-10pt}
+    \label{fig:font-size}
+\end{wrapfigure}
+
+\textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features (Figure \ref{fig:font-size}).
 It is not certain this would be a good thumbnail, the highlighted portions definitely show where key features are in the document, but a lot of the document structure is lost.
 However varying font size within a \textit{reasonable range} ould be an interesting visualization for the visualizing feature importance in a prediction.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/document_visualization/font-size.png}
-    \caption{Adjusting font size for overview of important features \\ \protect\autocite{stoffelDocumentThumbnailsVariable2012}}
-    \label{fig:font-size}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.5\textwidth]{images/document_visualization/font-size.png}
+%     \caption{Adjusting font size\\
+%         \protect\autocite{stoffelDocumentThumbnailsVariable2012}
+%     }
+%     \label{fig:font-size}
+% \end{figure}
+
+
 
 
 \subsection{Distortion}
@@ -313,7 +323,8 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
     \includegraphics[width=0.6\textwidth]{images/document_visualization/different-fisheyes.png}
     \caption{Fisheye views, from left to right: \\
         Manhattan lens, zoomscapes, central perspective and parallel projection \\
-        \protect\autocite{baudischFishnetFisheyeWeb2004}}
+        \protect\autocite{baudischFishnetFisheyeWeb2004}
+    }
     \label{fig:fisheyes}
 \end{figure}
 
@@ -344,37 +355,35 @@ For instance, Foxit PhantomPDF is another well known PDF editor that implements 
 
 \begin{wrapfigure}{l}{0.4\textwidth}
     \includegraphics[width=\linewidth]{images/related_products/eredact_dropdown.png}
-    \caption{e-Redact exemption select}
+    \caption{e-Redact exemption selection}
     \vspace{-17pt}
     \label{fig:eredact-dropdown}
 \end{wrapfigure}
 
-There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is an Office plugin that for redacting sensitive information from Word documents.
-It's context menu is even more deeply nested than adobe Reader and contains exemptions from many legislations (Figure \ref{fig:eredact-dropdown}).
+There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is a Microsoft Office plugin that for redacting sensitive information from documents.
+It's context menu is even more deeply nested than Adobe Reader's and contains exemptions from many legislations (Figure \ref{fig:eredact-dropdown}).
 We want to avoid such a deep nesting of regularly used actions, for example in this case, it seems like a reviewer would rarely redact a document for US and UK FOIA at the same time.
+A solution to this would be to have a setting to select the legal ``framework'' within a settings menu which would reduce deep menu nesting.
 e-Redact also adds the ability to collaborate with multiple people on document redactions, but beyond this, it is very similar to PDF Editors and their built-in functionalities.
 
-e-Redact is also a purely manual tool, providing no ``aid'' to sensitivity redaction, contrarily to what we are trying to build.
-
-\begin{wrapfigure}{r}{0.4\textwidth}
-    \includegraphics[width=\linewidth]{images/related_products/redactedai_tooltip.png}
-    \caption{Redacted.ai Tooltip}
-    \label{fig:redactedai-tooltip}
-\end{wrapfigure}
+\textcite{ERedact} is also a purely manual tool, providing no ``aid'' to sensitivity redaction, contrarily to what we are trying to build.
 
 A lot of the PDF editors' redaction functionality also require one to traverse the screen to select a redaction.
 
-Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection: the menu appears next to the selected text with actions to take on a selection which avoids having to cross long screen distances (Figure \ref{fig:redactedai-tooltip}).
+Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection (albeit not consistently): the menu appears next to the selected text with actions to take on a selection which avoids having to cross long screen distances (Figure \ref{fig:redactedai}).
+A downside of their implementation of a ``popup menu'' is that it takes considerable space, while it does offer quite a few useful actions, its ``remove'' and ``unredact this'' button are quite large,, we prefer a smaller menu that hides less of the content.
 
-In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying to achieve. It is a web application for redacting sensitive documents using Natural Language Processing (NLP) methods (namely: entity extraction) to provide an aid to document reviewers.
+In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying to achieve: it is a web application for redacting sensitive documents. Its flagship feature uses Natural Language Processing (NLP) methods (namely: entity extraction) to provide an aid to document reviewers (Figure \ref{fig:redactedai}).
 
-
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{images/related_products/redactedai.png}
+    \caption{Redacted.ai document view}
+    \label{fig:redactedai}
+\end{figure}
 
 %==================================================================================================================================
 \chapter{Requirements}
-
-\section{Scope}
 
 \section{MoSCoW Functional Requirements}
 
@@ -382,16 +391,16 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Must Have}}
     \begin{enumerate}[label=\textbf{M\arabic*}]
-        \item document Set creation and deletion
-        \item within a set, plaintext document creation and deletion
-        \item for a document, binary sensitivity classification (sensitive or not?)
-        \item explanation for aforementioned classifications
-        \item user binary classification of a document (sensitive or not?)
-        \item for a set of document, overall sensitivity statistics (number of sensitive documents etc…)
-        \item for a set of documents, ordered of documents by sensitivity
+        \item Document Set creation and deletion
+        \item Within a set, plaintext document creation and deletion
+        \item Predicted document sensitivity classification (sensitive or not?)
+        \item Explanation for aforementioned classifications
+        \item User classification of a document (sensitive or not?)
+        \item Overall document set sensitivity statistics (number of sensitive documents etc…)
+        \item Document sets order documents by sensitivity
         \item User redactions of a document with text highlighting, with possible edits and save functionality
-        \item final redacted document exporting
-        \item documentation for API
+        \item Final redacted document exporting
+        \item Documentation for API
     \end{enumerate}
 \end{minipage}
 \hfill
@@ -399,9 +408,10 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Should Have}}
     \begin{enumerate}[label=\textbf{S\arabic*}]
-        \item user redactions helper (highlight all instances of redacted text, could do this on a document set level)
-        \item for a document, suggest redaction of sensitive elements
-        \item fulltext document search
+        \item User redactions helper (highlight all instances of redacted text, could do this on a document set level)
+        \item For a document, suggest redaction of sensitive elements
+        \item Fulltext document search
+        \item Cross platform compatibility
     \end{enumerate}
 \end{minipage}
 
@@ -410,11 +420,11 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Could Have}}
     \begin{enumerate}[label=\textbf{C\arabic*}]
-        \item extract entities from document and display them (spaCy)
-        \item possibility of using different text Classifiers (what for?)
-        \item documentation for API SDK
-        \item documentation for frontend
-        \item reviewer authentication
+        \item Extract and display entities from document
+        \item Possibility of using different text Classifiers
+        \item Documentation for API SDK
+        \item Documentation for frontend
+        \item Reviewer authentication
     \end{enumerate}
 \end{minipage}
 \hfill
@@ -422,14 +432,23 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 \begin{minipage}[t]{.5\linewidth}
     \centerline{\textbf{Would Have}}
     \begin{enumerate}[label=\textbf{W\arabic*}]
-        \item handle more than plain text files (PDF, Word etc…)
-        \item specified and enforced document size and count upload limits
+        \item Handle more than plain text files (PDF, Word etc…)
+        \item Specified and enforced document size and count upload limits
         \item ``Loopback Learning'' user redactions help improve future predictions
-        \item deployed web application
+        \item Deployed ``production'' web application
     \end{enumerate}
 \end{minipage}
 
-\section{(non)Functional definition}
+\section{Scope and non-functional definition}
+
+We should reiterate that our objective is not to have a ``production ready'' deployable web application.
+Rather the emphasis is on producing a proof of concept application to experiment with sensitive document visualizations.
+As such, we de-prioritized features like reviewer authentication and having a deployable web application.
+
+We aim to bring a ``modern looking'' interface, tools like PDF editors or the Office plugin we saw provide an ageing interface often with excess complexity.
+We think that an approach with correctly applied modern design guidelines such as Google's \textcite{MaterialDesign} improves user experience, both in terms of aesthetics and usability.
+
+Originally, we set out to focus on both document set visualization as well as single document visualization, ultimately however the focus shifted a lot towards the document viewer.
 
 user study
 
