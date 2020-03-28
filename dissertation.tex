@@ -604,23 +604,51 @@ Another interesting aspect of the specification language is that it allows us to
 \end{listing}
 
 \section{Machine Learning Pipeline}
-Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline|.
+Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing \ref{listing:ml_pipeline}).
 
 The first step consist in a TF-IDF transformer to convert the document's text to a numeric vector.
-We optimized our vectorizer parameters by performing a GridSearch with five fold cross-validation, the optimal parameter space depends on the use case.
+We optimized our vectorizer parameters by performing a grid search with five fold cross-validation, the optimal parameter space depends on the use case.
 
 We then resample our highly unbalanced training data with the \textcite{ScikitlearncontribImbalancedlearn2020} library from \textcite{lemaitreImbalancedlearnPythonToolbox2017}.
 It implements common resampling techniques \autocite{lemaitreImbalancedlearnPythonToolbox2017}, we use a combination over under and over sampling depending on the use case.
 In this example (Listing \ref{listing:ml_pipeline}), we make use of Synthetic Minority Oversampling TEchnique (SMOTE) oversampling combined with Tomek Link removal undersampling \autocite{batistaStudyBehaviorSeveral2004}.
 
 We use a Support Vector Classifier (SVC) which has performed best for sensitive document classification in past research \autocite{mcdonaldClassifierDigitalSensitivity2014,mcdonaldStudySVMKernel2017}.
-We quickly replaced scikit-learn's SVC for a parallelized implementation for multicore CPUs and CUDA enabled GPU in order to improve performance \autocite{wenThunderSVMFastSVM2018}.
+We replace scikit-learn's SVC for a parallelized implementation for multicore CPUs and CUDA enabled GPU in order to improve performance \autocite{wenThunderSVMFastSVM2018}.
+We also perform a grid search with five fold cross-validation to tune the parameters of the SVC, once again, the optimal parameter space depends on the application.
 
 \begin{listing}[H]
     \inputminted{python}{code/ml_pipeline.py}
     \caption{Machine Learning classification Pipeline}
     \label{listing:ml_pipeline}
 \end{listing}
+
+\section{ReactJS components}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+    \includegraphics[width=\linewidth]{figures/sensitivity_bar.pdf}
+    \caption{Rendered sensitivity bar}
+
+    \vspace{-10pt}
+    \label{fig:sensitivity_bar_preview}
+\end{wrapfigure}
+
+ReactJS' latest implementations take a functional approach to web component definition: Listing \ref{listing:sensitivity_bar} demonstrates this with one of the simpler components of our application (Figure \ref{fig:sensitivity_bar_preview}).
+
+One of the features of ReactJS is its ``one-way data binding'' that is data is passed from parent to child component using a \verb|props| dictionary.
+In Listing \ref{listing:sensitivity_bar}, we pass a document's classification to the \verb|SensitivityBar| component to change its appearance based on its sensitivity value.
+This one way data binding simplifies the flow of information thus making them easier to debug.
+
+
+\begin{listing}[H]
+    \inputminted{jsx}{code/documentSensitivityBar.js}
+    \caption{Document sensitivity bar}
+    \label{listing:sensitivity_bar}
+\end{listing}
+
+\section{Version-Control and Continuous Integration}
+
+Throughout the project, we tried various repository organizations, hosted git platforms and Continuous Integration (CI) tools.
 
 
 %==================================================================================================================================

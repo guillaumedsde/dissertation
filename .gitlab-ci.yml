@@ -6,6 +6,9 @@ stages:
 build-pdf:
   image: aergus/latex:latest
   stage: pdf
+  before_script:
+    # JSX support for pygments
+    - pip install jsx-lexer
   script:
     - latexmk -xelatex -interaction=nonstopmode ./dissertation.tex
   artifacts:
