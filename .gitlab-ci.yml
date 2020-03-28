@@ -7,6 +7,8 @@ build-pdf:
   image: aergus/latex:latest
   stage: pdf
   before_script:
+    - apt update
+    - apt install python3-pip -y
     # JSX support for pygments
     - pip install jsx-lexer
   script:
