@@ -656,13 +656,13 @@ Throughout the project, we tried various repository organizations, hosted git pl
 %==================================================================================================================================
 \chapter{Evaluation}
 
-We conducted a user evaluation in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review. We sought to answer a handful of research questions.
+We conducted a user evaluation in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review. We sought to answer a handful of research questions:
 
-\begin{itemize}
-    \item Firstly, does our visualization of predicted document sensitivity and explanation features help reviewers conduct a sensitivity review faster?
-    \item Secondly, does it improve the accuracy of the sensitivity review process.
-    \item Lastly, does it improve reviewers' confidence in the completeness of their sensitivity review
-\end{itemize}
+\begin{enumerate}[label=\textbf{RQ\arabic*}]
+    \item Does our visualization of predicted document sensitivity and explanation features help reviewers conduct a sensitivity review faster?
+    \item Does it improve the accuracy of the sensitivity review process?
+    \item Does it improve reviewers' confidence in the completeness of their sensitivity review?
+\end{enumerate}
 
 
 % link back to requirements,  how have they been met?
@@ -721,10 +721,9 @@ The other, \textit{test mode 2} (Figure \ref{fig:test-mode-2}) is a stripped dow
 \section{Evaluation}
 
 We ask our testers to review each set of test documents with one of the two interfaces, the starting interface is chosen randomly in order to minimize the learning effect on the task.
-After each batch of documents, we hand our reviewers a questionnaire record their impressions about the interface, confidence about their work and time to review each document (See Appendix \ref{appendix:questionnaire}).
+After each batch of documents, we hand our reviewers a questionnaire (Appendix \ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
 
-As mentioned, each user will be asked to review one collection of 6 documents for personal information sensitivities (FOIA Section 27) per user interface
-
+As mentioned, each user will be asked to review one collection of 6 documents for personal information sensitivities (FOIA Section 27) per user interface.
 The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables:
 
 \begin{itemize}
@@ -733,10 +732,12 @@ The independent variables will a set of two user interfaces: with and without th
     \item Lastly, we will evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
 \end{itemize}
 
-
 % t-test for review time (because time is a continuous variable)
+Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} \textbf{H1}.
+To evaluate this, we perform an independent sample two-tailed Student's T-Test on the average of the review times for each document for both interfaces.
+Ideally, we expect our p-value to be lower than our critical value at 5\% significance, allowing us to confirm \textbf{H1} for our sample.
 
-% Chi-squared for balanced accuracy/recall/precision (because these are proportions)
+% Chi-squared for balanced accuracy/recall/precision (because these are proportions) ?
 
 % Research questions
 % dependent/indepdent variables
