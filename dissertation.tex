@@ -39,8 +39,6 @@
 
 \usepackage{tocvsec2}
 
-\usepackage{epigraph}
-
 \usepackage[outputdir=build]{minted}
 
 \setminted{breaklines=true}
@@ -48,6 +46,10 @@
 \setminted{tabsize=2}
 \setminted{fontsize=\footnotesize}
 
+
+\usepackage{pdfpages}
+
+\usepackage{epigraph}
 
 % length of epigraph
 \setlength\epigraphwidth{12cm}
@@ -662,20 +664,25 @@ We conducted a user evaluation in order to evaluate the effectiveness of our app
     \item Lastly, does it improve reviewers' confidence in the completeness of their sensitivity review
 \end{itemize}
 
+
+% link back to requirements,  how have they been met?
+% Expert panel testing
+% unit testing
+
 \section{Preparations and Experimental Setup}
 
-Our collection is a set of 3801 Government documents relating to International Activities sensitivity reviewed by government sensitivity reviewers.
+Our collection is a set of 3801 Government documents relating to International Activities sensitivity assessed by government sensitivity reviewers.
 The ground truth for document sensitivity was established with respect to sections 40 (S40) (Personal Information) and 27 (S27) (International Relations) of the Freedom of Information Act (FOIA).
 
-Due to our lack of access to expert document reviewers, we conducted our study thanks to students either from an academic politics background or with International Relations awareness.
-We focused on identifying ``Personal Information'' exceptions to the FOIA which we deemed more ``attainable'' given our non-expert test subjects.
+Due to our lack of access to expert document reviewers, we conduct our study with students either from an academic Politics background or with International Relations awareness.
+We focus on identifying ``Personal Information'' exceptions to the FOIA which we deem more ``attainable'' given our non-expert test subjects.
 
 Our dataset contains 289 documents with S40 exemptions, we split the collection in order to obtain a stratified sample ``test set'' 20\% the size of the entire collection.
-We vectorized the remaining 80\% ``train set'' using Scikit-Learn's \verb|TfidfVectorizer| \autocite{pedregosaScikitlearnMachineLearning2011}.
-We resampled the resulting vectors to achieve better class balance with imblearn's \verb|SMOTEENN|, a combination of majority class downsampling and minority class upsampling \autocite{lemaitreImbalancedlearnPythonToolbox2017}.
-We used the resulting vectorized and resampled documents to train a GPU accelerated SVC \autocite{wenThunderSVMFastSVM2018} for binary classification of documents depending on whether or not they contain sensitive information.
+We vectorize the remaining 80\% ``train set'' using Scikit-Learn's \verb|TfidfVectorizer|.
+We resamplethe resulting vectors to achieve better class balance with imblearn's \verb|SMOTEENN|, a combination of majority class downsampling and minority class upsampling \autocite{lemaitreImbalancedlearnPythonToolbox2017}.
+We use the resulting collection of resampled vectors to train a SVC for binary classification of documents depending on whether or not they contain sensitive information.
 
-Due to time constraints, we sampled only sampled documents to review from the test set that were under 2000 characters.
+Due to time constraints, we only sample documents to review from the test set that are under 2000 characters.
 We then selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier with the following counts:
 
 \begin{table}[H]
@@ -688,12 +695,9 @@ We then selected both sensitive and non-sensitive documents in order to represen
     \label{tab:confusion-matrix-selection}
 \end{table}
 
-
-We sampled test documents accordingly twice: once for each User Interface (UI) used in the evaluation.
+We sample test documents accordingly twice: once for each User Interface (UI).
 One interface \textit{test mode 1} (Figure \ref{fig:test-mode-1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
 The other, \textit{test mode 2} (Figure \ref{fig:test-mode-2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
-Our reviewers reviewed documents with both interfaces, the first interface displayed was selected randomly.
-
 
 \begin{figure}[H]
     \centering
@@ -713,11 +717,11 @@ Our reviewers reviewed documents with both interfaces, the first interface displ
     \label{fig:test-modes}
 \end{figure}
 
-% TODO put questionnaire in appendix 
-% TODO link questionnaire here
-Lastly, after the review of a batch of documents with each interface, a questionnaire was handed out to the testers
 
 \section{Evaluation}
+
+We ask our testers to review each set of test documents with one of the two interfaces, the starting interface is chosen randomly in order to minimize the learning effect on the task.
+After each batch of documents, we hand our reviewers a questionnaire record their impressions about the interface, confidence about their work and time to review each document (See Appendix \ref{appendix:questionnaire}).
 
 As mentioned, each user will be asked to review one collection of 6 documents for personal information sensitivities (FOIA Section 27) per user interface
 
@@ -730,35 +734,22 @@ The independent variables will a set of two user interfaces: with and without th
 \end{itemize}
 
 
+% t-test for review time (because time is a continuous variable)
 
+% Chi-squared for balanced accuracy/recall/precision (because these are proportions)
 
-Research questions
-dependent/indepdent variables
-UI variations
-experimental setup
-document, subject seleciton
-
-
-results
-
-
-link back to requirements
-how have they been met
-unit testing
-
-
+% Research questions
+% dependent/indepdent variables
+% results
 
 
 %==================================================================================================================================
 \chapter{Conclusion}
 
 
-requirements I've met
-
-
-reflections
-
-future work
+% requirements I've met
+% reflections
+% future work
 
 %==================================================================================================================================
 %
@@ -828,6 +819,13 @@ future work
         \centering
         \includegraphics[width=\linewidth]{images/wireframes/tooltip_comment.jpg}
     \end{figure}
+    \chapter{User evaluation questionnaire}
+    \label{appendix:questionnaire}
+    \includepdf[
+        pages=-,
+        % pagecommand={},
+        % width=\linewidth
+    ]{figures/questionnaire.pdf}
 \end{appendices}
 %==================================================================================================================================
 %   BIBLIOGRAPHY   
