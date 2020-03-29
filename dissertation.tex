@@ -653,7 +653,7 @@ Initially, we setup our project as multiple repositories within a group on \href
 However, the repository management overhead introduced was too complex. A change in the specification would imply a commit in all 3 other repositories.
 To counter this, we shifted to a project ``monorepository'' which provide ``better managing of cross-project changes, easy refactoring, simplified organization'' \autocite[1]{britoMonoreposMultivocalLiterature2018}.
 
-\subsection{Gitlab CI}
+\subsection{Continuous Integration}
 
 We chose \href{https://gitlab.com/}{gitlab.com} because of its powerful and well documented Continuous Integration (CI) capabilities.
 We made use of these features in order to automatically build and test the the OpenAPI specification, docker containers and the documentation for each commit we setup a CI Pipeline (Figure \ref{fig:ci}) .
@@ -666,7 +666,7 @@ We made use of these features in order to automatically build and test the the O
     \label{fig:ci}
 \end{figure}
 
-In a first \verb|test| stage we test our API specification, the accompanying API client and run a code quality check using \textcite{CodeclimateCodeclimate2020} to check for common programming mistakes.
+In a first \verb|test| stage we test our API specification, the accompanying API client and run a code quality check using \textcite{Codeclimate2020} to check for common programming mistakes.
 
 In the \verb|build-documentation| stage build the documentation for our API, its client and the general application as static web pages that are later auto published at \href{https://harpocrates-app.gitlab.io/harpocrates/}{harpocrates-app.gitlab.io/harpocrates} with Gitlab Pages in the \verb|deploy| stage.
 
@@ -686,6 +686,16 @@ It is another Github bot that calculates code coverage for every commit and post
 %==================================================================================================================================
 \chapter{Evaluation}
 
+% link back to requirements,  how have they been met?
+% Expert panel testing
+% unit testing
+
+\section{Code Testing}
+
+\section{Expert Panel}
+
+\section{User Study}
+
 We conducted a user evaluation in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review. We sought to answer a handful of research questions:
 
 \begin{enumerate}[label=\textbf{RQ\arabic*}]
@@ -694,12 +704,7 @@ We conducted a user evaluation in order to evaluate the effectiveness of our app
     \item Does it improve reviewers' confidence in the completeness of their sensitivity review?
 \end{enumerate}
 
-
-% link back to requirements,  how have they been met?
-% Expert panel testing
-% unit testing
-
-\section{Preparations and Experimental Setup}
+\subsection{Preparations and Experimental Setup}
 
 Our collection is a set of 3801 Government documents relating to International Activities sensitivity assessed by government sensitivity reviewers.
 The ground truth for document sensitivity was established with respect to sections 40 (S40) (Personal Information) and 27 (S27) (International Relations) of the Freedom of Information Act (FOIA).
@@ -748,7 +753,7 @@ The other, \textit{test mode 2} (Figure \ref{fig:test-mode-2}) is a stripped dow
 \end{figure}
 
 
-\section{Evaluation}
+\subsection{Results}
 
 We ask our testers to review each set of test documents with one of the two interfaces, the starting interface is chosen randomly in order to minimize the learning effect on the task.
 After each batch of documents, we hand our reviewers a questionnaire (Appendix \ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
@@ -758,7 +763,7 @@ The independent variables will a set of two user interfaces: with and without th
 
 \begin{itemize}
     \item Firstly, we will measure the time to review an entire collection with each interface.
-    \item Secondly we will record the accuracy of each reviewer on each interface for all documents.
+    \item Secondly we will record the classification accuracy of each reviewer on each interface for all documents.
     \item Lastly, we will evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
 \end{itemize}
 
