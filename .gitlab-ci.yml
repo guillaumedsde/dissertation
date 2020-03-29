@@ -12,7 +12,7 @@ build-pdf:
     # JSX support for pygments
     - python3 -m pip install jsx-lexer
   script:
-    - latexmk -xelatex -synctex=1 -interaction=nonstopmode -file-line-error --output-directory=build --shell-escape ./dissertation.tex
+    - latexmk -pdfxe -synctex=1 -interaction=nonstopmode -file-line-error --output-directory=build --shell-escape ./dissertation.tex
     - mv build/*.pdf .
     - mv build/*.log .
   artifacts:
