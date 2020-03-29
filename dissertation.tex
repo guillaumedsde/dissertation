@@ -564,26 +564,11 @@ These problems mostly become prominent on larger scale projects, hence we opted 
 \chapter{Implementation}
 
 
-show coponennt code and how it gets data from backend
+% show coponennt code and how it gets data from backend
 
-show lime explanations generation
+% show lime explanations generation
 
-key ``features'' code overview
-
-
-\begin{itemize}
-    \item Hands on SkLearn framework, experimented with different text pre-processing techniques and classifiers to build a Pipeline to classify textual documents into either sensitive or not sensitive categories
-    \item overview of Machine Learning model explanation techniques, successfully implemented the Lime explainer, tried to use the SHAP explainer, but was unsuccessful
-    \item Explore text document storage, looked at Terrier, ElasticSearch to finally settle on MongoDB
-    \item Packaged SkLearn classifier into Python Flask API with OpenAPI specification
-    \item created Javascript API Client from code generated from OpenAPI specification
-    \item hands on ReactJS Javascript frontend framework, implemented a document browsing, viewing and upload frontend
-    \item added text redaction feature to mark sections as sensitive with a label explaining why it is deemed sensitive
-    \item implemented Lime Model explanations in Python backend, exposed them to the Flask API and created a frontend "in text" visualization of these sensitivities
-    \item Research Document visualization techniques (literature review)
-    \item created a populator script to load and classify all documents
-    \item graph visualization of feature contribution to the classification and other UI tweaks
-\end{itemize}
+% key ``features'' code overview
 
 \section{OpenAPI definitions}
 
@@ -595,9 +580,10 @@ key ``features'' code overview
 
 Listings \ref{listing:predictedClassification_yml} and \ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
 
-One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for some strict type and value checking of variables at both the server and client levels (Listing \ref{listing:predictedClassification_yml}, line 11-15).
+One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for strict type and value checking of variables at both the server and client levels (Listing \ref{listing:predictedClassification_yml}, line 11-15).
 
-Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|. This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
+Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|.
+This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
 
 \begin{listing}[H]
     \inputminted{yaml}{code/getPredictedClassification.yml}
@@ -623,6 +609,14 @@ We also perform a grid search with five fold cross-validation to tune the parame
     \inputminted{python}{code/ml_pipeline.py}
     \caption{Machine Learning classification Pipeline}
     \label{listing:ml_pipeline}
+\end{listing}
+
+\section{Classification Explanations}
+
+\begin{listing}[H]
+    \inputminted{python}{code/explanations.py}
+    \caption{Machine Learning classification explanations}
+    \label{listing:ml_explanations}
 \end{listing}
 
 \section{ReactJS components}
@@ -652,6 +646,28 @@ This one way data binding simplifies the flow of information thus making them ea
 
 Throughout the project, we tried various repository organizations, hosted git platforms and Continuous Integration (CI) tools.
 
+Initially, we setup our project as multiple repositories within a group on \href{https://gitlab.com/harpocrates-app}{gitlab.com}, thus holding the frontend, server, api client and specification in their own repositories.
+However, the repository management overhead introduced was too complex. A change in the specification would imply a commit in all 3 other repositories.
+To counter this, we shifted to a project ``monorepository'' which provide ``better managing of cross-project changes, easy refactoring, simplified organization'' \autocite[1]{britoMonoreposMultivocalLiterature2018}.
+
+In order to automatically build and test the the OpenAPI specification, docker containers and the documentation for each commit we setup a Continuous Integration (CI) Pipeline using Gitlab CI (Figure \ref{fig:ci}) .
+
+\begin{figure}[H]
+    %TODO use PDF/PNG this look ugly
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/ci.png}
+    \caption{CI Pipeline}
+    \label{fig:ci}
+\end{figure}
+
+In a first \verb|test| stage we test our API specification, the accompanying API client and run a code quality check using \textcite{CodeclimateCodeclimate2020} to check for common programming mistakes.
+In the \verb|build-documentation| stage build the documentation for our API, its client and the general application as static web pages that are later auto published at \href{https://harpocrates-app.gitlab.io/harpocrates/}{harpocrates-app.gitlab.io/harpocrates} with Gitlab Pages in the \verb|deploy| stage.
+Most importantly, the \verb|build| stage builds the docker containers for our frontend and API. Once the images are built, they are tagged with either the branch name, or the commit hash and published on a \href{https://gitlab.com/harpocrates-app/harpocrates/container_registry}{docker container registry hosted on gitlab.com}.
+
+
+
+%TODO finish this about dependabot and codecov
+We later moved the main repository to \href{https://github.com/guillaumedsde/Harpocrates}{github.com}
 
 %==================================================================================================================================
 \chapter{Evaluation}
