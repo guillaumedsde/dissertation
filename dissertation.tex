@@ -58,7 +58,7 @@
 
 % \renewcommand{\epigraphsize}{\Huge}
 
-
+\usepackage{lettrine}
 
 % license
 \usepackage[
@@ -158,7 +158,7 @@
 
 \section{The need for Technology Assisted Sensitivity Review}
 
-On June 2nd 2013, in a busy Hongkongese commercial district, refuged in one of the 492 rooms of the Mira Hotel, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists.
+\lettrine[lines=3,nindent=0em]{O}{n} June 2nd 2013, in a busy Hongkongese commercial district, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists refuged in one of the 492 rooms of the Mira Hotel.
 It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been produced by virtually every unit and subdivision within the sprawling agency, and [...] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
 Months later, even after develop�ng indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
 Despite this, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
@@ -535,8 +535,8 @@ This allows for compatibility with many devices: generally anything that can run
 We identified early on the need for a ``dynamic'' application meaning that in order to implement a web application, the codebase would be prominently Javascript (JS).
 
 There are a number of modern frameworks that facilitate JS web application development and avoid having to write plain JS.
-Their ``component'' approach to UI elements allows for the development of standalone modules that can be combined into an application, streamlining development by relying on high quality component libraries such as \textcite{MuiorgMaterialui2020} or visualization plotting libraries like \textcite{RechartsRecharts2020}.
-There are three major web JS frameworks: \textcite{AngularAngular2020,FacebookReact2020,VuejsVue2020}.
+Their ``component'' approach to UI elements allows for the development of standalone modules that can be combined into an application, streamlining development by relying on high quality component libraries such as \textcite{Materialui2020} or visualization plotting libraries like \textcite{Recharts2020}.
+There are three major web JS frameworks: \textcite{Angular2020,FacebookReact2020,VuejsVue2020}.
 
 Angular is a web framework developed by Google, development uses TypeScript (TS) which is a type language that can transcompile into Javascript.
 It has a strict separation of styles (CSS), markup (HTML) and function (TS) and is generally much more ``opinionated'' on application structure and development.
@@ -548,7 +548,7 @@ Furthermore, like Angular, VueJS introduces a special syntax for enhancing the t
 Perhaps the ``most flexible'' framework is ReactJS which we chose as our frontend framework.
 ReactJS uses \lstinline{.jsx} files which allow for the integration of HTML and CSS within JS, which avoids the custom syntax used by Angular and VueJS and allows for the versatile use of JS for introducing logic into templates.
 Furthermore ReactJS is an Open Source project developed by Facebook, this backing along with its flexibility has given birth to a large ecosystem of both development support and advanced component libraries \autocite{wohlgethanSupportingWebDevelopmentDecisions2018}.
-It does however introduce more complex state management due to its ``one-way data binding'': information flows from parent to child component but the reverse operation needs to be done through callbacks or using a state management libraries like \textcite{ReduxjsRedux2020}.
+It does however introduce more complex state management due to its ``one-way data binding'': information flows from parent to child component but the reverse operation needs to be done through callbacks or using a state management libraries like \textcite{Redux2020}.
 These problems mostly become prominent on larger scale projects, hence we opted for the flexibility of ReactJS for a quickly starting development, albeit encountering some of these state management issues in the latter stages of the project.
 % TODO refer back to proof of concept scope of project to justify this
 
@@ -646,11 +646,17 @@ This one way data binding simplifies the flow of information thus making them ea
 
 Throughout the project, we tried various repository organizations, hosted git platforms and Continuous Integration (CI) tools.
 
+
+\subsection{Mono-repository}
+
 Initially, we setup our project as multiple repositories within a group on \href{https://gitlab.com/harpocrates-app}{gitlab.com}, thus holding the frontend, server, api client and specification in their own repositories.
 However, the repository management overhead introduced was too complex. A change in the specification would imply a commit in all 3 other repositories.
 To counter this, we shifted to a project ``monorepository'' which provide ``better managing of cross-project changes, easy refactoring, simplified organization'' \autocite[1]{britoMonoreposMultivocalLiterature2018}.
 
-In order to automatically build and test the the OpenAPI specification, docker containers and the documentation for each commit we setup a Continuous Integration (CI) Pipeline using Gitlab CI (Figure \ref{fig:ci}) .
+\subsection{Gitlab CI}
+
+We chose \href{https://gitlab.com/}{gitlab.com} because of its powerful and well documented Continuous Integration (CI) capabilities.
+We made use of these features in order to automatically build and test the the OpenAPI specification, docker containers and the documentation for each commit we setup a CI Pipeline (Figure \ref{fig:ci}) .
 
 \begin{figure}[H]
     %TODO use PDF/PNG this look ugly
@@ -661,13 +667,21 @@ In order to automatically build and test the the OpenAPI specification, docker c
 \end{figure}
 
 In a first \verb|test| stage we test our API specification, the accompanying API client and run a code quality check using \textcite{CodeclimateCodeclimate2020} to check for common programming mistakes.
+
 In the \verb|build-documentation| stage build the documentation for our API, its client and the general application as static web pages that are later auto published at \href{https://harpocrates-app.gitlab.io/harpocrates/}{harpocrates-app.gitlab.io/harpocrates} with Gitlab Pages in the \verb|deploy| stage.
-Most importantly, the \verb|build| stage builds the docker containers for our frontend and API. Once the images are built, they are tagged with either the branch name, or the commit hash and published on a \href{https://gitlab.com/harpocrates-app/harpocrates/container_registry}{docker container registry hosted on gitlab.com}.
 
+Most importantly, the \verb|build| stage builds the docker containers for our frontend and API.
+Once the images are built, they are tagged with either the branch name, or the commit hash and published on a \href{https://gitlab.com/harpocrates-app/harpocrates/container_registry}{docker container registry hosted on gitlab.com}.
 
+\subsection{Github bots and integrations}
 
-%TODO finish this about dependabot and codecov
-We later moved the main repository to \href{https://github.com/guillaumedsde/Harpocrates}{github.com}
+We later moved our main repository to \href{https://github.com/guillaumedsde/Harpocrates}{github.com}, to make use of multiple helper bots on Github while keeping a mirror of the repository on Gitlab to avoid redifining our CI Pipeline.
+
+During development, multiple of our libraries received updates.
+To avoid having to hunt down and keep track of updates, we set up \textcite{Dependabot2020}, to automatically create Pull Requests (PR) on our repository for dependency updates.
+
+We also kept track of our tests' code coverage for each Pull Request using \textcite{Codecov2020}.
+It is another Github bot that calculates code coverage for every commit and posts code coverage changes in PRs.
 
 %==================================================================================================================================
 \chapter{Evaluation}
