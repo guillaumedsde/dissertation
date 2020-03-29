@@ -7,9 +7,9 @@
         "args": [
           "-xelatex",
           "-synctex=1",
+          "-file-line-error",
           "-interaction=nonstopmode",
           "--output-directory=build",
-          "-file-line-error",
           "--shell-escape",
           "%DOC%"
         ]

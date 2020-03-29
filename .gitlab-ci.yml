@@ -10,9 +10,11 @@ build-pdf:
     - apt update
     - apt install python3-pip -y
     # JSX support for pygments
-    - pip3 install jsx-lexer
+    - python3 -m pip install jsx-lexer
   script:
-    - latexmk -xelatex -interaction=nonstopmode ./dissertation.tex
+    - latexmk -xelatex -synctex=1 -interaction=nonstopmode -file-line-error --output-directory=build --shell-escape ./dissertation.tex
+    - mv build/*.pdf .
+    - mv build/*.log .
   artifacts:
     paths:
       - "*.pdf"
