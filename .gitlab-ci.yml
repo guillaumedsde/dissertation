@@ -10,7 +10,7 @@ build-pdf:
     - apt update
     - apt install python3-pip -y
     # JSX support for pygments
-    - pip install jsx-lexer
+    - pip3 install jsx-lexer
   script:
     - latexmk -xelatex -interaction=nonstopmode ./dissertation.tex
   artifacts:
