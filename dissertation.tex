@@ -2,8 +2,10 @@
 % !TeX spellcheck = en-GB
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
-\newcommand{\version}{draft}
+% load draft.tex if it exists
+\InputIfFileExists{draft.tex}{}{}
 
+% fallback to "final" version by default
 \ifdefined\version
 \else
 \def\version{final}

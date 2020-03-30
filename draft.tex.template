@@ -1,0 +1,3 @@
+% copy this file to draft.tex
+% to set version to draft
+\newcommand{\version}{draft}
