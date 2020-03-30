@@ -19,7 +19,11 @@
 
 % Disable compression if in draft mode
 \usepackage{ifdraft}
-\ifdraft{\special{dvipdfmx:config z 0}}{}
+\ifdraft{
+    \special{dvipdfmx:config z 0}
+}{
+    \special{dvipdfmx:config z 9}
+}
 
 \usepackage{float}
 
