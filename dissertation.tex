@@ -2,11 +2,22 @@
 % !TeX spellcheck = en-GB
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
-\documentclass{l4proj}
+\newcommand{\version}{draft}
+
+\ifdefined\version
+\else
+\def\version{final}
+\fi
+
+\documentclass[\version]{l4proj}
     
 %
 % put any additional packages here
 %
+
+% Disable compression if in draft mode
+\usepackage{ifdraft}
+\ifdraft{\special{dvipdfmx:config z 0}}{}
 
 \usepackage{float}
 
@@ -15,7 +26,6 @@
 \usepackage[justification=centering]{caption}
 
 \setmainlanguage{english}
-\usepackage{csquotes}
 
 % Referencing 
 \usepackage[backend=biber,date=year,alldates=year,urldate=short,bibstyle=apa,maxcitenames=2,uniquelist=false,citestyle=authoryear]{biblatex}
@@ -65,6 +75,8 @@
     modifier={by-nc-sa},
     version={4.0},
 ]{doclicense}
+
+\usepackage{csquotes}
  
 
 
@@ -224,7 +236,7 @@ Research into the application of TAR to sensitivity review began with \textcite{
 
 % TODO talk about F2 improvements with best SVM kernel (Gaussian) for POS standalone classification?
 This work was continued with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
-The paper also combined the POS sequence classification with full text classification to obtain a 6.09\% improvement in the $F_{2}$ measure compared to the standalone baseline text classification.
+The paper also combined the POS sequence classification with full text classification to obtain a 6.09\% improvement in the \(F_{2}\) measure compared to the standalone baseline text classification.
 
 \autocite{mcdonaldEnhancingSensitivityClassification2017} Improving classification with word embeddings
 
@@ -382,7 +394,7 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
         \item Predicted document sensitivity classification (sensitive or not?)
         \item Explanation for aforementioned classifications
         \item User classification of a document (sensitive or not?)
-        \item Overall document set sensitivity statistics (number of sensitive documents etc…)
+        \item Overall document set sensitivity statistics (number of sensitive documents etc\ldots)
         \item Document sets order documents by sensitivity
         \item User redactions of a document with text highlighting, with possible edits and save functionality
         \item Final redacted document exporting
@@ -631,7 +643,7 @@ We made use of these features in order to automatically build and test the the O
     \caption{CI Pipeline}\label{fig:ci}
 \end{figure}
 
-In a first \verb|test| stage we test our API specification, the accompanying API client and run a code quality check using \textcite{CodeclimateCodeclimate2020} to check for common programming mistakes.
+In a first \verb|test| stage we test our API specification, the accompanying API client and run a code quality check using \textcite{Codeclimate2020} to check for common programming mistakes.
 
 In the \verb|build-documentation| stage build the documentation for our API, its client and the general application as static web pages that are later auto published at \href{https://harpocrates-app.gitlab.io/harpocrates/}{harpocrates-app.gitlab.io/harpocrates} with Gitlab Pages in the \verb|deploy| stage.
 
@@ -711,28 +723,36 @@ The other, \textit{test mode 2} (Figure~\ref{fig:test-mode-2}) is a stripped dow
 
 \section{Evaluation}
 
-We ask our testers to review each set of test documents with one of the two interfaces, the starting interface is chosen randomly in order to minimize the learning effect on the task.
+We ask our testers to review each set of test documents with one of the two interfaces.
+The starting interface and the document order within each set is chosen randomly in to minimize the learning effect on the reviewing task.
 After each batch of documents, we hand our reviewers a questionnaire (Appendix~\ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
 
-As mentioned, each user will be asked to review one collection of 6 documents for personal information sensitivities (FOIA Section 27) per user interface.
-The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables:
+As mentioned, each user is asked to review one collection of six documents for personal information sensitivities (FOIA Section 40) for each user interface.
+The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables against our two interfaces (the independant variables):
 
 \begin{itemize}
-    \item Firstly, we will measure the time to review an entire collection with each interface.
-    \item Secondly we will record the accuracy of each reviewer on each interface for all documents.
-    \item Lastly, we will evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
+    \item Firstly, we measure the time to review each document in both collections.
+          We normalize document review time with the document's word count in order to account for differing document length, although it should be noted that a simple word count does not necessarily reflect the complexity of a document, especially for sensitivity review.
+    \item Secondly we record the accuracy of each reviewer on each interface for all documents.
+          We extract two measures from our participants' review batches: the balanced accuracy and \(F_{2}\), measures particularly well suited to evaluating sensitivity review \autocite{mcdonaldStudySVMKernel2017}.
+    \item Lastly, we evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
 \end{itemize}
 
 % t-test for review time (because time is a continuous variable)
-Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} \textbf{H1}.
-To evaluate this, we perform an independent sample two-tailed Student's T-Test on the average of the review times for each document for both interfaces.
-Ideally, we expect our p-value to be lower than our critical value at 5\% significance, allowing us to confirm \textbf{H1} for our sample.
+Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} ()\textbf{H1}).
+To evaluate this, we perform a paired sample one-tailed Student's T-Test, pairing review times of a given document on interface 1 and on interface 2.
+Since we randomely alternate between both interfaces we are able to pair all review times for a document reviewed on interface 1 with another review time for that same document on interface 2.
+Ideally, we expect our p-value to be lower than our critical value at a 95\% confidence level, allowing us to confirm \textbf{H1} for our sample.
 
-% Chi-squared for balanced accuracy/recall/precision (because these are proportions) ?
+In answer to \textbf{RQ2} we suggest that \textit{Interface 1 significantly improves the the accuracy of reviewers} ()\textbf{H2}).
+To confirm or refute \textbf{H2}, we evaluate the significance for both the difference in balanced accuracy and \(F_{2}\) measure at 95\% confidence.
+Since Interface 1 essentially contains a predicted sensitivity which might be taken as a guideline by our participants, we assume an unequal variance in distribution of review performance in interface 1 and 2.
+Indeed, we expect the accuracy for documents reviewed with interface 1 to be more ``clustered'' together: namely around the classifier's predicted sensitivity.
+Once again, we perform a paired sample one-tailed Student's T-Test, pairing performance for a given document on interface 1 with that same metric and document on interface 2.
 
-% Research questions
-% dependent/indepdent variables
-% results
+Lastly, we suppose that \textit{Interface 1 significantly improves the the confidence of participants in the quality of their sensitivity review} ()\textbf{H3}) in resposne to \textbf{RQ3}.
+To answer \textbf{H3},
+Since our sample size is expectedly quite restricted, we prefer Fisher's exact test over a Chi-square test for testing the significance of the difference in confidence between interface 1 and 2 to answer \textbf{H3}.
 
 
 %==================================================================================================================================
