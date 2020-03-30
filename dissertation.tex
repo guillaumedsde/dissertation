@@ -601,6 +601,24 @@ We also perform a grid search with five fold cross-validation to tune the parame
     \caption{Machine Learning classification Pipeline}\label{listing:ml_pipeline}
 \end{listing}
 
+\section{Dataset and classifier experimentations}
+
+Our collection is a set of 3801 Government documents relating to International Activities sensitivity assessed by government sensitivity reviewers.
+The ground truth for document sensitivity was established with respect to sections 40 (S40) (Personal Information) and 27 (S27) (International Relations) of the Freedom of Information Act (FOIA).
+This appraisal resulted in 502 (13\%) documents deemed sensitive to either S40, S27 or both with 3299 non sensitive documents (87\%).
+
+\begin{table}[H]
+    \small
+    \begin{tabular}{lllllll}
+        Classification Pipeline         & Tuned For & FOIA   & BAC    & F2     & Precision & Recall \\
+        TF-IDF, SMOTEENN, SVC           & BAC       & 40     & 0.5576 & 0.1182 & 0.0659    & 0.1911 \\
+        TF-IDF, SMOTEENN, SVC           & F2        & 40     & 0.5482 & 0.1331 & 0.0385    & 0.4047 \\
+        TF-IDF, RandomUnderSampler, SVC & BAC       & 27, 40 & 0.5526 & 0.3593 & 0.1669    & 0.5454 \\
+        TF-IDF, RandomUnderSampler, SVC & F2        & 27, 40 & 0.5079 & 0.4359 & 0.1340    & 0.9980
+    \end{tabular}
+    \caption{Best performing classifiers using 5-fold cross validation targeting different metrics and sensitive classifications}\label{tab:clf_perf}
+\end{table}
+
 \section{Classification Explanations}
 
 \begin{listing}[H]
