@@ -226,25 +226,28 @@ Lastly before concluding, we detail the findings from an evaluation by an expert
 
 \subsection{Technology Assisted Sensitivity Review}
 
-% TODO should I compare results between papers, can I talk about "improvements" over time? or not really since some results are not comparable (ex: focus on a particular FOIA exemption as opposed to all of S27 and S40)
-
-% TODO elaborate on results
-Research into the application of TAR to sensitivity review began with \textcite{mcdonaldClassifierDigitalSensitivity2014} which established an initial Machine Learning classifier combining the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition.
-
 \autocite{sanchezDetectingSensitiveInformation2012}
 
-% TODO be more specific about results compared to baseline
-\textcite{mcdonaldUsingPartofSpeechNgrams2015} expanded on the idea and Improved classification with Part-of-Speech tagging of large N-grams to improve both recall and precision albeit on a more focused task of identifying a subset of S27 FOIA exemptions: ``information supplied in confidence''.
+Research into the application of TAR to sensitivity review began with \textcite{mcdonaldClassifierDigitalSensitivity2014} which established an initial Machine Learning sensitivity classifier.
+They combined the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition and achieved a balanced accuracy (BAC) of 0.63 for FOIA S27 and 0.74 for S40.
 
-% TODO talk about F2 improvements with best SVM kernel (Gaussian) for POS standalone classification?
-This work was continued with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
-The paper also combined the POS sequence classification with full text classification to obtain a 6.09\% improvement in the \(F_{2}\) measure compared to the standalone baseline text classification.
+\textcite{berardiSemiAutomatedTextClassification2015} establishes that BAC and the \(F_{2}\) measure are best suited when evaluating sensitivity classifiers due to the predominance of recall over precision: a released sensitive document is potentially more problematic than an excessive closure of information.
+As such, rather than an automated \textit{replacement}, they frame the solution as an \textit{aid} to sensitivity reviewers.
+They demonstrate the advantage of a utility-theoric approach to maximizing reviewer effectiveness.
+Specifically they focus on the human reviewer validation of the automated classifier's labelling: prioritizing the review document with a high probability of an ``automated misclassification''.
 
-\autocite{mcdonaldEnhancingSensitivityClassification2017} Improving classification with word embeddings
+\textcite{mcdonaldUsingPartofSpeechNgrams2015} expanded on the idea and improved classification with Part-of-Speech tagging of large N-grams filtering out those which are not characteristic of a sensitive document by calculating n-grams' ``sensitivity load'' \autocite[2]{mcdonaldUsingPartofSpeechNgrams2015}.
+This results in 0.73 balanced accuracy and 0.51 \(F_{2}\) when identifying a subset of S27 FOIA exemptions: ``information supplied in confidence''.
 
-\autocite{mcdonaldActiveLearningStrategies2018} Active Learning (``loopback learning'') implemeting reviewer feedback in Sensitivity prediction
+This work was furthered with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
+The paper also combined the POS sequence classification with full text classification to obtain a maximum \(F_{2}\) measure of 0.46 and a maximum BAC of 0.64 for S27 and S40 sensitive documents combined.
+\autocite{mcdonaldEnhancingSensitivityClassification2017} further expand this model on the same dataset, obtaining a BAC of 0.71 and \(F_{2}\) of 0.54 using Word embeddings and semantic features.
 
-\autocite{mcdonaldHowSensitivityClassification2019} User study with Machine Learning classification
+\textcite{mcdonaldActiveLearningStrategies2018} implement ``Active Learning'' of reviewer annotations for dynamically prioritizing documents in a collection in order to maximize the automated classifier's effectiveness with the least possible manually review docuements.
+They achieve a BAC of 0.7 on the same collection as \textcite{mcdonaldStudySVMKernel2017,mcdonaldEnhancingSensitivityClassification2017} but with a 51\% reduction in the number of manually reviewed documents.
+
+\textcite{mcdonaldHowSensitivityClassification2019} conduct a user study to evaluate the impact of classification effectiveness on reviewers' performance. With the aid of a simple interface, they asked reviewers to identify S27 and S40 FOIA sensitivities with and without sensitivity classifier predictions.
+They conclude that, while participants' identified sensitivities were randomly correct, they however find a BAC between 0.69 and 0.8 for participants aided respectively with medium and perfect classifier prediction performance.
 
 \subsection{``Predictive Coding'' or \textit{TAR} for legal electronic discovery}
 
@@ -255,7 +258,6 @@ Parallels can be drawn with the task of sensitivity review, specifically the pro
 
 \textcite{grossmanTechnologyAssistedReviewEDiscovery2010} compared the performances of a manual and TAR aided eDiscovery process with data from the various teams of the TREC 2009 Legal Track \autocite{hedinOverviewTREC2009}.
 They conclude that TAR methods lead to more accurate eDiscovery relevance estimations with significantly lower effort than with an exhaustive manual discovery process.
-
 
 One of these teams, \textcite{cormackMachineLearningInformation2009}, constructed various training sets for a given list of discovery topics from a corpus of eDiscovery documents using IR techniques (a search engine).
 They then fitted Logistic regression classifiers on these training sets to classify the rest of the collection as relevant or not for each topic.
