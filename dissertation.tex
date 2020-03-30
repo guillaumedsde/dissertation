@@ -3,7 +3,6 @@
 % REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
 
 \documentclass{l4proj}
-
     
 %
 % put any additional packages here
@@ -159,7 +158,7 @@
 \section{The need for Technology Assisted Sensitivity Review}
 
 \lettrine[lines=3,nindent=0em]{O}{n} June 2nd 2013, in a busy Hongkongese commercial district, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists refuged in one of the 492 rooms of the Mira Hotel.
-It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been produced by virtually every unit and subdivision within the sprawling agency, and [...] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
+It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
 Months later, even after develop�ng indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
 Despite this, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
 
@@ -229,7 +228,7 @@ The paper also combined the POS sequence classification with full text classific
 
 \autocite{mcdonaldEnhancingSensitivityClassification2017} Improving classification with word embeddings
 
-\autocite{mcdonaldActiveLearningStrategies2018} Active Learning ("loopback learning") implemeting reviewer feedback in Sensitivity prediction
+\autocite{mcdonaldActiveLearningStrategies2018} Active Learning (``loopback learning'') implemeting reviewer feedback in Sensitivity prediction
 
 \autocite{mcdonaldHowSensitivityClassification2019} User study with Machine Learning classification
 
@@ -273,25 +272,22 @@ The task of identifying ``privileged'' information in legal discovery documents 
         \centering
         \small
         \includegraphics[width=\linewidth]{images/document_visualization/topic-overview.png}
-        \caption{Lexical Episode Plots}
-        \label{fig:lexical_plot}
+        \caption{Lexical Episode Plots}\label{fig:lexical_plot}
     \end{subfigure}
     \hspace{0.01\textwidth}
     \begin{subfigure}[c]{0.17\textwidth}
         \centering
         \small
         \includegraphics[width=\linewidth]{images/related_products/vscode_minimap.png}
-        \caption{VSCode Minimap}
-        \label{fig:vscode_minimap}
+        \caption{VSCode Minimap}\label{fig:vscode_minimap}
     \end{subfigure}
-    \caption{Document Overviews}
+    \caption{Document Overviews}\label{fig:test-modes}
     \vspace{-40pt}
-    \label{fig:test-modes}
 \end{wrapfigure}
 
-A variation of this kind of document overview displays highlights beside the document outline also showing the ``topic'' of the highlight (Figure \ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
+A variation of this kind of document overview displays highlights beside the document outline also showing the ``topic'' of the highlight (Figure~\ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
 
-It is reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure \ref{fig:vscode_minimap}).
+It is reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure~\ref{fig:vscode_minimap}).
 
 An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
 This shows that perhaps, these sort of overviews could also be used before viewing a document, as a popup view when a document is hovered on within a collection.
@@ -300,31 +296,17 @@ This shows that perhaps, these sort of overviews could also be used before viewi
 
 \begin{wrapfigure}{l}{0.4\textwidth}
     \includegraphics[width=\linewidth]{images/document_visualization/font-size.png}
-    \caption{Adjusting font size}
-
+    \caption{Adjusting font size}\label{fig:font-size}
     \vspace{-10pt}
-    \label{fig:font-size}
 \end{wrapfigure}
 
-\textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features (Figure \ref{fig:font-size}).
+\textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features (Figure~\ref{fig:font-size}).
 It is not certain this would be a good thumbnail, the highlighted portions definitely show where key features are in the document, but a lot of the document structure is lost.
 However varying font size within a \textit{reasonable range} ould be an interesting visualization for the visualizing feature importance in a prediction.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.5\textwidth]{images/document_visualization/font-size.png}
-%     \caption{Adjusting font size\\
-%         \protect\autocite{stoffelDocumentThumbnailsVariable2012}
-%     }
-%     \label{fig:font-size}
-% \end{figure}
-
-
-
-
 \subsection{Distortion}
 
-This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom'' \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure \ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
+This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom'' \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure~\ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
 
 \begin{figure}[H]
     \centering
@@ -332,8 +314,7 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
     \caption{Fisheye views, from left to right: \\
         Manhattan lens, zoomscapes, central perspective and parallel projection \\
         \protect\autocite{baudischFishnetFisheyeWeb2004}
-    }
-    \label{fig:fisheyes}
+    }\label{fig:fisheyes}
 \end{figure}
 
 \textit{Circular Fisheye Distortion} is a circular ``magnifying glass'' effect visible in \textcite{bostockFisheyeGrid2019}. \textit{Cartesian Distortion} ``magnifies continuously so as to avoid local minification'' \autocite{bostockFisheyeDistortion2012}. The effect can also be limited to only one axis (vertical or horizontal) as seen in \textcite{pstuffaCartesianFisheyeDistortion2019}. In our case, Vertical Cartesian Distortion on a per line basis seems like an interesting visualization for document overview with emphasis on hovered lines. There is a D3js implementation of this effect \autocite{pstuffaCartesianFisheyeDistortion2019}, it also seems like there is a React specific implementation of this text fisheye effect \autocite{zhongVincentdchanReactfisheye2019}.
@@ -344,32 +325,30 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \includegraphics[width=\linewidth]{images/related_products/adobe_redaction.png}
-    \caption{Acrobat redaction workflow}
+    \caption{Acrobat redaction workflow}\label{fig:adobe-redaction}
     \vspace{-20pt}
-    \label{fig:adobe-redaction}
 \end{wrapfigure}
 
 Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
 Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
 
 Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents.
-The principle is simple: select text, click redact and browse a nested context menu to select an exemption (Figure \ref{fig:adobe-redaction}).
+The principle is simple: select text, click redact and browse a nested context menu to select an exemption (Figure~\ref{fig:adobe-redaction}).
 This can be repetitive as their does not seem to be a way to redact multiple identical instances of the same piece of text at once.
 
 There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow.
-For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix \ref{fig:foxit-menu}) also allows for document wide redaction of a text selection (Appendix \ref{fig:foxit-redact-all}), something which Adobe implement quite poorly (Appendix \ref{fig:adobe-redact-all}).
+For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix~\ref{fig:foxit-menu}) also allows for document wide redaction of a text selection (Appendix~\ref{fig:foxit-redact-all}), something which Adobe implement quite poorly (Appendix~\ref{fig:adobe-redact-all}).
 
 \subsection{Dedicated document redaction tools}
 
 \begin{wrapfigure}{l}{0.4\textwidth}
     \includegraphics[width=\linewidth]{images/related_products/eredact_dropdown.png}
-    \caption{e-Redact exemption selection}
+    \caption{e-Redact exemption selection}\label{fig:eredact-dropdown}
     \vspace{-17pt}
-    \label{fig:eredact-dropdown}
 \end{wrapfigure}
 
 There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is a Microsoft Office plugin that for redacting sensitive information from documents.
-It's context menu is even more deeply nested than Adobe Reader's and contains exemptions from many legislations (Figure \ref{fig:eredact-dropdown}).
+It's context menu is even more deeply nested than Adobe Reader's and contains exemptions from many legislations (Figure~\ref{fig:eredact-dropdown}).
 We want to avoid such a deep nesting of regularly used actions, for example in this case, it seems like a reviewer would rarely redact a document for US and UK FOIA at the same time.
 A solution to this would be to have a setting to select the legal ``framework'' within a settings menu which would reduce deep menu nesting.
 e-Redact also adds the ability to collaborate with multiple people on document redactions, but beyond this, it is very similar to PDF Editors and their built-in functionalities.
@@ -378,16 +357,15 @@ e-Redact also adds the ability to collaborate with multiple people on document r
 
 A lot of the PDF editors' redaction functionality also require one to traverse the screen to select a redaction.
 
-Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection (albeit not consistently): the menu appears next to the selected text with actions to take on a selection which avoids having to cross long screen distances (Figure \ref{fig:redactedai}).
+Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection (albeit not consistently): the menu appears next to the selected text with actions to take on a selection which avoids having to cross long screen distances (Figure~\ref{fig:redactedai}).
 A downside of their implementation of a ``popup menu'' is that it takes considerable space, while it does offer quite a few useful actions, its ``remove'' and ``unredact this'' button are quite large,, we prefer a smaller menu that hides less of the content.
 
-In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying to achieve: it is a web application for redacting sensitive documents. Its flagship feature uses Natural Language Processing (NLP) methods (namely: entity extraction) to provide an aid to document reviewers (Figure \ref{fig:redactedai}).
+In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying to achieve: it is a web application for redacting sensitive documents. Its flagship feature uses Natural Language Processing (NLP) methods (namely: entity extraction) to provide an aid to document reviewers (Figure~\ref{fig:redactedai}).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{images/related_products/redactedai.png}
-    \caption{Redacted.ai document view}
-    \label{fig:redactedai}
+    \caption{Redacted.ai document view}\label{fig:redactedai}
 \end{figure}
 
 %==================================================================================================================================
@@ -466,23 +444,19 @@ As mentioned we include a user study within the scope of this study to evaluate 
     \begin{subfigure}[b]{\linewidth}
         \centering
         \includegraphics[width=0.6\linewidth]{images/wireframes/doc_view.jpg}
-        \caption{Document View Wireframe}
-        \label{fig:document-wireframe}
+        \caption{Document View Wireframe}\label{fig:document-wireframe}
     \end{subfigure}
     \begin{subfigure}[b]{\linewidth}
         \begin{subfigure}[b]{0.5\linewidth}
             \includegraphics[width=\linewidth]{images/wireframes/tooltip.jpg}
-            \caption{minimized tooltip wireframe}
-            \label{fig:tooltip-wireframe}
+            \caption{minimized tooltip wireframe}\label{fig:tooltip-wireframe}
         \end{subfigure}
         \begin{subfigure}[b]{0.4\linewidth}
             \includegraphics[width=\linewidth]{images/wireframes/tooltip_comment.jpg}
-            \caption{Expanded tooltip wireframe}
-            \label{fig:expanded-tooltip-wireframe}
+            \caption{Expanded tooltip wireframe}\label{fig:expanded-tooltip-wireframe}
         \end{subfigure}
     \end{subfigure}
-    \caption{Selection of some of the Wireframes drawn up during the design process}
-    \label{fig:wireframes}
+    \caption{Selection of some of the Wireframes drawn up during the design process}\label{fig:wireframes}
 
 \end{figure}
 
@@ -556,8 +530,7 @@ These problems mostly become prominent on larger scale projects, hence we opted 
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \includegraphics[width=\linewidth]{figures/tech_stack_no_background.pdf}
-    \caption{Harpocrates tech stack}
-    \label{fig:tech_stack}
+    \caption{Harpocrates tech stack}\label{fig:tech_stack}
 \end{wrapfigure}
 
 %==================================================================================================================================
@@ -574,32 +547,30 @@ These problems mostly become prominent on larger scale projects, hence we opted 
 
 \begin{listing}[H]
     \inputminted{yaml}{code/predictedClassification.yml}
-    \caption{Defining a predictedClassification response object in OpenAPI}
-    \label{listing:predictedClassification_yml}
+    \caption{Defining a predictedClassification response object in OpenAPI}\label{listing:predictedClassification_yml}
 \end{listing}
 
-Listings \ref{listing:predictedClassification_yml} and \ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
+Listing~\ref{listing:predictedClassification_yml} and Listing~\ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
 
-One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for strict type and value checking of variables at both the server and client levels (Listing \ref{listing:predictedClassification_yml}, line 11-15).
+One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for strict type and value checking of variables at both the server and client levels (Listing~\ref{listing:predictedClassification_yml}, line 11-15).
 
 Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|.
 This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
 
 \begin{listing}[H]
     \inputminted{yaml}{code/getPredictedClassification.yml}
-    \caption{Defining a GET endpoint in OpenAPI}
-    \label{listing:getPredictedClassification_yml}
+    \caption{Defining a GET endpoint in OpenAPI}\label{listing:getPredictedClassification_yml}
 \end{listing}
 
 \section{Machine Learning Pipeline}
-Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing \ref{listing:ml_pipeline}).
+Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
 
 The first step consist in a TF-IDF transformer to convert the document's text to a numeric vector.
 We optimized our vectorizer parameters by performing a grid search with five fold cross-validation, the optimal parameter space depends on the use case.
 
 We then resample our highly unbalanced training data with the \textcite{ScikitlearncontribImbalancedlearn2020} library from \textcite{lemaitreImbalancedlearnPythonToolbox2017}.
 It implements common resampling techniques \autocite{lemaitreImbalancedlearnPythonToolbox2017}, we use a combination over under and over sampling depending on the use case.
-In this example (Listing \ref{listing:ml_pipeline}), we make use of Synthetic Minority Oversampling TEchnique (SMOTE) oversampling combined with Tomek Link removal undersampling \autocite{batistaStudyBehaviorSeveral2004}.
+In this example (Listing~\ref{listing:ml_pipeline}), we make use of Synthetic Minority Oversampling TEchnique (SMOTE) oversampling combined with Tomek Link removal undersampling \autocite{batistaStudyBehaviorSeveral2004}.
 
 We use a Support Vector Classifier (SVC) which has performed best for sensitive document classification in past research \autocite{mcdonaldClassifierDigitalSensitivity2014,mcdonaldStudySVMKernel2017}.
 We replace scikit-learn's SVC for a parallelized implementation for multicore CPUs and CUDA enabled GPU in order to improve performance \autocite{wenThunderSVMFastSVM2018}.
@@ -607,39 +578,34 @@ We also perform a grid search with five fold cross-validation to tune the parame
 
 \begin{listing}[H]
     \inputminted{python}{code/ml_pipeline.py}
-    \caption{Machine Learning classification Pipeline}
-    \label{listing:ml_pipeline}
+    \caption{Machine Learning classification Pipeline}\label{listing:ml_pipeline}
 \end{listing}
 
 \section{Classification Explanations}
 
 \begin{listing}[H]
     \inputminted{python}{code/explanations.py}
-    \caption{Machine Learning classification explanations}
-    \label{listing:ml_explanations}
+    \caption{Machine Learning classification explanations}\label{listing:ml_explanations}
 \end{listing}
 
 \section{ReactJS components}
 
 \begin{wrapfigure}{r}{0.45\textwidth}
     \includegraphics[width=\linewidth]{figures/sensitivity_bar.pdf}
-    \caption{Rendered sensitivity bar}
-
+    \caption{Rendered sensitivity bar}\label{fig:sensitivity_bar_preview}
     \vspace{-10pt}
-    \label{fig:sensitivity_bar_preview}
 \end{wrapfigure}
 
-ReactJS' latest implementations take a functional approach to web component definition: Listing \ref{listing:sensitivity_bar} demonstrates this with one of the simpler components of our application (Figure \ref{fig:sensitivity_bar_preview}).
+ReactJS' latest implementations take a functional approach to web component definition: Listing~\ref{listing:sensitivity_bar} demonstrates this with one of the simpler components of our application (Figure~\ref{fig:sensitivity_bar_preview}).
 
 One of the features of ReactJS is its ``one-way data binding'' that is data is passed from parent to child component using a \verb|props| dictionary.
-In Listing \ref{listing:sensitivity_bar}, we pass a document's classification to the \verb|SensitivityBar| component to change its appearance based on its sensitivity value.
+In Listing~\ref{listing:sensitivity_bar}, we pass a document's classification to the \verb|SensitivityBar| component to change its appearance based on its sensitivity value.
 This one way data binding simplifies the flow of information thus making them easier to debug.
 
 
 \begin{listing}[H]
     \inputminted{jsx}{code/documentSensitivityBar.js}
-    \caption{Document sensitivity bar}
-    \label{listing:sensitivity_bar}
+    \caption{Document sensitivity bar}\label{listing:sensitivity_bar}
 \end{listing}
 
 \section{Version-Control and Continuous Integration}
@@ -656,14 +622,13 @@ To counter this, we shifted to a project ``monorepository'' which provide ``bett
 \subsection{Continuous Integration}
 
 We chose \href{https://gitlab.com/}{gitlab.com} because of its powerful and well documented Continuous Integration (CI) capabilities.
-We made use of these features in order to automatically build and test the the OpenAPI specification, docker containers and the documentation for each commit we setup a CI Pipeline (Figure \ref{fig:ci}) .
+We made use of these features in order to automatically build and test the the OpenAPI specification, docker containers and the documentation for each commit we setup a CI Pipeline (Figure~\ref{fig:ci}) .
 
 \begin{figure}[H]
     %TODO use PDF/PNG this look ugly
     \centering
     \includegraphics[width=0.9\linewidth]{figures/ci.png}
-    \caption{CI Pipeline}
-    \label{fig:ci}
+    \caption{CI Pipeline}\label{fig:ci}
 \end{figure}
 
 In a first \verb|test| stage we test our API specification, the accompanying API client and run a code quality check using \textcite{Codeclimate2020} to check for common programming mistakes.
@@ -726,37 +691,33 @@ We then selected both sensitive and non-sensitive documents in order to represen
         Predicted non-sensitive & 3                      & 1                  \\
         Predicted Sensitive     & 1                      & 1
     \end{tabular}
-    \caption{Count of selected documents in the classifier's confusion matrix}
-    \label{tab:confusion-matrix-selection}
+    \caption{Count of selected documents in the classifier's confusion matrix}\label{tab:confusion-matrix-selection}
 \end{table}
 
 We sample test documents accordingly twice: once for each User Interface (UI).
-One interface \textit{test mode 1} (Figure \ref{fig:test-mode-1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
-The other, \textit{test mode 2} (Figure \ref{fig:test-mode-2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
+One interface \textit{test mode 1} (Figure~\ref{fig:test-mode-1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
+The other, \textit{test mode 2} (Figure~\ref{fig:test-mode-2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[c]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/ui_test_mode_1.png}
-        \caption{Test mode 1}
-        \label{fig:test-mode-1}
+        \caption{Test mode 1}\label{fig:test-mode-1}
     \end{subfigure}
     \begin{subfigure}[c]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/ui_test_mode_2.png}
-        \caption{Test mode 2}
-        \label{fig:test-mode-2}
+        \caption{Test mode 2}\label{fig:test-mode-2}
     \end{subfigure}
-    \caption{The two test modes used for evaluation}
-    \label{fig:test-modes}
+    \caption{The two test modes used for evaluation}\label{fig:test-modes}
 \end{figure}
 
 
 \subsection{Results}
 
 We ask our testers to review each set of test documents with one of the two interfaces, the starting interface is chosen randomly in order to minimize the learning effect on the task.
-After each batch of documents, we hand our reviewers a questionnaire (Appendix \ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
+After each batch of documents, we hand our reviewers a questionnaire (Appendix~\ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
 
 As mentioned, each user will be asked to review one collection of 6 documents for personal information sensitivities (FOIA Section 27) per user interface.
 The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables:
@@ -796,20 +757,17 @@ Ideally, we expect our p-value to be lower than our critical value at 5\% signif
 \begin{appendices}
     \settocdepth{chapter}
     \chapter{PDF Editors}
-    \section{PhantomPDF context menu}
-    \label{fig:foxit-menu}
+    \section{PhantomPDF context menu}\label{fig:foxit-menu}
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.7\linewidth]{images/related_products/foxit_redaction.png}
     \end{figure}
-    \section{PhantomPDF redact all}
-    \label{fig:foxit-redact-all}
+    \section{PhantomPDF redact all}\label{fig:foxit-redact-all}
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.7\linewidth]{images/related_products/foxit_redact_all.png}
     \end{figure}
-    \section{Adobe Acrobat redact all}
-    \label{fig:adobe-redact-all}
+    \section{Adobe Acrobat redact all}\label{fig:adobe-redact-all}
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/related_products/adobe_redact_all.png}
@@ -855,8 +813,7 @@ Ideally, we expect our p-value to be lower than our critical value at 5\% signif
         \centering
         \includegraphics[width=\linewidth]{images/wireframes/tooltip_comment.jpg}
     \end{figure}
-    \chapter{User evaluation questionnaire}
-    \label{appendix:questionnaire}
+    \chapter{User evaluation questionnaire}\label{appendix:questionnaire}
     \includepdf[
         pages=-,
         % pagecommand={},
