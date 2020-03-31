@@ -343,14 +343,14 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
 
 \subsection{PDF editors}
 
+Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
+Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
+
 \begin{wrapfigure}{r}{0.5\textwidth}
     \includegraphics[width=\linewidth]{images/related_products/adobe_redaction.png}
     \caption{Acrobat redaction workflow}\label{fig:adobe-redaction}
     \vspace{-20pt}
 \end{wrapfigure}
-
-Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
-Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
 
 Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents.
 The principle is simple: select text, click redact and browse a nested context menu to select an exemption (Figure~\ref{fig:adobe-redaction}).
@@ -484,9 +484,9 @@ As mentioned we include a user study within the scope of this study to evaluate 
 %==================================================================================================================================
 \chapter{Design}
 
-link back to requirements
+% link back to requirements
 
-choice of technologies
+% choice of technologies
 
 \section{Machine Learning Model and explanations}
 
@@ -548,16 +548,16 @@ These problems mostly become prominent on larger scale projects, hence we opted 
 
 \section{Application Structure and Technology stack}
 
+We chose to package all these services as \textcite{Docker2020} containers.
+Docker is a high level container-based virtualization tool.
+A docker container performs better than a Virtual Machine (VM) as it runs on the host's kernel while also providing a good level of isolation from the host through namespaces and cgroups.
+Most importantly, the docker ecosystem is much evolved than alternative containerization technologies like \textcite{Lxc2020} thanks notably to the \textcite{DockerHub} with many base images, but also a more widespread use, documentation and support as well as powerful orchestration tools for large scale deployments like \textcite{Kubernetes2020}.
+
 \begin{wrapfigure}{r}{0.4\textwidth}
     \includegraphics[width=\linewidth]{figures/tech_stack_no_background.pdf}
     \caption{Harpocrates tech stack}\label{fig:tech_stack}
     \vspace{-10pt}
 \end{wrapfigure}
-
-We chose to package all these services as \textcite{Docker2020} containers.
-Docker is a high level container-based virtualization tool.
-A docker container performs better than a Virtual Machine (VM) as it runs on the host's kernel while also providing a good level of isolation from the host through namespaces and cgroups.
-Most importantly, the docker ecosystem is much evolved than alternative containerization technologies like \textcite{Lxc2020} thanks notably to the \textcite{DockerHub} with many base images, but also a more widespread use, documentation and support as well as powerful orchestration tools for large scale deployments like \textcite{Kubernetes2020}.
 
 In our case however, we do not go as far as deploying the application, as such, we have no need for a powerful (and complex) orchestrator.
 Rather we opt to ``orchestrate'' our docker containers using \textcite{DockerCompose2020}, a simpler python program to define a \verb|docker-compose.yml| file containing port mappings, container, network and volume definitions for a docker-compose ``stack'' of containers thus combining multiple services into a usable application.
