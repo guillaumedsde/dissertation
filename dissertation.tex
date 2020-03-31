@@ -548,16 +548,30 @@ These problems mostly become prominent on larger scale projects, hence we opted 
 
 \section{Application Structure and Technology stack}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.4\textwidth}
     \includegraphics[width=\linewidth]{figures/tech_stack_no_background.pdf}
     \caption{Harpocrates tech stack}\label{fig:tech_stack}
+    \vspace{-10pt}
 \end{wrapfigure}
+
+We chose to package all these services as \textcite{Docker2020} containers.
+Docker is a high level container-based virtualization tool.
+A docker container performs better than a Virtual Machine (VM) as it runs on the host's kernel while also providing a good level of isolation from the host through namespaces and cgroups.
+Most importantly, the docker ecosystem is much evolved than alternative containerization technologies like \textcite{Lxc2020} thanks notably to the \textcite{DockerHub} with many base images, but also a more widespread use, documentation and support as well as powerful orchestration tools for large scale deployments like \textcite{Kubernetes2020}.
+
+In our case however, we do not go as far as deploying the application, as such, we have no need for a powerful (and complex) orchestrator.
+Rather we opt to ``orchestrate'' our docker containers using \textcite{DockerCompose2020}, a simpler python program to define a \verb|docker-compose.yml| file containing port mappings, container, network and volume definitions for a docker-compose ``stack'' of containers thus combining multiple services into a usable application.
+
+Our application's ``stack'' is illustrated in Figure \ref{fig:tech_stack}: it contains three containers.
+The first is an \textcite{NGINX2020} web server containers that contains and serves the compiled source code for our ReactJS frontend.
+It interacts with a python container which run the Flask API server, this image is based off \textcite{GoogleContainerToolsDistroless2020}'s smaller and more secure ``distroless'' python 3 image \autocite{mooreDistrolessDockerContainerizing2017}.
+Lastly, the API uses the official \textcite{MongoDB2020} container as a NoSQL database for storing documents, redactions and classifications.
 
 %==================================================================================================================================
 \chapter{Implementation}
 
 
-% show coponennt code and how it gets data from backend
+% show component code and how it gets data from backend
 
 % show lime explanations generation
 
