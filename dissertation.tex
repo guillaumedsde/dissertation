@@ -540,7 +540,7 @@ The question of the choice of framework, remained, specifically since the OpenAP
 
 We chose the implementation that makes use of an OpenAPI wrapper around Flask called Connexion which handles ``the mapping from the specification to the code.
 This incentivizes you to write the specification'' \autocite{ZalandoConnexion2020}.
-Furthermore, Flask is a Python API framework that is extensible with libraries notably implementing file upload size limits for requirement \textbf{W2}. Furthemore it is widely used by major technology companies like Reddit or Netflix \autocite{WhyDevelopersFlask}, a testament to its robustness and level of support which streamlines the implementation of requirement \textbf{M9}.
+Furthermore, Flask is a Python API framework that is extensible with libraries notably implementing file upload size limits for requirement \textbf{W2}. Furthermore it is widely used by major technology companies like Reddit or Netflix \autocite{WhyDevelopersFlask}, a testament to its robustness and level of support which streamlines the implementation of requirement \textbf{M9}.
 
 Furthermore, the Connexion+Flask implements the Oauth2 Authentication specification for API endpoints, a state of the art authentication framework that allows us to securely authenticate reviewers for requirements \textbf{C5} \autocite{jonesOAuthAuthorizationFramework2012}.
 
@@ -664,8 +664,26 @@ This one way data binding simplifies the flow of information thus making them ea
 
 
 \begin{listing}[H]
-    \inputminted{jsx}{code/documentSensitivityBar.js}
+    \inputminted{jsx}{code/documentSensitivityBar.jsx}
     \caption{Document sensitivity bar}\label{listing:sensitivity_bar}
+\end{listing}
+
+\section{API calls from ReactJS components}
+
+As mentioned, our OpenAPI specification allows us to generate a finished JS API client.
+Provided our server implementation matches our specification, there is no need to modify the generated API client and it works ``out of the box''.
+
+Listing~\ref{listing:newSetForm} illustrates this API client in use.
+On line 13 we instantiate our client which we then use to post a new set to the API in the event handler function (Line 15) for our submit form.
+We assign our event handler as a callback to the set creation form on Line 32.
+
+In Listing~\ref{listing:newSetForm} we also see an example of the state management in ReactJS.
+Upon instantiating \verb|newSetName| with a default value on line 10, we also receive a setter function to modify the component's newly created state.
+When the value within the \verb|TextField| component (Line 34) changes, this setter function is used to modify the component's state with the new value for the set name.
+
+\begin{listing}[H]
+    \inputminted{jsx}{code/newSetForm.jsx}
+    \caption{New document set form}\label{listing:newSetForm}
 \end{listing}
 
 \section{Version-Control and Continuous Integration}
@@ -717,7 +735,7 @@ It is another Github bot that calculates code coverage for every commit and post
 
 \section{Code Testing}
 
-\section{Expert Panel}
+\section{Expert Panel Review}
 
 \section{User Study}
 
