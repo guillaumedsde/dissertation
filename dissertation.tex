@@ -402,56 +402,59 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 \section{MoSCoW Functional Requirements}
 
 % TODO reformulate this into something more formal
-\begin{minipage}[t]{.5\linewidth}
-    \centerline{\textbf{Must Have}}
-    \begin{enumerate}[label=\textbf{M\arabic*}]
-        \item Document Set creation and deletion
-        \item Within a set, plaintext document creation and deletion
-        \item Predicted document sensitivity classification (sensitive or not?)
-        \item Explanation for aforementioned classifications
-        \item User classification of a document (sensitive or not?)
-        \item Overall document set sensitivity statistics (number of sensitive documents etc\ldots)
-        \item Document sets order documents by sensitivity
-        \item User redactions of a document with text highlighting, with possible edits and save functionality
-        \item Final redacted document exporting
-        \item Documentation for API
-    \end{enumerate}
-\end{minipage}
-\hfill
-\noindent
-\begin{minipage}[t]{.5\linewidth}
-    \centerline{\textbf{Should Have}}
-    \begin{enumerate}[label=\textbf{S\arabic*}]
-        \item User redactions helper (highlight all instances of redacted text, could do this on a document set level)
-        \item For a document, suggest redaction of sensitive elements
-        \item Fulltext document search
-    \end{enumerate}
-\end{minipage}
+\begin{adjustbox}{width=\textwidth,center}
+    \begin{minipage}[t]{.5\linewidth}
+        \centerline{\textbf{Must Have}}
+        \begin{enumerate}[label=\textbf{M\arabic*}]
+            \item Document Set creation and deletion
+            \item Within a set, plaintext document creation and deletion
+            \item Predicted document sensitivity classification (sensitive or not?)
+            \item Explanation for aforementioned classifications
+            \item User classification of a document (sensitive or not?)
+            \item Document set statistics (number of sensitive documents etc\ldots)
+            \item Document sets order documents by sensitivity
+            \item User redactions of a document with text highlighting, with possible edits and save functionality
+            \item Final redacted document exporting
+            \item Documentation for API
+        \end{enumerate}
+    \end{minipage}
+    \hfill
+    \noindent
+    \begin{minipage}[t]{.5\linewidth}
+        \centerline{\textbf{Should Have}}
+        \begin{enumerate}[label=\textbf{S\arabic*}]
+            \item User redactions helper (highlight all instances of redacted text, could do this on a document set level)
+            \item For a document, suggest redaction of sensitive elements
+            \item Fulltext document search
+        \end{enumerate}
+    \end{minipage}
+\end{adjustbox}
 
 \vspace{0.5cm}
 
-\begin{minipage}[t]{.5\linewidth}
-    \centerline{\textbf{Could Have}}
-    \begin{enumerate}[label=\textbf{C\arabic*}]
-        \item Extract and display entities from document
-        \item Possibility of using different text Classifiers
-        \item Documentation for API SDK
-        \item Documentation for frontend
-        \item Reviewer authentication
-    \end{enumerate}
-\end{minipage}
-\hfill
-\noindent
-\begin{minipage}[t]{.5\linewidth}
-    \centerline{\textbf{Would Have}}
-    \begin{enumerate}[label=\textbf{W\arabic*}]
-        \item Handle more than plain text files (PDF, Word etc…)
-        \item Specified and enforced document size and count upload limits
-        \item ``Loopback Learning'' user redactions help improve future predictions
-        \item Deployed ``production'' web application
-    \end{enumerate}
-\end{minipage}
-
+\begin{adjustbox}{width=\textwidth,center}
+    \begin{minipage}[t]{.5\linewidth}
+        \centerline{\textbf{Could Have}}
+        \begin{enumerate}[label=\textbf{C\arabic*}]
+            \item Extract and display entities from document
+            \item Possibility of using different text Classifiers
+            \item Documentation for API SDK
+            \item Documentation for frontend
+            \item Reviewer authentication
+        \end{enumerate}
+    \end{minipage}
+    \hfill
+    \noindent
+    \begin{minipage}[t]{.5\linewidth}
+        \centerline{\textbf{Would Have}}
+        \begin{enumerate}[label=\textbf{W\arabic*}]
+            \item Handle more than plain text files (PDF, Word etc…)
+            \item Specified and enforced document size and count upload limits
+            \item ``Active Learning'': user redactions help improve future predictions
+            \item Deployed ``production'' web application
+        \end{enumerate}
+    \end{minipage}
+\end{adjustbox}
 \section{Scope and non-functional definition}
 
 We should reiterate that our objective is not to have a ``production ready'' deployable application.
