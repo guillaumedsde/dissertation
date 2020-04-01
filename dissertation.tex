@@ -35,7 +35,7 @@
 
 % Referencing 
 \setmainlanguage{english}
-\usepackage[backend=biber,date=year,alldates=year,urldate=short,bibstyle=apa,maxcitenames=2,uniquelist=false,citestyle=authoryear]{biblatex}
+\usepackage[backend=biber,date=year,alldates=year,urldate=short,bibstyle=apa,maxcitenames=2,uniquelist=false,citestyle=authoryear,block=ragged]{biblatex}
 \DeclareLanguageMapping{english}{english-apa}
 \AtEveryCite{%
   \clearfield{month}%
@@ -202,7 +202,7 @@ It is safe to say that Greenwald's team's work on the Snowden archive is dwarfed
 In order to preserve this paradigm, the magnitude of records calls for digital tools to accelerate the sensitivity review process.
 Otherwise, the risk is for Public Institutions to become overwhelmed by their review backlog forcing them to resort to blanket closure of records for extended periods (a century), delegating the handling of sensitive information to the erosion of time and preventing rightful Public access.
 
-\section{Objectives}
+\section{Objective}
 
 Our aim is to contribute to the research into these tools to assist sensitivity reviewers with Technology Assisted Review (TAR).
 Notably, we seek to extend the work in this emerging field which has produced Machine Learning classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources and thus process documents faster.
@@ -212,7 +212,7 @@ We want to introduce an approach to visualizing sensitive information within doc
 Our objective is to design, build and evaluate a proof of concept fullstack application for classifying, visualizing and redacting potentially sensitive documents.
 Ideally, we aim to decrease the time reviewers spend on documents and/or allow them to more accurately identify sensitive documents.
 
-\section{Overview}
+\section{Outline}
 % TODO update overview with newly added sections:
 %   - Literature Review - Explanations in Machine Learning
 
@@ -716,7 +716,7 @@ We conducted a user evaluation in order to evaluate the effectiveness of our app
 \section{Dataset and classifier experimentations}
 
 Our collection is a set of 3801 Government documents relating to International Activities sensitivity assessed by government sensitivity reviewers.
-The ground truth for document sensitivity was established with respect to sections 40 (S40) (Personal Information) and 27 (S27) (International Relations) of the Freedom of Information Act (FOIA).
+The ground truth for document sensitivity was established with respect to sections 40 (S40, Personal Information) and 27 (S27, International Relations) of the Freedom of Information Act (FOIA).
 This appraisal resulted in 502 (13\%) documents deemed sensitive to either S40, S27 or both with 3299 non sensitive documents (87\%).
 
 Due to our lack of access to expert document reviewers, we conducted our study with students either from an academic Politics background or with International Relations awareness.
@@ -794,18 +794,18 @@ The independent variables will a set of two user interfaces: with and without th
 \end{itemize}
 
 % t-test for review time (because time is a continuous variable)
-Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} ()\textbf{H1}).
+Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} (\textbf{H1}).
 To evaluate this, we perform a paired sample one-tailed Student's T-Test, pairing review times of a given document on interface 1 and on interface 2.
 Since we randomely alternate between both interfaces we are able to pair all review times for a document reviewed on interface 1 with another review time for that same document on interface 2.
 Ideally, we expect our p-value to be lower than our critical value at a 95\% confidence level, allowing us to confirm \textbf{H1} for our sample.
 
-In answer to \textbf{RQ2} we suggest that \textit{Interface 1 significantly improves the the accuracy of reviewers} ()\textbf{H2}).
+In answer to \textbf{RQ2} we suggest that \textit{Interface 1 significantly improves the the accuracy of reviewers} (\textbf{H2}).
 To confirm or refute \textbf{H2}, we evaluate the significance for both the difference in balanced accuracy and \(F_{2}\) measure at 95\% confidence.
 Since Interface 1 essentially contains a predicted sensitivity which might be taken as a guideline by our participants, we assume an unequal variance in distribution of review performance in interface 1 and 2.
 Indeed, we expect the accuracy for documents reviewed with interface 1 to be more ``clustered'' together: namely around the classifier's predicted sensitivity.
 Once again, we perform a paired sample one-tailed Student's T-Test, pairing performance for a given document on interface 1 with that same metric and document on interface 2.
 
-Lastly, we suppose that \textit{Interface 1 significantly improves the the confidence of participants in the quality of their sensitivity review} ()\textbf{H3}) in resposne to \textbf{RQ3}.
+Lastly, we suppose that \textit{Interface 1 significantly improves the the confidence of participants in the quality of their sensitivity review} (\textbf{H3}) in resposne to \textbf{RQ3}.
 To answer \textbf{H3},
 Since our sample size is expectedly quite restricted, we prefer Fisher's exact test over a Chi-square test for testing the significance of the difference in confidence between interface 1 and 2 to answer \textbf{H3}.
 
@@ -903,6 +903,6 @@ Since our sample size is expectedly quite restricted, we prefer Fisher's exact t
 
 \vspace*{\fill}
 % print license
-\doclicenseThis
+\doclicenseThis%
 
 \end{document}
