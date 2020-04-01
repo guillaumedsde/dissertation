@@ -185,14 +185,22 @@
 
 \lettrine[lines=3,nindent=0em]{O}{n} June 2nd 2013, in a busy Hongkongese commercial district, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists refuged in one of the 492 rooms of the Mira Hotel.
 It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
-Months later, even after develop�ng indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
+Months later, even after developing indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
 Despite this, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
 
 In the United Kingdom (UK), the \textcite{PublicRecordsAct1958} created what is today known as The National Archives (TNA), a public institution keeper of governmental records that the act stipulates, should be released within thirty years of their creation.
 The \textcite{FreedomInformationAct2000} (FOIA) later introduced a public ``right of access'' through requests to information held by public authorities.
-Most recently, the \textcite{ConstitutionalReformGovernance2010}.
+Most recently, the \textcite{ConstitutionalReformGovernance2010} reduced the time to a record's publication from 30 years to 20 years after their creation.
 
-These documents have to be sensitivity reviewed in order to redact information exempted from disclosure by the FOIA, this includes, amongst other exceptions, personal information or information deemed harmful to international relations.
+These documents have to be sensitivity reviewed in order to redact information exempted from disclosure by the FOIA.
+This includes, amongst other exceptions, personal information (Section 40 ``S40''), information deemed harmful to international relations (Section 27 ``S27''), confidential information (Section 41 ``S41'') and commercial interests (Section 43 ``S43'').
+Figure \ref{fig:fracking_report} illustrates and example of such redacted exemptions in \textcite{StateUKShale2016}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/fracking_report_22.pdf}
+    \caption{Heavily redacted excerpt from \textcite[22]{StateUKShale2016}, a report containing S41 and S43 FOIA exemptions but released in redacted form by order of \textcite{judgeshanksCabinetOfficeICO2018} following a Greenpeace FOIA request}\label{fig:fracking_report}
+\end{figure}
 
 This sensitivity review process is particularly time consuming because it has to be thorough: everything that is released has to be reviewed.
 The scale of this task cannot be understated: in 2014 the total number of documents pending release stood at a staggering 817,615 records across all British government departments \autocite{allanRecordsReview2014,thenationalarchivesRecordTransferReport2014}.
@@ -496,20 +504,23 @@ As mentioned we include a user study within the scope of this study to evaluate 
 \chapter{Design}
 
 % link back to requirements
-
 % choice of technologies
+
+\section{Application structure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/design_diagram.pdf}
+    \caption{Application Structure and information flow}\label{fig:design_diagram}
+\end{figure}
 
 \section{Machine Learning Model and explanations}
 
 % TODO this sounds too much like a list
-
+% TODO justify choice of ML library
 We use the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitiity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}. For performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
 
 We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the Lime library \autocite{ribeiroWhyShouldTrust2016} which provides per-feature weights explaining the feature's contribution to the final classification.
-
-% TODO 
-\autocite{lundbergUnifiedApproachInterpreting2017} Shapley values
-
 
 \section{OpenAPI specification and generator}
 
@@ -557,57 +568,41 @@ It does however introduce more complex state management due to its ``one-way dat
 These problems mostly become prominent on larger scale projects, hence we opted for the flexibility of ReactJS for a quickly starting development, albeit encountering some of these state management issues in the latter stages of the project.
 % TODO refer back to proof of concept scope of project to justify this
 
-\section{Application Structure and Technology stack}
+\section{Packaging application components}
 
 We chose to package all these services as \textcite{Docker2020} containers.
 Docker is a high level container-based virtualization tool.
 A docker container performs better than a Virtual Machine (VM) as it runs on the host's kernel while also providing a good level of isolation from the host through namespaces and cgroups.
 Most importantly, the docker ecosystem is much evolved than alternative containerization technologies like \textcite{Lxc2020} thanks notably to the \textcite{DockerHub} with many base images, but also a more widespread use, documentation and support as well as powerful orchestration tools for large scale deployments like \textcite{Kubernetes2020}.
 
+In our case however, we do not go as far as deploying the application, as such, we have no need for a powerful (and complex) orchestrator.
+Rather we opt to ``orchestrate'' our docker containers using \textcite{DockerCompose2020}, a simpler python program to define a \verb|docker-compose.yml| file containing port mappings, container, network and volume definitions for a docker-compose ``stack'' of containers thus combining multiple services into a usable application.
+
+%TODO smoothly transition to next section
+
+
+
+%==================================================================================================================================
+\chapter{Implementation}
+
 \begin{wrapfigure}{r}{0.4\textwidth}
     \includegraphics[width=\linewidth]{figures/tech_stack_no_background.pdf}
     \caption{Harpocrates tech stack}\label{fig:tech_stack}
-    \vspace{-10pt}
+    \vspace{-50pt}
 \end{wrapfigure}
 
-In our case however, we do not go as far as deploying the application, as such, we have no need for a powerful (and complex) orchestrator.
-Rather we opt to ``orchestrate'' our docker containers using \textcite{DockerCompose2020}, a simpler python program to define a \verb|docker-compose.yml| file containing port mappings, container, network and volume definitions for a docker-compose ``stack'' of containers thus combining multiple services into a usable application.
+% TODO introduce section
 
 Our application's ``stack'' is illustrated in Figure \ref{fig:tech_stack}: it contains three containers.
 The first is an \textcite{NGINX2020} web server containers that contains and serves the compiled source code for our ReactJS frontend.
 It interacts with a python container which run the Flask API server, this image is based off \textcite{GoogleContainerToolsDistroless2020}'s smaller and more secure ``distroless'' python 3 image \autocite{mooreDistrolessDockerContainerizing2017}.
 Lastly, the API uses the official \textcite{MongoDB2020} container as a NoSQL database for storing documents, redactions and classifications.
 
-%==================================================================================================================================
-\chapter{Implementation}
 
-
-% show component code and how it gets data from backend
-
-% show lime explanations generation
-
-% key ``features'' code overview
-
-\section{OpenAPI definitions}
-
-\begin{listing}[H]
-    \inputminted{yaml}{code/predictedClassification.yml}
-    \caption{Defining a predictedClassification response object in OpenAPI}\label{listing:predictedClassification_yml}
-\end{listing}
-
-Listing~\ref{listing:predictedClassification_yml} and Listing~\ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
-
-One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for strict type and value checking of variables at both the server and client levels (Listing~\ref{listing:predictedClassification_yml}, line 11-15).
-
-Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|.
-This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
-
-\begin{listing}[H]
-    \inputminted{yaml}{code/getPredictedClassification.yml}
-    \caption{Defining a GET endpoint in OpenAPI}\label{listing:getPredictedClassification_yml}
-\end{listing}
+% TODO show component code and how it gets data from backend
 
 \section{Machine Learning Pipeline}
+
 Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
 
 The first step consist in a TF-IDF transformer to convert the document's text to a numeric vector.
@@ -631,6 +626,26 @@ We also perform a grid search with five fold cross-validation to tune the parame
 \begin{listing}[H]
     \inputminted{python}{code/explanations.py}
     \caption{Machine Learning classification explanations}\label{listing:ml_explanations}
+\end{listing}
+
+
+\section{OpenAPI definitions}
+
+\begin{listing}[H]
+    \inputminted{yaml}{code/predictedClassification.yml}
+    \caption{Defining a predictedClassification response object in OpenAPI}\label{listing:predictedClassification_yml}
+\end{listing}
+
+Listing~\ref{listing:predictedClassification_yml} and Listing~\ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
+
+One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for strict type and value checking of variables at both the server and client levels (Listing~\ref{listing:predictedClassification_yml}, line 11-15).
+
+Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|.
+This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
+
+\begin{listing}[H]
+    \inputminted{yaml}{code/getPredictedClassification.yml}
+    \caption{Defining a GET endpoint in OpenAPI}\label{listing:getPredictedClassification_yml}
 \end{listing}
 
 \section{ReactJS components}
@@ -778,12 +793,14 @@ The other, \textit{test mode 2} (Figure~\ref{fig:test-mode-2}) is a stripped dow
     \caption{The two test modes used for evaluation}\label{fig:test-modes}
 \end{figure}
 
+We asked our participants to review each set of test documents with one of the two interfaces.
+The starting interface and the document order within each set was chosen randomly in to minimize the learning effect on the reviewing task.
+After each batch of documents, we handed our reviewers sections of a questionnaire (Appendix~\ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
+This questionnaire is split into three sections, the first two were an identical based on the System Usability Survey (SUS) format \autocite[Chap.~21]{jordanUsabilityEvaluationIndustry1996} which aimed at evaluating the interface as a whole.
+The first two sections were answered after each review batch was completed, then, the last section was handed out.
+It seeks to evaluate the usefulness of each invidual component in interface 1.
 
 \subsection{Results}
-
-We ask our testers to review each set of test documents with one of the two interfaces.
-The starting interface and the document order within each set is chosen randomly in to minimize the learning effect on the reviewing task.
-After each batch of documents, we hand our reviewers a questionnaire (Appendix~\ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
 
 As mentioned, each user is asked to review one collection of six documents for personal information sensitivities (FOIA Section 40) for each user interface.
 The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables against our two interfaces (the independant variables):
@@ -797,21 +814,20 @@ The independent variables will a set of two user interfaces: with and without th
 \end{itemize}
 
 % t-test for review time (because time is a continuous variable)
-Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} (\textbf{H1}).
+Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} (\textbf{H1}) along with a null hypothesis stating that \textit{There is no statistically significant improvement to the document review time with interface 1} (\(\mathbf{H1_{null}}\)) .
 To evaluate this, we perform a paired sample one-tailed Student's T-Test, pairing review times of a given document on interface 1 and on interface 2.
 Since we randomely alternate between both interfaces we are able to pair all review times for a document reviewed on interface 1 with another review time for that same document on interface 2.
 Ideally, we expect our p-value to be lower than our critical value at a 95\% confidence level, allowing us to confirm \textbf{H1} for our sample.
 
-In answer to \textbf{RQ2} we suggest that \textit{Interface 1 significantly improves the the accuracy of reviewers} (\textbf{H2}).
-To confirm or refute \textbf{H2}, we evaluate the significance for both the difference in balanced accuracy and \(F_{2}\) measure at 95\% confidence.
+In answer to \textbf{RQ2} we suggest that \textit{Interface 1 significantly improves the the accuracy of reviewers} (\textbf{H2}) with our null hypothesis thus being that \textit{Interface 1 does not significantly improve the the accuracy of reviewers} (\(\mathbf{H2_{null}}\)).
+To confirm \textbf{H2} or \(\mathbf{H2_{null}}\), we evaluate the significance for both the difference in balanced accuracy and \(F_{2}\) measure at 95\% confidence.
 Since Interface 1 essentially contains a predicted sensitivity which might be taken as a guideline by our participants, we assume an unequal variance in distribution of review performance in interface 1 and 2.
 Indeed, we expect the accuracy for documents reviewed with interface 1 to be more ``clustered'' together: namely around the classifier's predicted sensitivity.
 Once again, we perform a paired sample one-tailed Student's T-Test, pairing performance for a given document on interface 1 with that same metric and document on interface 2.
 
-Lastly, we suppose that \textit{Interface 1 significantly improves the the confidence of participants in the quality of their sensitivity review} (\textbf{H3}) in resposne to \textbf{RQ3}.
-To answer \textbf{H3},
-Since our sample size is expectedly quite restricted, we prefer Fisher's exact test over a Chi-square test for testing the significance of the difference in confidence between interface 1 and 2 to answer \textbf{H3}.
-
+Lastly, we suppose that \textit{Interface 1 significantly improves the the confidence of participants in the quality of their sensitivity review} (\textbf{H3}) or that \textit{Interface 1 does no significantly improves the the confidence of participants in the quality of their sensitivity review} (\(\mathbf{H3_{null}}\)) in response to \textbf{RQ3}.
+Since our sample size is expectedly quite restricted, we prefer Fisher's exact test over a Chi-square test for testing the significance of the difference in confidence between interface 1 and 2 to validate \textbf{H3} or \(\mathbf{H3_{null}}\).
+%TODO finish detailing fisher's exact test
 
 %==================================================================================================================================
 \chapter{Conclusion}
