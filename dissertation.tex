@@ -330,7 +330,7 @@ This shows that perhaps, these sort of overviews could also be used before viewi
 
 \textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features (Figure~\ref{fig:font-size}).
 It is not certain this would be a good thumbnail, the highlighted portions definitely show where key features are in the document, but a lot of the document structure is lost.
-However varying font size within a \textit{reasonable range} ould be an interesting visualization for the visualizing feature importance in a prediction.
+However varying font size within a \textit{reasonable range} would be an interesting visualization for the visualizing feature importance in a prediction.
 
 \subsection{Distortion}
 
@@ -611,7 +611,7 @@ This object oriented approach allows us to avoid code repetition but also automa
 Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
 
 The first step consist in a TF-IDF transformer to convert the document's text to a numeric vector.
-We optimized our vectorizer parameters by performing a grid search with five fold cross-validation, the optimal parameter space depends on the use case.
+We optimized our vectorizer's parameters by performing a grid search with five fold cross-validation to avoid overfitting, the optimal parameter space depends on the use case.
 
 We then resample our highly unbalanced training data with the \textcite{ScikitlearncontribImbalancedlearn2020} library from \textcite{lemaitreImbalancedlearnPythonToolbox2017}.
 It implements common resampling techniques \autocite{lemaitreImbalancedlearnPythonToolbox2017}, we use a combination over under and over sampling depending on the use case.
