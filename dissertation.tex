@@ -287,16 +287,25 @@ Moreover, ``by all measures, the average efficiency and effectiveness of the fiv
 The task at hand is different from the sensitivity review of sensitive documents.
 Firstly, the implications of missing a relevant document in sensitivity review can be far greater than in legal discovery.
 The works we have cited above only manually reviewed fractions of their document collection, accepting a level of ``misclassification'' that is not tolerable in sensitivity review.
-% TODO Source this in the works of the Macdonalds
-Indeed, even with reliable classifiers, all documents will need to be manually reviewed for sensitivities.
-The task of identifying ``privileged'' information in legal discovery documents is the one that comes closest that of sensitivity review.
+Thus, the task of identifying ``privileged'' information in legal discovery documents is the one that comes closest that of sensitivity review \autocite{berardiSemiAutomatedTextClassification2015} because of the skewed importance towards recall rather than precision.
 
 \section{Explanations in Machine Learning}
 
+In fact, research in Technology Assisted Sensitivity Review (TASR) has determined that ``all government documents will continue to be manually sensitivity reviewed for the foreseeable future'' \autocite[1]{mcdonaldHowSensitivityClassification2019}.
+Early on in the research on TSAR, the emphasis has been on design systems that support reviewers rather than ones that replace them \autocite{mcdonaldClassifierDigitalSensitivity2014}.
+This speaks to the level of trust we confer to these systems, while they might yield impressive results, we are not willing to delegate tasks we deem crucial to them entirely.
 
-\autocite{ribeiroWhyShouldTrust2016}
+This lack of trust is attributed to our lack of complete understanding of the decision process of such automated systems which are often referred to as ``black boxes'' \autocite{ribeiroWhyShouldTrust2016}.
+Recent research into Explanation techniques for Machine Learning models have noted this need for interpretability.
+\textcite{ribeiroWhyShouldTrust2016} devise a method called ``Local Interpretable Model-agnostic Explanations'' (LIME).
+LIME provides explanations for individual predictions by any model.
+It does so by sampling $k$ features from a model and evaluating the behaviour of a linear model trained with the $k$ sampled features in the vicinity of the actual prediction.
+This allows them to calculate feature weights denoting ``how much'' each contributed to the actual model's local prediction by randomly sampling them from the original model.
 
-\autocite{lundbergUnifiedApproachInterpreting2017}
+\textcite{lundbergUnifiedApproachInterpreting2017} expand on this work with a technique called ``SHapley Additive exPlanations'' (SHAP) by calculating predictions for all possible combinations of features.
+They use Shapley values \autocite{shapleyNotesNPersonGame1951}, a Game Theory concept for calculating individuals' contribution to a group, in order to compute a score for each feature's contribution to the classification.
+\textcite{lundbergUnifiedApproachInterpreting2017} formally demonstrate that Shapley values are the \textit{only} possible solution for an explanation model to be locally accurate, consistent and also respect \textit{missingness} (no attribution of score to absent features).
+While some approximation techniques and optimizations on certain ML models mitigate this, its main drawback is that it is significantly more complex to compute since it explores all possible input feature combinations.
 
 \section{Approaches to document visualization}
 
@@ -747,21 +756,21 @@ We conducted a user evaluation in order to evaluate the effectiveness of our app
     \item Does it improve reviewers' confidence in the completeness of their sensitivity review?
 \end{enumerate}
 
-\subsection{Preparations and Experimental Setup}
+\subsection{Dataset and classifier experimentations}
 
-\section{Dataset and classifier experimentations}
-
-Our collection is a set of 3801 Government documents relating to International Activities sensitivity assessed by government sensitivity reviewers.
-The ground truth for document sensitivity was established with respect to sections 40 (S40, Personal Information) and 27 (S27, International Relations) of the Freedom of Information Act (FOIA).
+Before conducting the study, we sought to improve the classifier to obtain sufficient performance so that it could be as helpful as possible to participants.
+The document collection we had access to is a set of 3801 Government documents relating to International Activities.
+The ground truth for document sensitivity was established by government sensitivity reviewers with respect to S40 (Personal Information) and S27 (International Relations) of the FOIA.
 This appraisal resulted in 502 (13\%) documents deemed sensitive to either S40, S27 or both with 3299 non sensitive documents (87\%).
 
-Due to our lack of access to expert document reviewers, we conducted our study with students either from an academic Politics background or with International Relations awareness.
-We focus on identifying ``Personal Information'' exceptions to the FOIA which we deem more ``attainable'' given our non-expert test subjects.
+Due to our lack of access to expert document reviewers, we sought to conduct our study with students either from an academic Politics background or with International Relations awareness.
+We focused on identifying ``Personal Information'' exceptions to the FOIA which we deem more ``attainable'' given our non-expert test subjects.
+Moreover, we expected to obtain better performance by targeting our classifier at a specific sensitivity rather than on our entire range of sensitivities (S27 and S40 in our case).
 
-Our dataset contains 289 documents with S40 exemptions, we split the collection in order to obtain a stratified sample ``test set'' 20\% the size of the entire collection.
-We vectorize the remaining 80\% ``train set'' using Scikit-Learn's \verb|TfidfVectorizer|.
-We resamplethe resulting vectors to achieve better class balance with imblearn's \verb|SMOTEENN|, a combination of majority class downsampling and minority class upsampling \autocite{lemaitreImbalancedlearnPythonToolbox2017}.
-We use the resulting collection of resampled vectors to train a SVC for binary classification of documents depending on whether or not they contain sensitive information.
+In particular, our dataset contained 289 documents with S40 exemptions, we split the collection in order to obtain a stratified sample ``test set'' 20\% the size of the entire collection.
+We vectorized the remaining 80\% ``train set'' using Scikit-Learn's \verb|TfidfVectorizer|.
+We then resampled the resulting vectors to achieve better class balance with imblearn's \verb|SMOTEENN|, a combination of majority class downsampling and minority class upsampling \autocite{lemaitreImbalancedlearnPythonToolbox2017}.
+We used the resulting collection of resampled vectors to train a SVC for binary classification of documents: whether or not they contain sensitive information according to S40.
 Table \ref{tab:clf_perf} shows the results we obtained while trying to find a classifier with satisfactory performance for our user study.
 
 \begin{table}[H]
@@ -779,8 +788,12 @@ Table \ref{tab:clf_perf} shows the results we obtained while trying to find a cl
     \caption{Best performing classifiers using 5-fold cross validation targeting different metrics and sensitive classifications}\label{tab:clf_perf}
 \end{table}
 
-Due to time constraints, we only sample documents to review from the test set that are under 2000 characters.
-We then selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier with the following counts:
+% TODO comment on results
+
+\subsection{Experimental Setup}
+
+Due to time constraints, we only sampled documents to review from the test set that were under 2000 characters.
+We then selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier as illustrated in Table~\ref{tab:confusion-matrix-selection}.
 
 \begin{table}[H]
     \centering
