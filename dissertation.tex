@@ -132,7 +132,7 @@
 
 \renewcommand{\abstractname}{Acknowledgements}
 \begin{abstract}
-    I wish to express my gratitude to both my supervisors, Craig Macdonald and Graham McDonald for their support, guidance and feedback throughout this project.
+    I wish to express my gratitude to both my supervisors, Craig Macdonald and Graham McDonald for their support, guidance and feedback throughout the year.
 
     I would also like to thank the expert panel for their invaluable feedback on this project.
 \end{abstract}
@@ -249,8 +249,6 @@ Lastly before concluding, we detail the findings from an evaluation by an expert
 
 \subsection{Technology Assisted Sensitivity Review}
 
-\autocite{sanchezDetectingSensitiveInformation2012}
-
 Research into the application of TAR to sensitivity review began with \textcite{mcdonaldClassifierDigitalSensitivity2014} which established an initial Machine Learning sensitivity classifier.
 They combined the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition and achieved a balanced accuracy (BAC) of 0.63 for FOIA S27 and 0.74 for S40.
 
@@ -325,16 +323,16 @@ Our main focus is on summarizing the dense information spaces into a visualizati
 
 \subsection{Lexical Episode Plots}
 %
-\begin{wrapfigure}{r}{0.38\textwidth}
+\begin{wrapfigure}{r}{0.45\textwidth}
     \centering
-    \begin{subfigure}[c]{0.19\textwidth}
+    \begin{subfigure}[c]{0.23\textwidth}
         \centering
         \small
         \includegraphics[width=\linewidth]{images/document_visualization/topic-overview.png}
         \caption{Lexical Episode Plots}\label{fig:lexical_plot}
     \end{subfigure}
     \hspace{0.01\textwidth}
-    \begin{subfigure}[c]{0.16\textwidth}
+    \begin{subfigure}[c]{0.19\textwidth}
         \centering
         \small
         \includegraphics[width=\linewidth]{images/related_products/vscode_minimap.png}
@@ -350,6 +348,8 @@ This is reminiscent of code overviews in text editors, especially those aimed at
 
 An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
 This shows that perhaps, these sort of overviews could also be used for previewing a document, for example as a popup when a document is hovered on within a collection.
+
+\vspace{0.5cm}
 
 \subsection{Varying font size}
 
@@ -426,10 +426,10 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 %==================================================================================================================================
 \chapter{Requirements}
 
-\section{MoSCoW Functional Requirements}
-
 From this overview of literature and related products, we devise a list of functional and non-functional requirements for our application.
 We then illustrate these requirements in a set of wireframe diagrams which allow us to assert their usefulness and to verify we did not skim over important ones.
+
+\section{MoSCoW Functional Requirements}
 
 % TODO reformulate this a bit
 \begin{adjustbox}{width=0.9\textwidth,center}
@@ -627,12 +627,14 @@ Most importantly, the docker ecosystem is much evolved than alternative containe
 In our case however, we do not go as far as deploying the application, as such, we have no need for a powerful (and complex) orchestrator.
 Rather we opt to ``orchestrate'' our docker containers using \textcite{DockerCompose2020}, a simpler python program to define a \verb|docker-compose.yml| file containing port mappings, container, network and volume definitions for a docker-compose ``stack'' of containers thus combining multiple services into a usable application.
 
-%TODO smoothly transition to next section
-
+The next section details some of the key pieces of code from these services as well as how they interact together.
 
 
 %==================================================================================================================================
 \chapter{Implementation}
+
+Harpocrates is a hellenized interpretation of the child appearance of the Egyptian deity Horus \autocite{mattheyChutSigneHarpocrate2011}.
+In Greek mythology, Harpocrates is the God of silence and keeper of secrets, a fitting name for our project.
 
 \begin{wrapfigure}{r}{0.4\textwidth}
     \includegraphics[width=\linewidth]{figures/tech_stack_no_background.pdf}
@@ -640,9 +642,7 @@ Rather we opt to ``orchestrate'' our docker containers using \textcite{DockerCom
     \vspace{-50pt}
 \end{wrapfigure}
 
-% TODO introduce section
-
-Our application's ``stack'' is illustrated in Figure \ref{fig:tech_stack}: it contains three containers.
+Figure~\ref{fig:tech_stack} illustrates the three containers that make up ``Harpocrates'' our solution to this project.
 
 The first is an \textcite{NGINX2020} web server containers that contains and serves the compiled source code for our ReactJS frontend.
 It interacts with a python container which run the Flask API server, this image is based off \textcite{GoogleContainerToolsDistroless2020}'s smaller and more secure ``distroless'' python 3 image \autocite{mooreDistrolessDockerContainerizing2017}.
@@ -650,7 +650,7 @@ Lastly, the API uses the official \textcite{MongoDB2020} container as a NoSQL da
 
 \section{Machine Learning Pipeline}
 
-Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
+The core of Harpocrates: the document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
 
 The first step consist in a TF-IDF transformer to convert the document's text to a numeric vector.
 We optimized our vectorizer's parameters by performing a grid search with five fold cross-validation to avoid overfitting, the optimal parameter space depends on the use case.
@@ -796,13 +796,9 @@ It is another Github bot that calculates code coverage for every commit and post
 %==================================================================================================================================
 \chapter{Evaluation}
 
-% link back to requirements,  how have they been met?
-% Expert panel testing
-% unit testing
-
 \section{Code Testing}
 
-The first kind of evluation we carried out was by implementing testing on every commit for our application.
+The first kind of evaluation we carried out was by implementing testing on every commit for our application.
 
 We introduced a step in our CI pipeline for validation the OpenAPI specification using a validator for the specification file \autocite{IBMOpenapivalidator2020}.
 This allowed to make sure there was no regression in the quality of the specification, warning about missing examples and descriptions.
@@ -962,8 +958,7 @@ Since our sample size is expectedly quite restricted, we prefer Fisher's exact t
 %==================================================================================================================================
 \chapter{Conclusion}
 
-
-% requirements I've met
+% link back to requirements,  how have they been met?
 % reflections
 % future work
 
