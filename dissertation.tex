@@ -475,7 +475,7 @@ We then illustrate these requirements in a set of wireframe diagrams which allow
         \centerline{\textbf{Would Have}}
         \begin{multicols}{2}
             \begin{enumerate}[noitemsep,nolistsep,label=\textbf{W\arabic*}]
-                \item Handle more than plain text files (PDF, Word etc…)
+                \item Handle more than plain text files (PDF, Word\ldots)
                 \item Specified and enforced document size and count upload limits
                 \item ``Active Learning'': user redactions help improve future predictions
                 \item Deployed ``production'' web application
@@ -548,12 +548,10 @@ We now elaborate on our application's high level structure as well as the differ
 
 \section{Application structure}
 
-In Figure~\ref{fig:design_diagram} we illustrate the different services of our application as well as the flow of information.
+In Figure~\ref{fig:design_diagram} we illustrate the different services of our application as well as the flow of information during a sensitivity review workflow.
 The user interacts with the frontend to upload documents which are then sent to the API which classifies them and calculates the explanations.
 The API then stores the document in the backend and sends the classification and explanations to the frontend which will then display them to the reviewer.
 Based on this, the user will redact parts of the document, these redactions are then sent back to the API which will store them in the database.
-
-
 
 \begin{figure}[H]
     \centering
@@ -565,9 +563,13 @@ Based on this, the user will redact parts of the document, these redactions are 
 
 % TODO this sounds too much like a list
 % TODO justify choice of ML library
-We use the Scikit-Learn library to implement our Machine Learning Models \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitiity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}. For performance reasons, we replaced its SVC implementation with a drop-in parallel replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
+The core of our application is the Machine Learning (ML) model.
+To build it we used the Scikit-Learn library \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitivity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}.
+The library has a very well implemented and documented intuitive APIs for many ML classifiers (SVM, Random Forest \ldots) as well as text processing (TF-IDF, Bag of Words \ldots) evaluation and tuning (Grid Search \ldots) techniques.
+However, it sometimes fails to place performance at its core, which led us to replace its SVC implementation with a drop-in parallelized replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
 
-We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the Lime library \autocite{ribeiroWhyShouldTrust2016} which provides per-feature weights explaining the feature's contribution to the final classification.
+We satisfy our requirement \textbf{M4} for explanations and more generally better understanding of our classifier's predictions using techniques implemented by the aforementioned \textcite{ribeiroMarcotcrLime2020} library \autocite{ribeiroWhyShouldTrust2016} which provides per-feature weights explaining the feature's contribution to the final classification.
+We experimented with the previously mentioned \textcite{lundbergSlundbergShap2020} library to obtain more relevant libraries than LIME, but settled on LIME due to compute time complexity as well as implementation issues.
 
 \section{OpenAPI specification and generator}
 
