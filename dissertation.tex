@@ -273,8 +273,7 @@ They conclude that, while participants' identified sensitivities were randomly c
 
 Ongoing research in the area of Judicial practice has applied the concept of TAR to the process of legal discovery.
 This research has coined the term ``Predictive Coding'' \autocite{carrollGrossmancormackGlossaryTechnologyassisted2013} as an industry specific use of TAR in the legal practice, particularly for ``legal discovery'', the pre-trial exchange of evidence by both parties.
-Parallels can be drawn with the task of sensitivity review, specifically the process of identifying ``privileged information'' in a legal discovery corpus.
-% TODO elaborate on privilege (both attorney-client and common interest)
+Parallels can be drawn with the task of sensitivity review, specifically the process of identifying privileged information in a legal discovery corpus.
 
 \textcite{grossmanTechnologyAssistedReviewEDiscovery2010} compared the performances of a manual and TAR aided eDiscovery process with data from the various teams of the TREC 2009 Legal Track \autocite{hedinOverviewTREC2009}.
 They conclude that TAR methods lead to more accurate eDiscovery relevance estimations with significantly lower effort than with an exhaustive manual discovery process.
@@ -288,23 +287,27 @@ The task at hand is different from the sensitivity review of sensitive documents
 Firstly, the implications of missing a relevant document in sensitivity review can be far greater than in legal discovery.
 The works we have cited above only manually reviewed fractions of their document collection, accepting a level of ``misclassification'' that is not tolerable in sensitivity review.
 Thus, the task of identifying ``privileged'' information in legal discovery documents is the one that comes closest that of sensitivity review \autocite{berardiSemiAutomatedTextClassification2015} because of the skewed importance towards recall rather than precision.
+In fact, research in Technology Assisted Sensitivity Review (TASR) has determined that ``all government documents will continue to be manually sensitivity reviewed for the foreseeable future'' \autocite[1]{mcdonaldHowSensitivityClassification2019}.
+Early on in the research on TSAR, the emphasis has been on design systems that support reviewers rather than ones that replace them \autocite{mcdonaldClassifierDigitalSensitivity2014}.
 
 \section{Explanations in Machine Learning}
 
-In fact, research in Technology Assisted Sensitivity Review (TASR) has determined that ``all government documents will continue to be manually sensitivity reviewed for the foreseeable future'' \autocite[1]{mcdonaldHowSensitivityClassification2019}.
-Early on in the research on TSAR, the emphasis has been on design systems that support reviewers rather than ones that replace them \autocite{mcdonaldClassifierDigitalSensitivity2014}.
 This speaks to the level of trust we confer to these systems, while they might yield impressive results, we are not willing to delegate tasks we deem crucial to them entirely.
 
 This lack of trust is attributed to our lack of complete understanding of the decision process of such automated systems which are often referred to as ``black boxes'' \autocite{ribeiroWhyShouldTrust2016}.
 Recent research into Explanation techniques for Machine Learning models have noted this need for interpretability.
+
 \textcite{ribeiroWhyShouldTrust2016} devise a method called ``Local Interpretable Model-agnostic Explanations'' (LIME).
 LIME provides explanations for individual predictions by any model.
 It does so by sampling $k$ features from a model and evaluating the behaviour of a linear model trained with the $k$ sampled features in the vicinity of the actual prediction.
 This allows them to calculate feature weights denoting ``how much'' each contributed to the actual model's local prediction by randomly sampling them from the original model.
+This allows them to generate explanations for predictions that are simpler than the inputed data.
+Now, there is no need to understand the vectorial operations of State Vector Machines to understand the decision of a model.
+In fact there is (relatively) no need to understand the model at all: as far as the user knows, it can stay a ``black box'' because he now sees a simplified feature space with numeric values for each feature allowing him to understand the model's decision.
 
 \textcite{lundbergUnifiedApproachInterpreting2017} expand on this work with a technique called ``SHapley Additive exPlanations'' (SHAP) by calculating predictions for all possible combinations of features.
 They use Shapley values \autocite{shapleyNotesNPersonGame1951}, a Game Theory concept for calculating individuals' contribution to a group, in order to compute a score for each feature's contribution to the classification.
-\textcite{lundbergUnifiedApproachInterpreting2017} formally demonstrate that Shapley values are the \textit{only} possible solution for an explanation model to be locally accurate, consistent and also respect \textit{missingness} (no attribution of score to absent features).
+\textcite{lundbergUnifiedApproachInterpreting2017} formally demonstrate that Shapley values are the \textit{only} possible solution for an explanation model to be locally accurate, consistent and also respect \textit{missingness} (no attribution of score to absent features) simultaneously and that other explanation techniques like LIME or DeepLIFT therefore lack one of the above.
 While some approximation techniques and optimizations on certain ML models mitigate this, its main drawback is that it is significantly more complex to compute since it explores all possible input feature combinations.
 
 \section{Approaches to document visualization}
@@ -393,15 +396,13 @@ For instance, Foxit PhantomPDF is another well known PDF editor that implements 
 \end{wrapfigure}
 
 There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is a Microsoft Office plugin that for redacting sensitive information from documents.
+\textcite{ERedact} is a purely manual tool, providing no ``aid'' to sensitivity redaction, contrarily to what we are trying to build, it does however provide insights, notably through its User Interface (UI).
 It's context menu is even more deeply nested than Adobe Reader's and contains exemptions from many legislations (Figure~\ref{fig:eredact-dropdown}).
 We want to avoid such a deep nesting of regularly used actions, for example in this case, it seems like a reviewer would rarely redact a document for US and UK FOIA at the same time.
 A solution to this would be to have a setting to select the legal ``framework'' within a settings menu which would reduce deep menu nesting.
 e-Redact also adds the ability to collaborate with multiple people on document redactions, but beyond this, it is very similar to PDF Editors and their built-in functionalities.
 
-\textcite{ERedact} is also a purely manual tool, providing no ``aid'' to sensitivity redaction, contrarily to what we are trying to build.
-
-A lot of the PDF editors' redaction functionality also require one to traverse the screen to select a redaction.
-
+A lot of the PDF editors' redaction functionality also require one to traverse the screen to select the type of redaction.
 Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection (albeit not consistently): the menu appears next to the selected text with actions to take on a selection which avoids having to cross long screen distances (Figure~\ref{fig:redactedai}).
 A downside of their implementation of a ``popup menu'' is that it takes considerable space, while it does offer quite a few useful actions, its ``remove'' and ``unredact this'' button are quite large,, we prefer a smaller menu that hides less of the content.
 
@@ -418,7 +419,7 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 
 \section{MoSCoW Functional Requirements}
 
-% TODO reformulate this into something more formal
+% TODO reformulate this a bit
 \begin{adjustbox}{width=\textwidth,center}
     \begin{minipage}[t]{.5\linewidth}
         \centerline{\textbf{Must Have}}
@@ -487,15 +488,25 @@ As mentioned we include a user study within the scope of this study to evaluate 
 
 \section{Wireframing}
 
+Once we defined the scope of our project, we set out to draw some wireframe diagrams in order to better understand the layout of the application, the use of screen space, as well as how features tie in together and whether we were missing any.
+
+Our approach was to first define the three main ``views'' of our application:
+
+\begin{itemize}
+    \item Homepage/Document Sets view (Figure \ref{wire})
+    \item Document set view (i.e. documents within the set)
+    \item single document view
+\end{itemize}
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{\linewidth}
         \centering
-        \includegraphics[width=0.6\linewidth]{images/wireframes/doc_view.jpg}
+        \includegraphics[width=0.75\linewidth]{images/wireframes/doc_view.jpg}
         \caption{Document View Wireframe}\label{fig:document-wireframe}
     \end{subfigure}
     \begin{subfigure}[b]{\linewidth}
-        \begin{subfigure}[b]{0.5\linewidth}
+        \begin{subfigure}[b]{0.54\linewidth}
             \includegraphics[width=\linewidth]{images/wireframes/tooltip.jpg}
             \caption{minimized tooltip wireframe}\label{fig:tooltip-wireframe}
         \end{subfigure}
@@ -607,9 +618,6 @@ The first is an \textcite{NGINX2020} web server containers that contains and ser
 It interacts with a python container which run the Flask API server, this image is based off \textcite{GoogleContainerToolsDistroless2020}'s smaller and more secure ``distroless'' python 3 image \autocite{mooreDistrolessDockerContainerizing2017}.
 Lastly, the API uses the official \textcite{MongoDB2020} container as a NoSQL database for storing documents, redactions and classifications.
 
-
-% TODO show component code and how it gets data from backend
-
 \section{Machine Learning Pipeline}
 
 Our document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
@@ -712,7 +720,6 @@ We chose \href{https://gitlab.com/}{gitlab.com} because of its powerful and well
 We made use of these features in order to automatically build and test the the OpenAPI specification, docker containers and the documentation for each commit we setup a CI Pipeline (Figure~\ref{fig:ci}) .
 
 \begin{figure}[H]
-    %TODO use PDF/PNG this look ugly
     \centering
     \includegraphics[width=0.9\linewidth]{figures/ci.png}
     \caption{CI Pipeline}\label{fig:ci}
@@ -893,45 +900,30 @@ Since our sample size is expectedly quite restricted, we prefer Fisher's exact t
         \includegraphics[width=\linewidth]{images/related_products/adobe_redact_all.png}
     \end{figure}
     \chapter{Wireframes}
-    \section{Homepage}
+    \section{Homepage}\label{fig:home-wireframe}
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.7\linewidth]{images/wireframes/home.jpg}
     \end{figure}
-    \section{Set View}
+    \section{Set View}\label{fig:set-view-wireframe}
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.65\linewidth]{images/wireframes/set.jpg}
     \end{figure}
-    \section{Set View - opened menu}
+    \section{Set View - opened menu}\label{fig:set-view-opened-menu-wireframe}
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/wireframes/set-menu.jpg}
     \end{figure}
-    \section{Document View v1}
+    \section{Document View v1}\label{fig:document-view-alternative-wireframe}
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/wireframes/page.png}
     \end{figure}
-    \section{Document View v2 - opened settings drawer}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\linewidth]{images/wireframes/doc_view.jpg}
-    \end{figure}
-    \section{Document View v2 - closed settings drawer}
+    \section{Document View v2 - closed settings drawer}\label{fig:document view-closed-menu-wireframe}
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/wireframes/doc-view.jpg}
-    \end{figure}
-    \section{Text Select Tooltip}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\linewidth]{images/wireframes/tooltip.jpg}
-    \end{figure}
-    \section{Text Select Tooltip - opened comment menu}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\linewidth]{images/wireframes/tooltip_comment.jpg}
     \end{figure}
     \chapter{User evaluation questionnaire}\label{appendix:questionnaire}
     \includepdf[
