@@ -310,7 +310,15 @@ They use Shapley values \autocite{shapleyNotesNPersonGame1951}, a Game Theory co
 \textcite{lundbergUnifiedApproachInterpreting2017} formally demonstrate that Shapley values are the \textit{only} possible solution for an explanation model to be locally accurate, consistent and also respect \textit{missingness} (no attribution of score to absent features) simultaneously and that other explanation techniques like LIME or DeepLIFT therefore lack one of the above.
 While some approximation techniques and optimizations on certain ML models mitigate this, its main drawback is that it is significantly more complex to compute since it explores all possible input feature combinations.
 
+The main repositories for both these implementations, provide illustrated examples of these explanations \autocite{lundbergSlundbergShap2020,ribeiroMarcotcrLime2020}.
+Interestingly is LIME's approach to textual feature coloured highlighting with varying opacity depending on the feature's contribution.
+The SHAP library takes a different approach with a ``force plot'' of feature contributions which summarizes the most important feature contributions in the document.
+These depictions raise the core issue of this project: visualizing document sensitivities.
+
 \section{Approaches to document visualization}
+
+To address this, we review some of the literature on document visualization, noting our key inspirations and takeaways.
+Our main focus is on summarizing the dense information spaces to provide an overview of how a document might be sensitive as well as where it is sensitive.
 
 \subsection{Lexical Episode Plots}
 %
@@ -333,12 +341,12 @@ While some approximation techniques and optimizations on certain ML models mitig
     \vspace{-40pt}
 \end{wrapfigure}
 
-A variation of this kind of document overview displays highlights beside the document outline also showing the ``topic'' of the highlight (Figure~\ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
+We start with a document overview displaying highlights beside the document outline also showing the ``topic'' of the highlight (Figure~\ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
 
-It is reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure~\ref{fig:vscode_minimap}).
+This reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure~\ref{fig:vscode_minimap}).
 
 An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
-This shows that perhaps, these sort of overviews could also be used before viewing a document, as a popup view when a document is hovered on within a collection.
+This shows that perhaps, these sort of overviews could also be used for previewing a document, for example as a popup when a document is hovered on within a collection.
 
 \subsection{Varying font size}
 
@@ -350,7 +358,7 @@ This shows that perhaps, these sort of overviews could also be used before viewi
 
 \textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features (Figure~\ref{fig:font-size}).
 It is not certain this would be a good thumbnail, the highlighted portions definitely show where key features are in the document, but a lot of the document structure is lost.
-However varying font size within a \textit{reasonable range} would be an interesting visualization for the visualizing feature importance in a prediction.
+However varying font size within a \textit{reasonable range} would be an interesting visualization for feature importance in a prediction, similarly to what the aforementioned LIME library displays.
 
 \subsection{Distortion}
 
@@ -493,16 +501,25 @@ Once we defined the scope of our project, we set out to draw some wireframe diag
 Our approach was to first define the three main ``views'' of our application:
 
 \begin{itemize}
-    \item Homepage/Document Sets view (Figure \ref{wire})
-    \item Document set view (i.e. documents within the set)
-    \item single document view
+    \item Homepage (Appendix~\ref{fig:home-wireframe})
+    \item Document set view (i.e. documents within the set) (Appendix~\ref{fig:set-view-wireframe})
+    \item Single document view (Figure~\ref{fig:document-wireframe})
 \end{itemize}
+
+In Figure~\ref{fig:wireframes} we sketch the various aspects of our vision for the single document view page.
+
+Figure~\ref{fig:document-wireframe} is an overview of what the page could look like.
+The layout is constructed of three columns, with controls gathered within a menu on the left hand side while centering the document on the page with insights about document sensitivity on the right hand side.
+
+Figures~\ref{fig:tooltip-wireframe}~and~\ref{fig:expanded-tooltip-wireframe} detail the tooltip or ``popover'' style menu that would appear above the text with actions to perform on the selection.
+We illustrate features like a ``redact this instance of text'', ``redact all instances of this text in the document'', ``remove the redaction'' or ``comment''.
+The latter, is portrayed more in depth as an expanded menu in Figure~\ref{fig:expanded-tooltip-wireframe} showing the ability to select the chosen exemption as well as commenting on why this section of text was redacted.
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{\linewidth}
         \centering
-        \includegraphics[width=0.75\linewidth]{images/wireframes/doc_view.jpg}
+        \includegraphics[width=0.55\linewidth]{images/wireframes/doc_view.jpg}
         \caption{Document View Wireframe}\label{fig:document-wireframe}
     \end{subfigure}
     \begin{subfigure}[b]{\linewidth}
@@ -510,7 +527,7 @@ Our approach was to first define the three main ``views'' of our application:
             \includegraphics[width=\linewidth]{images/wireframes/tooltip.jpg}
             \caption{minimized tooltip wireframe}\label{fig:tooltip-wireframe}
         \end{subfigure}
-        \begin{subfigure}[b]{0.4\linewidth}
+        \begin{subfigure}[b]{0.35\linewidth}
             \includegraphics[width=\linewidth]{images/wireframes/tooltip_comment.jpg}
             \caption{Expanded tooltip wireframe}\label{fig:expanded-tooltip-wireframe}
         \end{subfigure}
@@ -522,6 +539,8 @@ Our approach was to first define the three main ``views'' of our application:
 
 %==================================================================================================================================
 \chapter{Design}
+
+Reviewing the literature on TSAR as well as TAR in legal discovery
 
 % link back to requirements
 % choice of technologies
@@ -645,7 +664,6 @@ We also perform a grid search with five fold cross-validation to tune the parame
     \caption{Machine Learning classification explanations}\label{listing:ml_explanations}
 \end{listing}
 
-
 \section{OpenAPI definitions}
 
 \begin{listing}[H]
@@ -703,10 +721,32 @@ When the value within the \verb|TextField| component (Line 34) changes, this set
     \caption{New document set form}\label{listing:newSetForm}
 \end{listing}
 
+\section{Redacting sensitive sections}
+
+\begin{wrapfigure}{r}{0.45\textwidth}
+    \includegraphics[width=\linewidth]{images/popover_menu_1.jpg}
+    \caption{Initial sensitive section selection popover menu}\label{fig:popover_1}
+    \vspace{-10pt}
+\end{wrapfigure}
+
+In order to select sensitive sections of a document for redaction, we initially embarked on creating our own text selection ``popover'' menu.
+
+Our base was \textcite{krispel-samselJuliankrispelReacttextselectionpopover2020}, a text selection popover library for ReactJS.
+Figure~\ref{fig:popover_1} shows our resulting initial popover menu implementation.
+The next step was to extract the document-wide offset for the selected text.
+We managed to do this and implement a redaction functionality to black out selected text.
+However, we could not find a way to do this without inserting a Document Object Model (DOM) node in the middle of the document text.
+This results in the character offset for the next selected piece of text to be calculated from the previous DOM node as opposed to the start of the document.
+We implemented a fix by traversing the DOM tree to sum each sibling node's character offsets and recalculating the document wide character offset.
+However, the final result however did not handle edge cases like overlapping text selections, instead of trying to fix every edge case, we moved on to another solution.
+
+We fell back to \textcite{camachoMcamacReacttextannotate2020} a ReactJS component for labelling sections of text.
+While not perfect (e.g. unable to customize style of selected text, no popover menu) our final solution using this library saved us time while allowing us to have basic document redaction up and running.
+In the future, this library could be extended to allow for the implementation of these missing features
+
 \section{Version-Control and Continuous Integration}
 
 Throughout the project, we tried various repository organizations, hosted git platforms and Continuous Integration (CI) tools.
-
 
 \subsection{Mono-repository}
 
@@ -751,11 +791,52 @@ It is another Github bot that calculates code coverage for every commit and post
 
 \section{Code Testing}
 
+The first kind of evluation we carried out was by implementing testing on every commit for our application.
+
+We introduced a step in our CI pipeline for validation the OpenAPI specification using a validator for the specification file \autocite{IBMOpenapivalidator2020}.
+This allowed to make sure there was no regression in the quality of the specification, warning about missing examples and descriptions.
+Lastly, it also checks for outright incorrect specifications, verifying that no required fields are missing and asserting the correctness of the YAML syntax.
+
+Futhermore, the CI docker container builds provide intrinsic build tests, they fail if all dependencies are not met for both our Python API and ReactJS frontend.
+This is particularly true of our frontend which uses \textcite{ParcelbundlerParcel2020} which verifies the JS syntax and asserts dependencies are met before bundling the final application.
+
+They are many tools which implement automated tests given only an OpenAPI specification.
+In our case, \textcite{OpenAPIToolsOpenapigenerator2020} generated a test suite for our JS API client which we implemented in our CI pipeline along with code coverage evaluation using \textcite{Codecov2020}.
+
+We lacked time to implement similar specification based testing on our API server code, specifically: the API endpoints.
+One such tool we wished to implement is \textcite{KiwicomSchemathesis2020} a tool targeted at any API but particularly well integrated with Flask.
+
 \section{Expert Panel Review}
+
+The second type of evaluation was to get the application reviewed for feedback and suggestions with the help on an expert panel.
+We are very grateful for the contribution of this panel constituted of software developers working to implement TASR solutions.
+
+We demoed the application to the panel, explaning the various parts of the UI, some of its functioning as well as simulating a workflow with simultaneous ``think aloud'' feedback.
+
+We got positive feedback on the ``workflow oriented'' layout of the application as well as its complete yet extendable use of screen space.
+While controlling the number of explanation features was appreciated, a note was made on the lack of ability to control the infomration density within the document (e.g. viewing two pages at onces).
+A fix for this would be to have a layout more adaptable to various screen sizes. %TODO justify this as out of scope?
+
+A remark was also made on the usefulness of the classification explanation words, noting that it was hard to relate them to sensitivity review.
+This is a result of our use of an unrelated dummy document to not reveal part of our document collection, reflecting on this, we should have used a more appropriate dummy document.
+Another related suggestion was to perhaps target classification at specific sections of the FOIA instead of a broad ``sensitivity'' classifier which might, in turn yield more relevant explanations.
+
+An important point was also brought up about the conservation of document structure and the redaction of non textual elements in a document.
+Our project's scope focused on plaintext documents, this implies a ``loss'' of non-textual aspects of a document.
+Future development could focus on handling PDF files, a widely used, cross-platform document format for preserving non-textual document elements.
+
+
+%TODO mabye?    little information outside of document view (e.g. document set view)
+%                   preview some of the redactions of the document?
+%                   more details without entering the document view
+%               Would be nice to be able to hide or remove explanations
+%               Experimenting with colors: why not, but be careful of color blindness 
+
 
 \section{User Study}
 
-We conducted a user evaluation in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review. We sought to answer a handful of research questions:
+Lastly, we prepared a user study in order to evaluate the effectiveness of our application in helping reviewers conduct a sensitivity review.
+Through this study, we sought to answer a handful of research questions:
 
 \begin{enumerate}[label=\textbf{RQ\arabic*}]
     \item Does our visualization of predicted document sensitivity and explanation features help reviewers conduct a sensitivity review faster?
@@ -765,14 +846,14 @@ We conducted a user evaluation in order to evaluate the effectiveness of our app
 
 \subsection{Dataset and classifier experimentations}
 
-Before conducting the study, we sought to improve the classifier to obtain sufficient performance so that it could be as helpful as possible to participants.
+Before conducting the study, we aimed to improve the classifier to obtain sufficient performance so that it could be as helpful as possible to participants.
 The document collection we had access to is a set of 3801 Government documents relating to International Activities.
 The ground truth for document sensitivity was established by government sensitivity reviewers with respect to S40 (Personal Information) and S27 (International Relations) of the FOIA.
 This appraisal resulted in 502 (13\%) documents deemed sensitive to either S40, S27 or both with 3299 non sensitive documents (87\%).
 
 Due to our lack of access to expert document reviewers, we sought to conduct our study with students either from an academic Politics background or with International Relations awareness.
 We focused on identifying ``Personal Information'' exceptions to the FOIA which we deem more ``attainable'' given our non-expert test subjects.
-Moreover, we expected to obtain better performance by targeting our classifier at a specific sensitivity rather than on our entire range of sensitivities (S27 and S40 in our case).
+Moreover, following the suggestions from our expert panel review and our supervisors, we expected to obtain better performance by targeting our classifier at a specific sensitivity rather than on our entire range of sensitivities (S27 and S40 in our case).
 
 In particular, our dataset contained 289 documents with S40 exemptions, we split the collection in order to obtain a stratified sample ``test set'' 20\% the size of the entire collection.
 We vectorized the remaining 80\% ``train set'' using Scikit-Learn's \verb|TfidfVectorizer|.
