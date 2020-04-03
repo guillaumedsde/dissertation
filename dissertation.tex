@@ -30,6 +30,7 @@
 \usepackage{wrapfig}
 
 \usepackage[justification=centering]{caption}
+% \captionsetup{belowskip=1pt,aboveskip=4pt}
 
 \usepackage{adjustbox}
 
@@ -85,6 +86,7 @@
 
 \usepackage{csquotes}
  
+\usepackage{multicol}
 
 
 \begin{document}
@@ -184,7 +186,7 @@
 \section{The need for Technology Assisted Sensitivity Review}
 
 \lettrine[lines=3,nindent=0em]{O}{n} June 2nd 2013, in a busy Hongkongese commercial district, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists refuged in one of the 492 rooms of the Mira Hotel.
-It was not merely the size of the Snowden archive handed over that day that made it ``stunning both in size and scope'', but also that ``it had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
+The Snowden archive handed over that day that, ``stunning both in size and scope'', ``had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
 Months later, even after developing indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
 Despite this, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
 
@@ -193,47 +195,48 @@ The \textcite{FreedomInformationAct2000} (FOIA) later introduced a public ``righ
 Most recently, the \textcite{ConstitutionalReformGovernance2010} reduced the time to a record's publication from 30 years to 20 years after their creation.
 
 These documents have to be sensitivity reviewed in order to redact information exempted from disclosure by the FOIA.
-This includes, amongst other exceptions, personal information (Section 40 ``S40''), information deemed harmful to international relations (Section 27 ``S27''), confidential information (Section 41 ``S41'') and commercial interests (Section 43 ``S43'').
-Figure \ref{fig:fracking_report} illustrates and example of such redacted exemptions in \textcite{StateUKShale2016}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/fracking_report_22.pdf}
-    \caption{Heavily redacted excerpt from \textcite[22]{StateUKShale2016}, a report containing S41 and S43 FOIA exemptions but released in redacted form by order of \textcite{judgeshanksCabinetOfficeICO2018} following a Greenpeace FOIA request}\label{fig:fracking_report}
-\end{figure}
-
+This includes, amongst other exceptions, personal information (Section 40 ``S40'') and information deemed harmful to international relations (Section 27 ``S27''). %, confidential information (Section 41 ``S41'') and commercial interests (Section 43 ``S43'').
+% Figure \ref{fig:fracking_report} illustrates and example of such redacted exemptions in \textcite{StateUKShale2016}.
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.6\linewidth]{figures/fracking_report_22.pdf}
+%     \caption{Heavily redacted excerpt from \textcite[22]{StateUKShale2016}, a report containing S41 and S43 FOIA exemptions but released in redacted form by order of \textcite{judgeshanksCabinetOfficeICO2018} following a Greenpeace FOIA request}\label{fig:fracking_report}
+% \end{figure}
 This sensitivity review process is particularly time consuming because it has to be thorough: everything that is released has to be reviewed.
-The scale of this task cannot be understated: in 2014 the total number of documents pending release stood at a staggering 817,615 records across all British government departments \autocite{allanRecordsReview2014,thenationalarchivesRecordTransferReport2014}.
-Morever, this number only represents the records that have been accounted for, only within departments that keep track of these figures and must legally transfer their record to TNA.
+The scale of this task cannot be understated: in 2014 the total number of documents pending release stood at a staggering 817,615 records across all British Government departments \autocite{allanRecordsReview2014,thenationalarchivesRecordTransferReport2014}.
+Moreover, this number only represents the records that have been accounted for, only within departments that keep track of these figures and must legally transfer their record to TNA.
 It is safe to say that Greenwald's team's work on the Snowden archive is dwarfed in scale by the British government's Herculean backlog of records, challenging the established principle of thorough document review.
 
 In order to preserve this paradigm, the magnitude of records calls for digital tools to accelerate the sensitivity review process.
-Otherwise, the risk is for Public Institutions to become overwhelmed by their review backlog forcing them to resort to blanket closure of records for extended periods (a century), delegating the handling of sensitive information to the erosion of time and preventing rightful Public access.
+Otherwise, the risk is for Public Institutions to become overwhelmed by their review backlog forcing them to resort to blanket closure of records for extended periods of time (up to a century), delegating the handling of sensitive information to the erosion of time and preventing rightful Public access.
 
 \section{Objective}
 
 Our aim is to contribute to the research into these tools to assist sensitivity reviewers with Technology Assisted Review (TAR).
-Notably, we seek to extend the work in this emerging field which has produced Machine Learning classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources and thus process documents faster.
-A lot of effort has been dedicated to these Machine Learning algorithms, some work has focused on evaluating their impact on reducing review time, but there is little work on representing these sensitivities and displaying them in a modern user friendly interface.
+Notably, we seek to expand upon the work in this emerging field which has produced Machine Learning classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources and thus process documents faster.
+A lot of effort has been dedicated to these Machine Learning algorithms: some work has focused on evaluating their impact on reducing review time, but there is not enough research on representing these sensitivities and displaying them in an understable user interface (UI).
 
 We want to introduce an approach to visualizing sensitive information within documents based on these Machine Learning classifiers.
 Our objective is to design, build and evaluate a proof of concept fullstack application for classifying, visualizing and redacting potentially sensitive documents.
-Ideally, we aim to decrease the time reviewers spend on documents and/or allow them to more accurately identify sensitive documents.
+Ideally, we aim to decrease the time reviewers spend on documents and allow them to more accurately identify sensitive records.
 
 \section{Outline}
 % TODO update overview with newly added sections:
 %   - Literature Review - Explanations in Machine Learning
 
-We start with a review of the literature on the application of TAR to sensitivity review, then explore some of the works on the use of TAR in the legal profession, notably in legal discovery and finally we survey some of the research into visualization of dense information spaces.
+To proceed, we start with a review of the literature on the application of TAR to sensitivity review.
+Then we explore some of the works on the use of TAR in the legal profession, notably in legal discovery.
+We also assess some of the recent research into the implementation of explanations for Machine Learning Classifiers' predictions.
+Finally we survey some of the research into visualization of dense information spaces.
 % TODO dense information spaces might a little bullshitty?
 We then evaluate similar or otherwise related products, picking out key interesting features as well as antipatterns we wish to avoid.
 
 In order to build the application, we delineate a scope, clarifying our end product, we also establish a set of requirements to prioritize features to implement.
 We elaborate on the testing methodology for our user study and lastly we draw up wireframe diagrams to have a draft layout of components in the application and to get a better sense of feature priorities
 
-We then discuss our application design process. We elaborate on our choice of technologies, the reasons for our final choice as well alternative options and why we did not choose them. We ultimately summarize our technology stack.
+We then discuss our application design process and summarize our technology stack. We elaborate on our choice of technologies, the reasons for our final picks as well alternative options and why we did not elect them.
 
-We detail some of the key pieces of software, highlight key sections of the code as well as our Repository and Continuous Integration setup.
+Afterwards, we detail some of the key pieces of software, highlight key sections of the code as well as our Repository and Continuous Integration setup.
 We explain the issues we ran into, from data storage concerns to frontend implementation struggles as well as Machine Learning classifier optimization and debugging.
 
 Lastly before concluding, we detail the findings from an evaluation by an expert panel, as well as the user evaluation we would have conducted had the COVID-19 pandemic not rendered it infeasible.
@@ -318,20 +321,20 @@ These depictions raise the core issue of this project: visualizing document sens
 \section{Approaches to document visualization}
 
 To address this, we review some of the literature on document visualization, noting our key inspirations and takeaways.
-Our main focus is on summarizing the dense information spaces to provide an overview of how a document might be sensitive as well as where it is sensitive.
+Our main focus is on summarizing the dense information spaces into a visualization in order to provide an overview of how a document might be sensitive as well as where it is sensitive.
 
 \subsection{Lexical Episode Plots}
 %
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{wrapfigure}{r}{0.38\textwidth}
     \centering
-    \begin{subfigure}[c]{0.2\textwidth}
+    \begin{subfigure}[c]{0.19\textwidth}
         \centering
         \small
         \includegraphics[width=\linewidth]{images/document_visualization/topic-overview.png}
         \caption{Lexical Episode Plots}\label{fig:lexical_plot}
     \end{subfigure}
     \hspace{0.01\textwidth}
-    \begin{subfigure}[c]{0.17\textwidth}
+    \begin{subfigure}[c]{0.16\textwidth}
         \centering
         \small
         \includegraphics[width=\linewidth]{images/related_products/vscode_minimap.png}
@@ -343,7 +346,7 @@ Our main focus is on summarizing the dense information spaces to provide an over
 
 We start with a document overview displaying highlights beside the document outline also showing the ``topic'' of the highlight (Figure~\ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
 
-This reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure~\ref{fig:vscode_minimap}).
+This is reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure~\ref{fig:vscode_minimap}).
 
 An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
 This shows that perhaps, these sort of overviews could also be used for previewing a document, for example as a popup when a document is hovered on within a collection.
@@ -362,16 +365,14 @@ However varying font size within a \textit{reasonable range} would be an interes
 
 \subsection{Distortion}
 
-This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom'' \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure~\ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/document_visualization/different-fisheyes.png}
-    \caption{Fisheye views, from left to right: \\
-        Manhattan lens, zoomscapes, central perspective and parallel projection \\
-        \protect\autocite{baudischFishnetFisheyeWeb2004}
+\begin{wrapfigure}{r}{0.4\textwidth}
+    \includegraphics[width=\linewidth]{images/document_visualization/different-fisheyes.png}
+    \caption{Fisheye views \autocite{baudischFishnetFisheyeWeb2004}
     }\label{fig:fisheyes}
-\end{figure}
+    \vspace{-10pt}
+\end{wrapfigure}
+
+This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom'' \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure~\ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
 
 \textit{Circular Fisheye Distortion} is a circular ``magnifying glass'' effect visible in \textcite{bostockFisheyeGrid2019}. \textit{Cartesian Distortion} ``magnifies continuously so as to avoid local minification'' \autocite{bostockFisheyeDistortion2012}. The effect can also be limited to only one axis (vertical or horizontal) as seen in \textcite{pstuffaCartesianFisheyeDistortion2019}. In our case, Vertical Cartesian Distortion on a per line basis seems like an interesting visualization for document overview with emphasis on hovered lines. There is a D3js implementation of this effect \autocite{pstuffaCartesianFisheyeDistortion2019}, it also seems like there is a React specific implementation of this text fisheye effect \autocite{zhongVincentdchanReactfisheye2019}.
 
@@ -379,14 +380,14 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
 
 \subsection{PDF editors}
 
-Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
-Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
-
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.45\textwidth}
     \includegraphics[width=\linewidth]{images/related_products/adobe_redaction.png}
     \caption{Acrobat redaction workflow}\label{fig:adobe-redaction}
-    \vspace{-20pt}
+    \vspace{-15pt}
 \end{wrapfigure}
+
+Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
+Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
 
 Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents.
 The principle is simple: select text, click redact and browse a nested context menu to select an exemption (Figure~\ref{fig:adobe-redaction}).
@@ -400,7 +401,7 @@ For instance, Foxit PhantomPDF is another well known PDF editor that implements 
 \begin{wrapfigure}{l}{0.4\textwidth}
     \includegraphics[width=\linewidth]{images/related_products/eredact_dropdown.png}
     \caption{e-Redact exemption selection}\label{fig:eredact-dropdown}
-    \vspace{-17pt}
+    \vspace{-15pt}
 \end{wrapfigure}
 
 There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is a Microsoft Office plugin that for redacting sensitive information from documents.
@@ -418,7 +419,7 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\linewidth]{images/related_products/redactedai.png}
+    \includegraphics[width=0.9\linewidth]{images/related_products/redactedai.png}
     \caption{Redacted.ai document view}\label{fig:redactedai}
 \end{figure}
 
@@ -427,11 +428,14 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 
 \section{MoSCoW Functional Requirements}
 
+From this overview of literature and related products, we devise a list of functional and non-functional requirements for our application.
+We then illustrate these requirements in a set of wireframe diagrams which allow us to assert their usefulness and to verify we did not skim over important ones.
+
 % TODO reformulate this a bit
-\begin{adjustbox}{width=\textwidth,center}
+\begin{adjustbox}{width=0.9\textwidth,center}
     \begin{minipage}[t]{.5\linewidth}
         \centerline{\textbf{Must Have}}
-        \begin{enumerate}[label=\textbf{M\arabic*}]
+        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{M\arabic*}]
             \item Document Set creation and deletion
             \item Within a set, plaintext document creation and deletion
             \item Predicted document sensitivity classification (sensitive or not?)
@@ -448,20 +452,14 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
     \noindent
     \begin{minipage}[t]{.5\linewidth}
         \centerline{\textbf{Should Have}}
-        \begin{enumerate}[label=\textbf{S\arabic*}]
+        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{S\arabic*}]
             \item User redactions helper (highlight all instances of redacted text, could do this on a document set level)
             \item For a document, suggest redaction of sensitive elements
             \item Fulltext document search
         \end{enumerate}
-    \end{minipage}
-\end{adjustbox}
-
-\vspace{0.5cm}
-
-\begin{adjustbox}{width=\textwidth,center}
-    \begin{minipage}[t]{.5\linewidth}
+        \vspace{0.5cm}
         \centerline{\textbf{Could Have}}
-        \begin{enumerate}[label=\textbf{C\arabic*}]
+        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{C\arabic*}]
             \item Extract and display entities from document
             \item Possibility of using different text Classifiers
             \item Documentation for API SDK
@@ -469,16 +467,20 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
             \item Reviewer authentication
         \end{enumerate}
     \end{minipage}
-    \hfill
-    \noindent
-    \begin{minipage}[t]{.5\linewidth}
+\end{adjustbox}
+
+
+\begin{adjustbox}{width=0.9\textwidth,center}
+    \begin{minipage}[t]{\linewidth}
         \centerline{\textbf{Would Have}}
-        \begin{enumerate}[label=\textbf{W\arabic*}]
-            \item Handle more than plain text files (PDF, Word etc…)
-            \item Specified and enforced document size and count upload limits
-            \item ``Active Learning'': user redactions help improve future predictions
-            \item Deployed ``production'' web application
-        \end{enumerate}
+        \begin{multicols}{2}
+            \begin{enumerate}[noitemsep,nolistsep,label=\textbf{W\arabic*}]
+                \item Handle more than plain text files (PDF, Word etc…)
+                \item Specified and enforced document size and count upload limits
+                \item ``Active Learning'': user redactions help improve future predictions
+                \item Deployed ``production'' web application
+            \end{enumerate}
+        \end{multicols}
     \end{minipage}
 \end{adjustbox}
 \section{Scope and non-functional definition}
@@ -491,16 +493,16 @@ We aim to bring a ``modern looking'' interface, tools like PDF editors or the Of
 We think that an approach with correctly applied modern design guidelines such as Google's \textcite{MaterialDesign} improves user experience, both in terms of aesthetics and usability.
 
 Originally, we set out to focus on both document set visualization as well as single document visualization, ultimately however the focus shifted a lot towards the document viewer.
+We also skipped over some requirements which were later deemed non essential during rescopes of the project (e.g. fulltext document search)
 
 As mentioned we include a user study within the scope of this study to evaluate our application.
 
 \section{Wireframing}
 
 Once we defined the scope of our project, we set out to draw some wireframe diagrams in order to better understand the layout of the application, the use of screen space, as well as how features tie in together and whether we were missing any.
-
 Our approach was to first define the three main ``views'' of our application:
 
-\begin{itemize}
+\begin{itemize}[noitemsep,nolistsep]
     \item Homepage (Appendix~\ref{fig:home-wireframe})
     \item Document set view (i.e. documents within the set) (Appendix~\ref{fig:set-view-wireframe})
     \item Single document view (Figure~\ref{fig:document-wireframe})
@@ -519,15 +521,15 @@ The latter, is portrayed more in depth as an expanded menu in Figure~\ref{fig:ex
     \centering
     \begin{subfigure}[b]{\linewidth}
         \centering
-        \includegraphics[width=0.55\linewidth]{images/wireframes/doc_view.jpg}
+        \includegraphics[width=0.5\linewidth]{images/wireframes/doc_view.jpg}
         \caption{Document View Wireframe}\label{fig:document-wireframe}
     \end{subfigure}
     \begin{subfigure}[b]{\linewidth}
-        \begin{subfigure}[b]{0.54\linewidth}
+        \begin{subfigure}[b]{0.59\linewidth}
             \includegraphics[width=\linewidth]{images/wireframes/tooltip.jpg}
             \caption{minimized tooltip wireframe}\label{fig:tooltip-wireframe}
         \end{subfigure}
-        \begin{subfigure}[b]{0.35\linewidth}
+        \begin{subfigure}[b]{0.2\linewidth}
             \includegraphics[width=\linewidth]{images/wireframes/tooltip_comment.jpg}
             \caption{Expanded tooltip wireframe}\label{fig:expanded-tooltip-wireframe}
         \end{subfigure}
@@ -540,12 +542,18 @@ The latter, is portrayed more in depth as an expanded menu in Figure~\ref{fig:ex
 %==================================================================================================================================
 \chapter{Design}
 
-Reviewing the literature on TSAR as well as TAR in legal discovery
-
-% link back to requirements
-% choice of technologies
+By reviewing the literature on TAR and document visualization along with an analysis of similar products, we have extracted key requirements both functional and non-functional for our application.
+We have pictured how they can be assembled into a full fledged application by wireframing a UI design.
+We now elaborate on our application's high level structure as well as the different technologies we opted to assemble to devise our project.
 
 \section{Application structure}
+
+In Figure~\ref{fig:design_diagram} we illustrate the different services of our application as well as the flow of information.
+The user interacts with the frontend to upload documents which are then sent to the API which classifies them and calculates the explanations.
+The API then stores the document in the backend and sends the classification and explanations to the frontend which will then display them to the reviewer.
+Based on this, the user will redact parts of the document, these redactions are then sent back to the API which will store them in the database.
+
+
 
 \begin{figure}[H]
     \centering
@@ -633,6 +641,7 @@ Rather we opt to ``orchestrate'' our docker containers using \textcite{DockerCom
 % TODO introduce section
 
 Our application's ``stack'' is illustrated in Figure \ref{fig:tech_stack}: it contains three containers.
+
 The first is an \textcite{NGINX2020} web server containers that contains and serves the compiled source code for our ReactJS frontend.
 It interacts with a python container which run the Flask API server, this image is based off \textcite{GoogleContainerToolsDistroless2020}'s smaller and more secure ``distroless'' python 3 image \autocite{mooreDistrolessDockerContainerizing2017}.
 Lastly, the API uses the official \textcite{MongoDB2020} container as a NoSQL database for storing documents, redactions and classifications.

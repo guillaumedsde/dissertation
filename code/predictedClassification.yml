@@ -1,8 +1,7 @@
 predictedClassification:
   type: object
-  description: The predicted Sensitivity of a text along with feature explanation for that classification
-  required:
-    - sensitive
+  description: The predicted Sensitivity of a text with feature explanations
+  required: [sensitive]
   properties:
     sensitive:
       type: boolean
