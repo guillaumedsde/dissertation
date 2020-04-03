@@ -245,7 +245,7 @@ Lastly before concluding, we detail the findings from an evaluation by an expert
 %==================================================================================================================================
 \chapter{Background}
 
-\section{Literature Review}
+\section{Literature Review}\label{section:lit_review}
 
 \subsection{Technology Assisted Sensitivity Review}
 
@@ -670,12 +670,23 @@ We also perform a grid search with five fold cross-validation to tune the parame
 
 \section{Classification Explanations}
 
+As mentioned, we do not simply want to give reviewers a predicted classification but also accompany it with a simple explanation.
+
+The two main libraries we tried ML explanations were LIME and SHAP, while the latter has preferable results (Section~\ref{section:lit_review}) it is much slower than LIME for non tree-based classifiers (like SVM).
+Future research might want to investigate boosted trees \autocite{chenXGBoostScalableTree2016} and their performance for sensitivity classification in order to implement SHAP explanations with reasonable performance.
+
+Listing~\ref{listing:ml_explanations} shows the important code used for calculating our LIME explanations.
+A key parameter is the \verb|num_features|, it is the $k$ value in the LIME algorithm mentioned previously: compute time increases as the number of calculated explanations increase.
+The returned value is a LIME \verb|Explanation| object wich we later exploit as a dictionary mapping features to their weight.
+
 \begin{listing}[H]
     \inputminted{python}{code/explanations.py}
     \caption{Machine Learning classification explanations}\label{listing:ml_explanations}
 \end{listing}
 
 \section{OpenAPI definitions}
+
+To bind our application together, we define OpenAPI endpoints and models, below is an example of the \verb|predictedClassification| model along with its \verb|GET| endpoint definition.
 
 \begin{listing}[H]
     \inputminted{yaml}{code/predictedClassification.yml}
@@ -716,7 +727,7 @@ This one way data binding simplifies the flow of information thus making them ea
 
 \section{API calls from ReactJS components}
 
-As mentioned, our OpenAPI specification allows us to generate a finished JS API client.
+As mentioned, the OpenAPI specification allows us to generate a finished JS API client.
 Provided our server implementation matches our specification, there is no need to modify the generated API client and it works ``out of the box''.
 
 Listing~\ref{listing:newSetForm} illustrates this API client in use.
