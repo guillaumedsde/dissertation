@@ -6,7 +6,7 @@
 
 This repository contains the LaTeX code for my dissertation that is auto compiled on each push to master in Gitlab CI, the up to date final output PDF is [available here](https://harpocrates-app.gitlab.io/dissertation/dissertation.pdf).
 
-Development (issues, boards, CI, Docker respositories...) happens on [gitlab.com](https://gitlab.com/harpocrates-app/dissertation) and a mirror (source code only, no issues etc...) of this repository is available on [github.com](https://github.com/guillaumedsde/dissertation-dissertation).
+Development (issues, boards, CI, Docker respositories...) happens on [gitlab.com](https://gitlab.com/harpocrates-app/dissertation) and a mirror (source code only, no issues etc...) of this repository is available on [github.com](https://github.com/guillaumedsde/dissertation).
 
 <div align="center">
     <a href="https://harpocrates-app.gitlab.io/dissertation/dissertation.pdf">
