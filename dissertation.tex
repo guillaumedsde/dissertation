@@ -186,9 +186,10 @@
 \section{The need for Technology Assisted Sensitivity Review}
 
 \lettrine[lines=3,nindent=0em]{O}{n} June 2nd 2013, in a busy Hongkongese commercial district, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists refuged in one of the 492 rooms of the Mira Hotel.
-The Snowden archive handed over that day that, ``stunning both in size and scope'', ``had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
-Months later, even after developing indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been released.
-Despite this, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
+The Snowden archive handed over that day, ``stunning both in size and scope'' ``had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
+Months later, even after developing indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been disclosed in order to redact information that could cause harm to privacy or national interest \autocite{greenwaldFactsHowNSA2014}.
+Consequently, the review process was not without flaws with misredactions actually revealing such information \autocite{oliverGovernmentSurveillanceLast2015}.
+Furthermore, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
 
 In the United Kingdom (UK), the \textcite{PublicRecordsAct1958} created what is today known as The National Archives (TNA), a public institution keeper of governmental records that the act stipulates, should be released within thirty years of their creation.
 The \textcite{FreedomInformationAct2000} (FOIA) later introduced a public ``right of access'' through requests to information held by public authorities.
@@ -247,9 +248,22 @@ Lastly before concluding, we detail the findings from an evaluation by an expert
 
 \section{Literature Review}\label{section:lit_review}
 
-\subsection{Technology Assisted Sensitivity Review}
+\subsection{Automated classification of sensitive enterprise documents}
 
-Research into the application of TAR to sensitivity review began with \textcite{mcdonaldClassifierDigitalSensitivity2014} which established an initial Machine Learning sensitivity classifier.
+Early works on the application of Text Analytics to the identifying of sensitive information focused on personal and client information for use in enterprise.
+\textcite{cumbyMachineLearningBased2011} for instance developed a addon for identifying this information in Word documents.
+Given a set of documents associated with a sensitivity category, they train a Machine Learning classifier for sensitive documents.
+They then devise a framework for removing names, social security number of client identity (company name) from these documents while preserving their utility.
+
+That same year \textcite{hartTextClassificationData2011} also published their work on applying Machine Learning Classification for identifying sensitive corporate documents.
+They create a corpus from publicly available corporate documents and determine that a linear Support Vector Classifier (SVC) along with further processing yielded the best results for automated binary classification of documents as ``secret'' or not.
+
+\textcite{sanchezDetectingSensitiveInformation2012} follow up on this work by creating an semi-supervised system for identifying personal private information within celebrities' personal Wikipedia pages.
+They compare using an Information Content measure (specific terms contain ``more information'' than general ones) and Named Entity recognition on textual tokens with Part of Speech tagging and syntactic parsing to identify sensitive information.
+
+\subsection{TAR of sensitive governmental records}
+
+\textcite{mcdonaldClassifierDigitalSensitivity2014} was the first application of TAR to the sensitivity review of governmental records for which they established an initial Machine Learning sensitivity classifier.
 They combined the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition and achieved a balanced accuracy (BAC) of 0.63 for FOIA S27 and 0.74 for S40.
 
 \textcite{berardiSemiAutomatedTextClassification2015} establishes that BAC and the \(F_{2}\) measure are best suited when evaluating sensitivity classifiers due to the predominance of recall over precision: a released sensitive document is potentially more problematic than an excessive closure of information.
@@ -321,6 +335,8 @@ These depictions raise the core issue of this project: visualizing document sens
 To address this, we review some of the literature on document visualization, noting our key inspirations and takeaways.
 Our main focus is on summarizing the dense information spaces into a visualization in order to provide an overview of how a document might be sensitive as well as where it is sensitive.
 
+\pagebreak
+
 \subsection{Lexical Episode Plots}
 %
 \begin{wrapfigure}{r}{0.45\textwidth}
@@ -349,14 +365,12 @@ This is reminiscent of code overviews in text editors, especially those aimed at
 An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
 This shows that perhaps, these sort of overviews could also be used for previewing a document, for example as a popup when a document is hovered on within a collection.
 
-\vspace{0.5cm}
-
 \subsection{Varying font size}
 
 \begin{wrapfigure}{l}{0.4\textwidth}
     \includegraphics[width=\linewidth]{images/document_visualization/font-size.png}
     \caption{Adjusting font size}\label{fig:font-size}
-    \vspace{-10pt}
+    \vspace{-5pt}
 \end{wrapfigure}
 
 \textcite{stoffelDocumentThumbnailsVariable2012} implement a combination of text highlighting along with font size variations for creating distorted thumbnails for previewing important document features (Figure~\ref{fig:font-size}).
@@ -642,7 +656,7 @@ In Greek mythology, Harpocrates is the God of silence and keeper of secrets, a f
     \vspace{-50pt}
 \end{wrapfigure}
 
-Figure~\ref{fig:tech_stack} illustrates the three containers that make up ``Harpocrates'' our solution to this project.
+Figure~\ref{fig:tech_stack} illustrates the three containers that make up ``Harpocrates''.
 
 The first is an \textcite{NGINX2020} web server containers that contains and serves the compiled source code for our ReactJS frontend.
 It interacts with a python container which run the Flask API server, this image is based off \textcite{GoogleContainerToolsDistroless2020}'s smaller and more secure ``distroless'' python 3 image \autocite{mooreDistrolessDockerContainerizing2017}.
@@ -882,21 +896,27 @@ Table \ref{tab:clf_perf} shows the results we obtained while trying to find a cl
 \begin{table}[H]
     \begin{adjustbox}{width=\textwidth,center}
         \begin{tabular}{l|llllll}
-            Classification pipeline                  & Tuned For & FOIA   & BAC    & F2     & Precision & Recall \\ \hline
-            CountVectorizer, RandomUnderSampler, SVC &           & 27, 40 & 0.4993 & 0.0847 & 0.0262    & 0.1920 \\
-            CountVectorizer, SMOTE, SVC              &           & 27, 40 & 0.4856 & 0.1549 & 0.1151    & 0.1829 \\
-            TF-IDF, SMOTEENN, SVC                    & BAC       & 40     & 0.5576 & 0.1182 & 0.0659    & 0.1911 \\
-            TF-IDF, SMOTEENN, SVC                    & F2        & 40     & 0.5482 & 0.1331 & 0.0385    & 0.4047 \\
-            TF-IDF, RandomUnderSampler, SVC          & BAC       & 27, 40 & 0.5526 & 0.3593 & 0.1669    & 0.5454 \\
-            TF-IDF, RandomUnderSampler, SVC          & F2        & 27, 40 & 0.5079 & 0.4359 & 0.1340    & 0.9980 \\
+            Classification pipeline                  & Tuned For & FOIA   & BAC    & \(F_{2}\) & Precision & Recall \\ \hline
+            CountVectorizer, RandomUnderSampler, SVC &           & 27, 40 & 0.4993 & 0.0847    & 0.0262    & 0.1920 \\
+            CountVectorizer, SMOTE, SVC              &           & 27, 40 & 0.4856 & 0.1549    & 0.1151    & 0.1829 \\
+            TF-IDF, SMOTEENN, SVC                    & BAC       & 40     & 0.5576 & 0.1182    & 0.0659    & 0.1911 \\
+            TF-IDF, SMOTEENN, SVC                    & \(F_{2}\) & 40     & 0.5482 & 0.1331    & 0.0385    & 0.4047 \\
+            TF-IDF, RandomUnderSampler, SVC          & BAC       & 27, 40 & 0.5526 & 0.3593    & 0.1669    & 0.5454 \\
+            TF-IDF, RandomUnderSampler, SVC          & \(F_{2}\) & 27, 40 & 0.5079 & 0.4359    & 0.1340    & 0.9980 \\
         \end{tabular}
     \end{adjustbox}
     \caption{Best performing classifiers using 5-fold cross validation targeting different metrics and sensitive classifications}\label{tab:clf_perf}
 \end{table}
 
-% TODO comment on results
+Table~\ref{tab:clf_perf} confirms our assumptions to some extent.
+When targetted at FOIA S40, the BAC of our TF-IDF, SMOTEENN with SVC pipeline exceeds that of the others we tested.
+In terms of \(F_{2}\) (favouring recall) however, we observe that our TF-IDF, RandomUnderSampler with SVC pipeline performs best when trained for both S27 and S40 and tuned for \(F_{2}\).
+This is due to its particularly high recall (with low precision).
 
 \subsection{Experimental Setup}
+
+We opted to select our TF-IDF, SMOTEENN with SVC pipeline targeted at FOIA S40 for our user study.
+This is in part because of our participants lack of experience but also based on our unverified intuition that explanations from the targeted classifier would be more useful than from the more general S27 and S40 classifier.
 
 Due to time constraints, we only sampled documents to review from the test set that were under 2000 characters.
 We then selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier as illustrated in Table~\ref{tab:confusion-matrix-selection}.
@@ -937,6 +957,8 @@ This questionnaire is split into three sections, the first two were an identical
 The first two sections were answered after each review batch was completed, then, the last section was handed out.
 It seeks to evaluate the usefulness of each invidual component in interface 1.
 
+We elected to nonetheless select
+
 \subsection{Results}
 
 As mentioned, each user is asked to review one collection of six documents for personal information sensitivities (FOIA Section 40) for each user interface.
@@ -951,8 +973,8 @@ The independent variables will a set of two user interfaces: with and without th
 \end{itemize}
 
 % t-test for review time (because time is a continuous variable)
-Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} (\textbf{H1}) along with a null hypothesis stating that \textit{There is no statistically significant improvement to the document review time with interface 1} (\(\mathbf{H1_{null}}\)) .
-To evaluate this, we perform a paired sample one-tailed Student's T-Test, pairing review times of a given document on interface 1 and on interface 2.
+Regarding \textbf{RQ1}, we hypothesise that \textit{There is a statistically significant improvement to the document review time with interface 1} (\textbf{H1}) along with a null hypothesis stating that \textit{There is no statistically significant improvement to the document review time with interface 1} (\(\mathbf{H1_{null}}\)).
+To evaluate this, we perform a paired sample two-tailed Student's T-Test, pairing review times of a given document on interface 1 and on interface 2.
 Since we randomely alternate between both interfaces we are able to pair all review times for a document reviewed on interface 1 with another review time for that same document on interface 2.
 Ideally, we expect our p-value to be lower than our critical value at a 95\% confidence level, allowing us to confirm \textbf{H1} for our sample.
 
@@ -960,10 +982,20 @@ In answer to \textbf{RQ2} we suggest that \textit{Interface 1 significantly impr
 To confirm \textbf{H2} or \(\mathbf{H2_{null}}\), we evaluate the significance for both the difference in balanced accuracy and \(F_{2}\) measure at 95\% confidence.
 Since Interface 1 essentially contains a predicted sensitivity which might be taken as a guideline by our participants, we assume an unequal variance in distribution of review performance in interface 1 and 2.
 Indeed, we expect the accuracy for documents reviewed with interface 1 to be more ``clustered'' together: namely around the classifier's predicted sensitivity.
-Once again, we perform a paired sample one-tailed Student's T-Test, pairing performance for a given document on interface 1 with that same metric and document on interface 2.
+Once again, we perform a paired sample two-tailed Student's T-Test, pairing performance for a given document on interface 1 with that same metric and document on interface 2.
 
 Lastly, we suppose that \textit{Interface 1 significantly improves the the confidence of participants in the quality of their sensitivity review} (\textbf{H3}) or that \textit{Interface 1 does no significantly improves the the confidence of participants in the quality of their sensitivity review} (\(\mathbf{H3_{null}}\)) in response to \textbf{RQ3}.
 Since our sample size is expectedly quite restricted, we prefer Fisher's exact test over a Chi-square test for testing the significance of the difference in confidence between interface 1 and 2 to validate \textbf{H3} or \(\mathbf{H3_{null}}\).
+We recode our 5 point Likert scale into three categories:
+%
+\begin{itemize}[noitemsep,nolistsep]
+    \item Improved confidence
+    \item Unchanged confidence
+    \item Worsened confidence
+\end{itemize}
+%
+With these categories, we peform a two-tailed Fisher's exact test to evaluate the significance of a difference in confidence between interfaces.
+Ideally, we expect our p-value to be inferior than our critical value at a 95\% confidence level, which would confirm \textbf{H3} over \(\mathbf{H3_{null}}\).
 %TODO finish detailing fisher's exact test
 
 %==================================================================================================================================
