@@ -169,6 +169,7 @@
     \vfill
     {\Large
       \textbf{\@author}\\
+      \textit{\email} \\
       \@date}
     
     
@@ -183,6 +184,7 @@
   \global\let\@date\@empty
   \global\let\@consentname\@empty
   \global\let\@consentdate\@empty
+  \global\let\@email\@empty
   
   \global\let\@title\@empty
   \global\let\title\relax
