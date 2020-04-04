@@ -88,6 +88,8 @@
  
 \usepackage{multicol}
 
+\newenvironment{longlisting}{\captionsetup{type=listing}}{}
+
 
 \begin{document}
 
@@ -189,7 +191,7 @@
 The Snowden archive handed over that day, ``stunning both in size and scope'' ``had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
 Months later, even after developing indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been disclosed in order to redact information that could cause harm to privacy or national interest \autocite{greenwaldFactsHowNSA2014}.
 Consequently, the review process was not without flaws with misredactions actually revealing such information \autocite{oliverGovernmentSurveillanceLast2015}.
-Furthermore, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale the work of today's sensitivity reviewers.
+Thus, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale of the work of today's sensitivity reviewers.
 
 In the United Kingdom (UK), the \textcite{PublicRecordsAct1958} created what is today known as The National Archives (TNA), a public institution keeper of governmental records that the act stipulates, should be released within thirty years of their creation.
 The \textcite{FreedomInformationAct2000} (FOIA) later introduced a public ``right of access'' through requests to information held by public authorities.
@@ -208,36 +210,34 @@ The scale of this task cannot be understated: in 2014 the total number of docume
 Moreover, this number only represents the records that have been accounted for, only within departments that keep track of these figures and must legally transfer their record to TNA.
 It is safe to say that Greenwald's team's work on the Snowden archive is dwarfed in scale by the British government's Herculean backlog of records, challenging the established principle of thorough document review.
 
-In order to preserve this paradigm, the magnitude of records calls for digital tools to accelerate the sensitivity review process.
-Otherwise, the risk is for Public Institutions to become overwhelmed by their review backlog forcing them to resort to blanket closure of records for extended periods of time (up to a century), delegating the handling of sensitive information to the erosion of time and preventing rightful Public access.
+In order to preserve this paradigm, such magnitude of records calls for digital tools to accelerate the sensitivity review process.
+Otherwise, the risk is for Public Institutions to become overwhelmed by their review backlog forcing them to resort to blanket closure of records for extended periods of time (up to a century), delegating the handling of sensitive information to the erosion of time and preventing rightful public access.
 
 \section{Objective}
 
-Our aim is to contribute to the research into these tools to assist sensitivity reviewers with Technology Assisted Review (TAR).
-Notably, we seek to expand upon the work in this emerging field which has produced Machine Learning classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources and thus process documents faster.
-A lot of effort has been dedicated to these Machine Learning algorithms: some work has focused on evaluating their impact on reducing review time, but there is not enough research on representing these sensitivities and displaying them in an understable user interface (UI).
+Our aim is to contribute to the research into these Technology Assisted Review (TAR) tools to assist sensitivity reviewers.
+Notably, we seek to expand upon the work in this emerging field which has produced Machine Learning classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources thus processing documents faster.
+A lot of effort has been dedicated to these Machine Learning algorithms: some work has focused on evaluating their impact at reducing review time, but there is not enough research on visualizing these sensitivities to display them in an understandable user interface (UI).
 
-We want to introduce an approach to visualizing sensitive information within documents based on these Machine Learning classifiers.
+We want to introduce an approach to displaying sensitive information within documents based on these Machine Learning classifiers.
 Our objective is to design, build and evaluate a proof of concept fullstack application for classifying, visualizing and redacting potentially sensitive documents.
 Ideally, we aim to decrease the time reviewers spend on documents and allow them to more accurately identify sensitive records.
 
 \section{Outline}
-% TODO update overview with newly added sections:
-%   - Literature Review - Explanations in Machine Learning
 
 To proceed, we start with a review of the literature on the application of TAR to sensitivity review.
 Then we explore some of the works on the use of TAR in the legal profession, notably in legal discovery.
-We also assess some of the recent research into the implementation of explanations for Machine Learning Classifiers' predictions.
+We also assess some of the recent implementations of explanations for Machine Learning Classifiers' predictions.
 Finally we survey some of the research into visualization of dense information spaces.
 % TODO dense information spaces might a little bullshitty?
 We then evaluate similar or otherwise related products, picking out key interesting features as well as antipatterns we wish to avoid.
 
-In order to build the application, we delineate a scope, clarifying our end product, we also establish a set of requirements to prioritize features to implement.
-We elaborate on the testing methodology for our user study and lastly we draw up wireframe diagrams to have a draft layout of components in the application and to get a better sense of feature priorities
+In order to build an application, we delineate a scope, clarifying our end product, we also establish a set of requirements to prioritize features to implement.
+We elaborate on the testing methodology for a user study and lastly we draw up wireframe diagrams to visualize a draft layout of components in the application a well as to get a better sense of feature priorities.
 
-We then discuss our application design process and summarize our technology stack. We elaborate on our choice of technologies, the reasons for our final picks as well alternative options and why we did not elect them.
+We then discuss our application design process and summarize our technology stack. We elaborate on our choice of libraries, the reasons for our final picks as well alternative options and why we did not elect them.
 
-Afterwards, we detail some of the key pieces of software, highlight key sections of the code as well as our Repository and Continuous Integration setup.
+Afterwards, we detail some of the important aspects of the software, highlighting key sections of the code as well as our Repository and Continuous Integration setup.
 We explain the issues we ran into, from data storage concerns to frontend implementation struggles as well as Machine Learning classifier optimization and debugging.
 
 Lastly before concluding, we detail the findings from an evaluation by an expert panel, as well as the user evaluation we would have conducted had the COVID-19 pandemic not rendered it infeasible.
@@ -250,60 +250,60 @@ Lastly before concluding, we detail the findings from an evaluation by an expert
 
 \subsection{Automated classification of sensitive enterprise documents}
 
-Early works on the application of Text Analytics to the identifying of sensitive information focused on personal and client information for use in enterprise.
+Early works on the application of Text Analytics for identifying sensitive information focused on personal and client information for use in enterprise.
 \textcite{cumbyMachineLearningBased2011} for instance developed a addon for identifying this information in Word documents.
-Given a set of documents associated with a sensitivity category, they train a Machine Learning classifier for sensitive documents.
-They then devise a framework for removing names, social security number of client identity (company name) from these documents while preserving their utility.
+Given a set of documents associated with a sensitivity category, they trained a Machine Learning classifier for sensitive documents.
+They then devised a framework for removing names, social security numbers or a client identity (company name) from these documents while preserving their utility.
 
-That same year \textcite{hartTextClassificationData2011} also published their work on applying Machine Learning Classification for identifying sensitive corporate documents.
+That same year \textcite{hartTextClassificationData2011} also published their work on applying Machine Learning classification for identifying sensitive corporate documents.
 They create a corpus from publicly available corporate documents and determine that a linear Support Vector Classifier (SVC) along with further processing yielded the best results for automated binary classification of documents as ``secret'' or not.
 
-\textcite{sanchezDetectingSensitiveInformation2012} follow up on this work by creating an semi-supervised system for identifying personal private information within celebrities' personal Wikipedia pages.
-They compare using an Information Content measure (specific terms contain ``more information'' than general ones) and Named Entity recognition on textual tokens with Part of Speech tagging and syntactic parsing to identify sensitive information.
+\textcite{sanchezDetectingSensitiveInformation2012} followed up on this work by creating a semi-supervised system for identifying private information within celebrities' personal Wikipedia pages.
+They compare using an Information Content measure (specific terms contain ``more information'' than generic ones) with named entity recognition on textual tokens with Part of Speech tagging and syntactic parsing to identify sensitive information.
 
 \subsection{TAR of sensitive governmental records}
 
-\textcite{mcdonaldClassifierDigitalSensitivity2014} was the first application of TAR to the sensitivity review of governmental records for which they established an initial Machine Learning sensitivity classifier.
-They combined the textual content of sensitive documents with sentiment analysis, a custom country risk score, entity and name recognition and achieved a balanced accuracy (BAC) of 0.63 for FOIA S27 and 0.74 for S40.
+\textcite{mcdonaldClassifierDigitalSensitivity2014} was the first application of TAR for identifying sensitivities in governmental records for which they established an initial Machine Learning sensitive document classifier.
+They combined the textual content of these documents with sentiment analysis, a custom country risk score, entity and name recognition in order to achieve a balanced accuracy (BAC) of 0.63 for FOIA S27 and 0.74 for S40.
 
-\textcite{berardiSemiAutomatedTextClassification2015} establishes that BAC and the \(F_{2}\) measure are best suited when evaluating sensitivity classifiers due to the predominance of recall over precision: a released sensitive document is potentially more problematic than an excessive closure of information.
+As a follow up, \textcite{berardiSemiAutomatedTextClassification2015} established that BAC and the \(F_{2}\) measure are best suited when evaluating sensitivity classifiers due to the predominance of recall over precision: a released sensitive document is potentially more problematic than an excessive closure of information.
 As such, rather than an automated \textit{replacement}, they frame the solution as an \textit{aid} to sensitivity reviewers.
 They demonstrate the advantage of a utility-theoric approach to maximizing reviewer effectiveness.
-Specifically they focus on the human reviewer validation of the automated classifier's labelling: prioritizing the review document with a high probability of an ``automated misclassification''.
+Specifically they focus on the human reviewer validation of the automated classifier's labelling: prioritizing the review of document with a high probability of an ``automated misclassification''.
 
-\textcite{mcdonaldUsingPartofSpeechNgrams2015} expanded on the idea and improved classification with Part-of-Speech tagging of large N-grams filtering out those which are not characteristic of a sensitive document by calculating n-grams' ``sensitivity load'' \autocite[2]{mcdonaldUsingPartofSpeechNgrams2015}.
-This results in 0.73 balanced accuracy and 0.51 \(F_{2}\) when identifying a subset of S27 FOIA exemptions: ``information supplied in confidence''.
+\textcite{mcdonaldUsingPartofSpeechNgrams2015} expanded on the idea and improved classification with Part-of-Speech tagging of large N-grams filtering out those which are not characteristic sensitivity by calculating n-grams' ``sensitivity load'' \autocite[2]{mcdonaldUsingPartofSpeechNgrams2015}.
+This results in 0.73 BAC and 0.51 \(F_{2}\) when identifying a subset of S27 FOIA exemptions: ``information supplied in confidence''.
 
 This work was furthered with an in depth study of SVM kernel functions' performance for POS sequence classification \autocite{mcdonaldStudySVMKernel2017}.
 The paper also combined the POS sequence classification with full text classification to obtain a maximum \(F_{2}\) measure of 0.46 and a maximum BAC of 0.64 for S27 and S40 sensitive documents combined.
-\autocite{mcdonaldEnhancingSensitivityClassification2017} further expand this model on the same dataset, obtaining a BAC of 0.71 and \(F_{2}\) of 0.54 using Word embeddings and semantic features.
+\textcite{mcdonaldEnhancingSensitivityClassification2017} further expanded this model on the same dataset, obtaining a BAC of 0.71 and \(F_{2}\) of 0.54 using Word embeddings and semantic features.
 
-\textcite{mcdonaldActiveLearningStrategies2018} implement ``Active Learning'' of reviewer annotations for dynamically prioritizing documents in a collection in order to maximize the automated classifier's effectiveness with the least possible manually review docuements.
-They achieve a BAC of 0.7 on the same collection as \textcite{mcdonaldStudySVMKernel2017,mcdonaldEnhancingSensitivityClassification2017} but with a 51\% reduction in the number of manually reviewed documents.
+\textcite{mcdonaldActiveLearningStrategies2018} implemented ``Active Learning'' of reviewer annotations for dynamically prioritizing documents in a collection in order to maximize the automated classifier's effectiveness minimal manual review of documents.
+They achieved a BAC of 0.7 on the same collection as \textcite{mcdonaldStudySVMKernel2017,mcdonaldEnhancingSensitivityClassification2017} with a 51\% reduction in the number of manually reviewed documents.
 
-\textcite{mcdonaldHowSensitivityClassification2019} conduct a user study to evaluate the impact of classification effectiveness on reviewers' performance. With the aid of a simple interface, they asked reviewers to identify S27 and S40 FOIA sensitivities with and without sensitivity classifier predictions.
-They conclude that, while participants' identified sensitivities were randomly correct, they however find a BAC between 0.69 and 0.8 for participants aided respectively with medium and perfect classifier prediction performance.
+\textcite{mcdonaldHowSensitivityClassification2019} conducted a user study to evaluate the impact of classification effectiveness on reviewers' performance. With the aid of a simple interface, they asked reviewers to identify S27 and S40 FOIA sensitivities with and without sensitivity classifier predictions.
+They concluded that, while participants' identified sensitivities were randomly correct, participants aided with medium and perfect classifier prediction performance respectively obtained a BAC of 0.69 and 0.8.
 
 \subsection{``Predictive Coding'' or \textit{TAR} for legal electronic discovery}
 
-Ongoing research in the area of Judicial practice has applied the concept of TAR to the process of legal discovery.
+Ongoing research in the area of Judicial practice has also applied the concept of TAR to the process of legal discovery.
 This research has coined the term ``Predictive Coding'' \autocite{carrollGrossmancormackGlossaryTechnologyassisted2013} as an industry specific use of TAR in the legal practice, particularly for ``legal discovery'', the pre-trial exchange of evidence by both parties.
-Parallels can be drawn with the task of sensitivity review, specifically the process of identifying privileged information in a legal discovery corpus.
+Parallels can be drawn with the task of sensitivity review, specifically with the process of identifying privileged information in a legal discovery corpus.
 
 \textcite{grossmanTechnologyAssistedReviewEDiscovery2010} compared the performances of a manual and TAR aided eDiscovery process with data from the various teams of the TREC 2009 Legal Track \autocite{hedinOverviewTREC2009}.
 They conclude that TAR methods lead to more accurate eDiscovery relevance estimations with significantly lower effort than with an exhaustive manual discovery process.
 
 One of these teams, \textcite{cormackMachineLearningInformation2009}, constructed various training sets for a given list of discovery topics from a corpus of eDiscovery documents using IR techniques (a search engine).
-They then fitted Logistic regression classifiers on these training sets to classify the rest of the collection as relevant or not for each topic.
+They then fitted logistic regression classifiers on these training sets to classify the rest of the collection as relevant or not for each topic.
 Ultimately, this team obtained the best F1 measure averaged across all topics \autocite{hedinOverviewTREC2009}.
 Moreover, ``by all measures, the average efficiency and effectiveness of the five technology-assisted reviews surpasses that of the five manual reviews'' \autocite[p.~43]{grossmanTechnologyAssistedReviewEDiscovery2010}.
 
-The task at hand is different from the sensitivity review of sensitive documents.
+The task at hand is different from the review of sensitive documents.
 Firstly, the implications of missing a relevant document in sensitivity review can be far greater than in legal discovery.
-The works we have cited above only manually reviewed fractions of their document collection, accepting a level of ``misclassification'' that is not tolerable in sensitivity review.
-Thus, the task of identifying ``privileged'' information in legal discovery documents is the one that comes closest that of sensitivity review \autocite{berardiSemiAutomatedTextClassification2015} because of the skewed importance towards recall rather than precision.
+The works we have cited above only manually reviewed fractions of their collection, accepting a level of ``misclassification'' that might not be tolerable in sensitivity review.
+Thus, the task of identifying ``privileged'' information in legal discovery documents is the one that comes closest to that of sensitivity review \autocite{berardiSemiAutomatedTextClassification2015} because of the skewed importance towards recall rather than precision.
 In fact, research in Technology Assisted Sensitivity Review (TASR) has determined that ``all government documents will continue to be manually sensitivity reviewed for the foreseeable future'' \autocite[1]{mcdonaldHowSensitivityClassification2019}.
-Early on in the research on TSAR, the emphasis has been on design systems that support reviewers rather than ones that replace them \autocite{mcdonaldClassifierDigitalSensitivity2014}.
+Early on in TSAR research, the emphasis has been on designing systems that support reviewers rather than ones that replace them \autocite{mcdonaldClassifierDigitalSensitivity2014}.
 
 \section{Explanations in Machine Learning}
 
@@ -312,22 +312,23 @@ This speaks to the level of trust we confer to these systems, while they might y
 This lack of trust is attributed to our lack of complete understanding of the decision process of such automated systems which are often referred to as ``black boxes'' \autocite{ribeiroWhyShouldTrust2016}.
 Recent research into Explanation techniques for Machine Learning models have noted this need for interpretability.
 
-\textcite{ribeiroWhyShouldTrust2016} devise a method called ``Local Interpretable Model-agnostic Explanations'' (LIME).
-LIME provides explanations for individual predictions by any model.
-It does so by sampling $k$ features from a model and evaluating the behaviour of a linear model trained with the $k$ sampled features in the vicinity of the actual prediction.
-This allows them to calculate feature weights denoting ``how much'' each contributed to the actual model's local prediction by randomly sampling them from the original model.
-This allows them to generate explanations for predictions that are simpler than the inputed data.
-Now, there is no need to understand the vectorial operations of State Vector Machines to understand the decision of a model.
-In fact there is (relatively) no need to understand the model at all: as far as the user knows, it can stay a ``black box'' because he now sees a simplified feature space with numeric values for each feature allowing him to understand the model's decision.
+\textcite{ribeiroWhyShouldTrust2016} devised a method called ``Local Interpretable Model-agnostic Explanations'' (LIME).
+LIME provides explanations for individual predictions from any model.
+It does so by sampling $k$ features from a classifier's input and evaluating the behaviour of a linear model trained with the $k$ sampled features in the vicinity of the actual prediction.
+This allows them to calculate feature weights denoting ``how much'' each contributed to the actual model's prediction by randomly sampling them from the original model.
+Thus, they generated explanations for predictions that are simpler than the input data (e.g. words instead of documents).
+This makes it easier to understand the decision of a model without understanding the vectorial operations of classifier algorithms .
+As far as the user knows, the model can stay a ``black box'' because he now sees a simplified feature space with numeric values for each feature allowing him to better understand the model's decision.
 
-\textcite{lundbergUnifiedApproachInterpreting2017} expand on this work with a technique called ``SHapley Additive exPlanations'' (SHAP) by calculating predictions for all possible combinations of features.
-They use Shapley values \autocite{shapleyNotesNPersonGame1951}, a Game Theory concept for calculating individuals' contribution to a group, in order to compute a score for each feature's contribution to the classification.
-\textcite{lundbergUnifiedApproachInterpreting2017} formally demonstrate that Shapley values are the \textit{only} possible solution for an explanation model to be locally accurate, consistent and also respect \textit{missingness} (no attribution of score to absent features) simultaneously and that other explanation techniques like LIME or DeepLIFT therefore lack one of the above.
+\textcite{lundbergUnifiedApproachInterpreting2017} expanded on this work with a technique called ``SHapley Additive exPlanations'' (SHAP) which calculates predictions for all possible combinations of features.
+They used Shapley values \autocite{shapleyNotesNPersonGame1951}, a Game Theory concept for calculating an individual's contribution to a group, in order to compute a score for each feature's contribution to the classification.
+\textcite{lundbergUnifiedApproachInterpreting2017} formally demonstrated that SHAP values are the \textit{only} possible solution for an explanation model to be locally accurate, consistent and also respect \textit{missingness} (no attribution of score to absent features).
+Therefore they also showed that other explanation techniques like LIME or DeepLIFT must lack one of the above.
 While some approximation techniques and optimizations on certain ML models mitigate this, its main drawback is that it is significantly more complex to compute since it explores all possible input feature combinations.
 
 The main repositories for both these implementations, provide illustrated examples of these explanations \autocite{lundbergSlundbergShap2020,ribeiroMarcotcrLime2020}.
-Interestingly is LIME's approach to textual feature coloured highlighting with varying opacity depending on the feature's contribution.
-The SHAP library takes a different approach with a ``force plot'' of feature contributions which summarizes the most important feature contributions in the document.
+LIME's approach to textual feature is with coloured highlighting and varying opacity depending on the feature's contribution.
+The SHAP library takes a different approach with a ``force plot'' of feature weights which summarizes the most important feature contributions in the document.
 These depictions raise the core issue of this project: visualizing document sensitivities.
 
 \section{Approaches to document visualization}
@@ -360,9 +361,9 @@ Our main focus is on summarizing the dense information spaces into a visualizati
 
 We start with a document overview displaying highlights beside the document outline also showing the ``topic'' of the highlight (Figure~\ref{fig:lexical_plot}), it is called ``Lexical Episode Plots'' \autocite{el-assadyVisArgueVisualText2016,goldExploratoryTextAnalysis2015}.
 
-This is reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighting colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure~\ref{fig:vscode_minimap}).
+This is reminiscent of code overviews in text editors, especially those aimed at editing code, which provide an overview of the ``shape'' of the text with syntax highlighted by colour to allow fast navigation between sections of source code like what \textcite{MicrosoftVscode2020} implements (Figure~\ref{fig:vscode_minimap}).
 
-An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, implements a similar feature, highlighting query terms in a document outline
+An old Information Retrieval system, J24 \autocite[7]{ogdenDocumentThumbnailVisualizations1998}, also implements a similar feature by highlighting query terms in a document outline.
 This shows that perhaps, these sort of overviews could also be used for previewing a document, for example as a popup when a document is hovered on within a collection.
 
 \subsection{Varying font size}
@@ -386,9 +387,9 @@ However varying font size within a \textit{reasonable range} would be an interes
     \vspace{-10pt}
 \end{wrapfigure}
 
-This technique has many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom'' \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure~\ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
+Text distortion techniques have many names and variants ``Document Lens'' \autocite{robertsonDocumentLens1993}, ``Fisheye'' view \autocite{greenbergFisheyeTextEditor1996} or ``hybrid continuous zoom'' \autocite{bartramContinuousZoomConstrained1995} with different implementations (see Figure~\ref{fig:fisheyes}) they are part of a concept called ``Bifocal Display'' \autocite{apperleyBifocalDisplay}.
 
-\textit{Circular Fisheye Distortion} is a circular ``magnifying glass'' effect visible in \textcite{bostockFisheyeGrid2019}. \textit{Cartesian Distortion} ``magnifies continuously so as to avoid local minification'' \autocite{bostockFisheyeDistortion2012}. The effect can also be limited to only one axis (vertical or horizontal) as seen in \textcite{pstuffaCartesianFisheyeDistortion2019}. In our case, Vertical Cartesian Distortion on a per line basis seems like an interesting visualization for document overview with emphasis on hovered lines. There is a D3js implementation of this effect \autocite{pstuffaCartesianFisheyeDistortion2019}, it also seems like there is a React specific implementation of this text fisheye effect \autocite{zhongVincentdchanReactfisheye2019}.
+For example, \textit{Circular Fisheye Distortion} is a ``magnifying glass'' effect visible in \textcite{bostockFisheyeGrid2019}. \textit{Cartesian Distortion} ``magnifies continuously so as to avoid local minification'' \autocite{bostockFisheyeDistortion2012}. The effect can also be limited to only one axis (vertical or horizontal) as seen in \textcite{pstuffaCartesianFisheyeDistortion2019}. In our case, Vertical Cartesian Distortion on a per line basis seems like an interesting visualization for document overview with emphasis on hovered lines. There is a Javascript implementation of this effect \autocite{pstuffaCartesianFisheyeDistortion2019}, it also seems like there is a ReactJS specific implementation of the text fisheye effect \autocite{zhongVincentdchanReactfisheye2019}.
 
 \section{Related products}
 
@@ -400,14 +401,14 @@ This technique has many names and variants ``Document Lens'' \autocite{robertson
     \vspace{-15pt}
 \end{wrapfigure}
 
-Quite a few official government guidelines on the redaction of sensitive documents mention Adobe Acrobat as a go to tool for redacting text documents \autocite{thenationalarchivesRedactionToolkitPaper2016}.
+Quite a few official government guidelines on the review of sensitive documents mention Adobe Acrobat as a go to tool for redacting text \autocite{thenationalarchivesRedactionToolkitPaper2016}.
 Sometimes, the guidelines \textit{are} Adobe's guidelines for redaction \autocite{scottishgovernmentRedactingInformation2019}.
 
 Adobe Acrobat is a well known PDF toolkit that notably enables sensitivity redaction of documents.
 The principle is simple: select text, click redact and browse a nested context menu to select an exemption (Figure~\ref{fig:adobe-redaction}).
 This can be repetitive as their does not seem to be a way to redact multiple identical instances of the same piece of text at once.
 
-There are a variety of PDF editors, when they implement document redaction, they closely resemble this workflow.
+When other PDF editors implement document redaction, they closely mimic this workflow.
 For instance, Foxit PhantomPDF is another well known PDF editor that implements a strikingly similar context menu (Appendix~\ref{fig:foxit-menu}) also allows for document wide redaction of a text selection (Appendix~\ref{fig:foxit-redact-all}), something which Adobe implement quite poorly (Appendix~\ref{fig:adobe-redact-all}).
 
 \subsection{Dedicated document redaction tools}
@@ -418,16 +419,16 @@ For instance, Foxit PhantomPDF is another well known PDF editor that implements 
     \vspace{-15pt}
 \end{wrapfigure}
 
-There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is a Microsoft Office plugin that for redacting sensitive information from documents.
+There are a few tools built specifically for redacting sensitive information,for example \textcite{ERedact} is a Microsoft Office plugin for redacting sensitive information from documents.
 \textcite{ERedact} is a purely manual tool, providing no ``aid'' to sensitivity redaction, contrarily to what we are trying to build, it does however provide insights, notably through its User Interface (UI).
 It's context menu is even more deeply nested than Adobe Reader's and contains exemptions from many legislations (Figure~\ref{fig:eredact-dropdown}).
 We want to avoid such a deep nesting of regularly used actions, for example in this case, it seems like a reviewer would rarely redact a document for US and UK FOIA at the same time.
-A solution to this would be to have a setting to select the legal ``framework'' within a settings menu which would reduce deep menu nesting.
+A solution to this would be to have a setting to select the legal ``framework'' within a separate menu which would reduce deep menu nesting.
 e-Redact also adds the ability to collaborate with multiple people on document redactions, but beyond this, it is very similar to PDF Editors and their built-in functionalities.
 
-A lot of the PDF editors' redaction functionality also require one to traverse the screen to select the type of redaction.
-Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection (albeit not consistently): the menu appears next to the selected text with actions to take on a selection which avoids having to cross long screen distances (Figure~\ref{fig:redactedai}).
-A downside of their implementation of a ``popup menu'' is that it takes considerable space, while it does offer quite a few useful actions, its ``remove'' and ``unredact this'' button are quite large,, we prefer a smaller menu that hides less of the content.
+A lot of the PDF editors' redaction functionality also requires one to traverse the screen to select the type of redaction.
+Others such as \textcite{RedactedAIRemovea} use a tooltip above the text selection (albeit not consistently). The menu appears next to the selected text offering actions to take onto a text selection which avoids having to cross long screen distances (Figure~\ref{fig:redactedai}).
+A downside of their implementation of a ``popup menu'' is that it takes considerable space, while it does offer quite a few useful actions, its ``remove'' and ``unredact this'' button are quite large.
 
 In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying to achieve: it is a web application for redacting sensitive documents. Its flagship feature uses Natural Language Processing (NLP) methods (namely: entity extraction) to provide an aid to document reviewers (Figure~\ref{fig:redactedai}).
 
@@ -440,63 +441,32 @@ In fact, \textcite{RedactedAIRemovea} is a similar concept to what we are trying
 %==================================================================================================================================
 \chapter{Requirements}
 
-From this overview of literature and related products, we devise a list of functional and non-functional requirements for our application.
+From this overview of literature and related products, we devise a list of functional and non-functional requirements for our application as well as a set of user stories.
 We then illustrate these requirements in a set of wireframe diagrams which allow us to assert their usefulness and to verify we did not skim over important ones.
 
-\section{MoSCoW Functional Requirements}
+\section{User Stories}
 
-% TODO reformulate this a bit
-\begin{adjustbox}{width=0.9\textwidth,center}
-    \begin{minipage}[t]{.5\linewidth}
-        \centerline{\textbf{Must Have}}
-        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{M\arabic*}]
-            \item Document Set creation and deletion
-            \item Within a set, plaintext document creation and deletion
-            \item Predicted document sensitivity classification (sensitive or not?)
-            \item Explanation for aforementioned classifications
-            \item User classification of a document (sensitive or not?)
-            \item Document set statistics (number of sensitive documents etc\ldots)
-            \item Document sets order documents by sensitivity
-            \item User redactions of a document with text highlighting, with possible edits and save functionality
-            \item Final redacted document exporting
-            \item Documentation for API
-        \end{enumerate}
-    \end{minipage}
-    \hfill
-    \noindent
-    \begin{minipage}[t]{.5\linewidth}
-        \centerline{\textbf{Should Have}}
-        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{S\arabic*}]
-            \item User redactions helper (highlight all instances of redacted text, could do this on a document set level)
-            \item For a document, suggest redaction of sensitive elements
-            \item Fulltext document search
-        \end{enumerate}
-        \vspace{0.5cm}
-        \centerline{\textbf{Could Have}}
-        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{C\arabic*}]
-            \item Extract and display entities from document
-            \item Possibility of using different text Classifiers
-            \item Documentation for API SDK
-            \item Documentation for frontend
-            \item Reviewer authentication
-        \end{enumerate}
-    \end{minipage}
-\end{adjustbox}
+\paragraph*{File upload, text extraction and Machine Learning model}\mbox{}\\
+As a redactor I want my file uploaded for redaction to be pre-processed and displayed with redaction hints so that I can redact documents faster.
 
+\paragraph*{Machine learning model explainer}\mbox{}\\
+As a redactor, I would like to understand the reasons for the sensitivity classfication suggestions so that I can decide on their relevance.
 
-\begin{adjustbox}{width=0.9\textwidth,center}
-    \begin{minipage}[t]{\linewidth}
-        \centerline{\textbf{Would Have}}
-        \begin{multicols}{2}
-            \begin{enumerate}[noitemsep,nolistsep,label=\textbf{W\arabic*}]
-                \item Handle more than plain text files (PDF, Word\ldots)
-                \item Specified and enforced document size and count upload limits
-                \item ``Active Learning'': user redactions help improve future predictions
-                \item Deployed ``production'' web application
-            \end{enumerate}
-        \end{multicols}
-    \end{minipage}
-\end{adjustbox}
+\paragraph*{Active Learning from user redactions to model}\mbox{}\\
+As a redactor, I would like the suggested redactions to improve as I redact documents.
+
+\paragraph*{Redaction assistance}\mbox{}\\
+As a redactor, I expect some of my redactions to be reflected across an entire document so that I don’t have to go over them again.
+
+\paragraph*{Web application}\mbox{}\\
+As a redactor, I would like to redact on my MacOS, Windows or Linux based computer so that I don’t have to worry about the device I am using.
+
+\paragraph*{Save and Edit redactions}\mbox{}\\
+As a redactor, I want to add and remove redactions so that I can go back and edit my work.
+
+\paragraph*{API specification}\mbox{}\\
+As a developer I want to standardize API calls so that others can easily built upon or improve the final application
+
 \section{Scope and non-functional definition}
 
 We should reiterate that our objective is not to have a ``production ready'' deployable application.
@@ -509,7 +479,57 @@ We think that an approach with correctly applied modern design guidelines such a
 Originally, we set out to focus on both document set visualization as well as single document visualization, ultimately however the focus shifted a lot towards the document viewer.
 We also skipped over some requirements which were later deemed non essential during rescopes of the project (e.g. fulltext document search)
 
-As mentioned we include a user study within the scope of this study to evaluate our application.
+\section{MoSCoW Functional Requirements}
+
+% TODO reformulate this a bit
+\begin{adjustbox}{width=\textwidth,center}
+    \begin{minipage}[t]{.5\linewidth}
+        \centerline{\textbf{Must Have}}
+        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{M\arabic*}]
+            \item Document Set creation and deletion
+            \item Text document creation and deletion within set
+            \item Predicted binary document sensitivity classification
+            \item Explanation for classifications
+            \item User classification of a document
+            \item Document set statistics (number of sensitive documents etc\ldots)
+            \item Order documents by sensitivity
+            \item Editable user redactions of a document
+            \item Redacted document exporting
+            \item Documentation for API
+        \end{enumerate}
+    \end{minipage}
+    \hfill
+    \noindent
+    \begin{minipage}[t]{.5\linewidth}
+        \centerline{\textbf{Should Have}}
+        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{S\arabic*}]
+            \item User redactions helpers (redact all instances of text at document or set level)
+            \item Suggest document redactions
+            \item Fulltext document search
+        \end{enumerate}
+        \vspace{0.5cm}
+        \centerline{\textbf{Could Have}}
+        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{C\arabic*}]
+            \item Document Entity Recognition
+            \item Text classifier selection
+            \item Documentation for API SDK
+            \item Documentation for frontend
+            \item Reviewer authentication
+        \end{enumerate}
+    \end{minipage}
+\end{adjustbox}
+
+
+\begin{adjustbox}{width=\textwidth,center}
+    \begin{minipage}[t]{\linewidth}
+        \centerline{\textbf{Would Have}}
+        \begin{enumerate}[noitemsep,nolistsep,label=\textbf{W\arabic*}]
+            \item Handle more than text files (PDF, Word\ldots)
+            \item ``Active Learning'': user redactions improve future predictions
+            \item Deployed ``production'' web application
+        \end{enumerate}
+    \end{minipage}
+\end{adjustbox}
 
 \section{Wireframing}
 
@@ -647,24 +667,67 @@ The next section details some of the key pieces of code from these services as w
 %==================================================================================================================================
 \chapter{Implementation}
 
-Harpocrates is a hellenized interpretation of the child appearance of the Egyptian deity Horus \autocite{mattheyChutSigneHarpocrate2011}.
-In Greek mythology, Harpocrates is the God of silence and keeper of secrets, a fitting name for our project.
-
-\begin{wrapfigure}{r}{0.4\textwidth}
+\begin{wrapfigure}{r}{0.356\textwidth}
     \includegraphics[width=\linewidth]{figures/tech_stack_no_background.pdf}
     \caption{Harpocrates tech stack}\label{fig:tech_stack}
     \vspace{-50pt}
 \end{wrapfigure}
 
+Harpocrates is a hellenized interpretation of the child appearance of the Egyptian deity Horus \autocite{mattheyChutSigneHarpocrate2011}.
+In Greek mythology, Harpocrates is the God of silence and keeper of secrets, a fitting name for our project.
 Figure~\ref{fig:tech_stack} illustrates the three containers that make up ``Harpocrates''.
 
 The first is an \textcite{NGINX2020} web server containers that contains and serves the compiled source code for our ReactJS frontend.
 It interacts with a python container which run the Flask API server, this image is based off \textcite{GoogleContainerToolsDistroless2020}'s smaller and more secure ``distroless'' python 3 image \autocite{mooreDistrolessDockerContainerizing2017}.
 Lastly, the API uses the official \textcite{MongoDB2020} container as a NoSQL database for storing documents, redactions and classifications.
 
+\section{Redacting sensitive sections}
+
+
+
+In order to select sensitive sections of a document for redaction, we initially embarked on creating our own text selection ``popover'' menu for our ReactJS frontend.
+
+Our base was \textcite{krispel-samselJuliankrispelReacttextselectionpopover2020}, a text selection popover library for ReactJS.
+Figure~\ref{fig:popover_1} shows our resulting initial popover menu implementation.
+The next step was to extract the document-wide offset for the selected text.
+We managed to do this and implement a redaction functionality to black out selected text.
+\begin{wrapfigure}{l}{0.45\textwidth}
+    \includegraphics[width=\linewidth]{images/popover_menu_1.jpg}
+    \caption{Initial sensitive section selection popover menu}\label{fig:popover_1}
+    \vspace{-10pt}
+\end{wrapfigure}
+However, we could not find a way to do this without inserting a Document Object Model (DOM) node in the middle of the document text.
+This results in the character offset for the next selected piece of text to be calculated from the previous DOM node as opposed to the start of the document.
+We implemented a fix by traversing the DOM tree to sum each sibling node's character offsets and recalculating the document wide character offset.
+However, the final result however did not handle edge cases like overlapping text selections, instead of trying to fix every edge case, we moved on to another solution.
+
+We fell back to \textcite{camachoMcamacReacttextannotate2020} a ReactJS component for labelling sections of text.
+While not perfect (e.g. unable to customize style of selected text, no popover menu) our final solution using this library saved us time while allowing us to have basic document redaction up and running.
+In the future, this library could be extended to allow for the implementation of these missing features.
+
+\section{OpenAPI definitions}
+
+To bind our application together, we define OpenAPI endpoints and models, below is an example of the \verb|predictedClassification| model along with its \verb|GET| endpoint definition.
+Listing~\ref{listing:predictedClassification_yml} and Listing~\ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
+
+\begin{listing}[H]
+    \inputminted{yaml}{code/predictedClassification.yml}
+    \caption{Defining a predictedClassification response object in OpenAPI}\label{listing:predictedClassification_yml}
+\end{listing}
+
+One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for strict type and value checking of variables at both the server and client levels (Listing~\ref{listing:predictedClassification_yml}, line 11-15).
+
+Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|.
+This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
+
+\begin{longlisting}
+    \inputminted{yaml}{code/getPredictedClassification.yml}
+    \caption{Defining a GET endpoint in OpenAPI}\label{listing:getPredictedClassification_yml}
+\end{longlisting}
+
 \section{Machine Learning Pipeline}
 
-The core of Harpocrates: the document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
+The core of Harpocrates: its document classifier consists of a number of steps implemented with multiple python libraries assembled in a scikit-learn \verb|Pipeline| (Listing~\ref{listing:ml_pipeline}).
 
 The first step consist in a TF-IDF transformer to convert the document's text to a numeric vector.
 We optimized our vectorizer's parameters by performing a grid search with five fold cross-validation to avoid overfitting, the optimal parameter space depends on the use case.
@@ -696,27 +759,6 @@ The returned value is a LIME \verb|Explanation| object wich we later exploit as 
 \begin{listing}[H]
     \inputminted{python}{code/explanations.py}
     \caption{Machine Learning classification explanations}\label{listing:ml_explanations}
-\end{listing}
-
-\section{OpenAPI definitions}
-
-To bind our application together, we define OpenAPI endpoints and models, below is an example of the \verb|predictedClassification| model along with its \verb|GET| endpoint definition.
-
-\begin{listing}[H]
-    \inputminted{yaml}{code/predictedClassification.yml}
-    \caption{Defining a predictedClassification response object in OpenAPI}\label{listing:predictedClassification_yml}
-\end{listing}
-
-Listing~\ref{listing:predictedClassification_yml} and Listing~\ref{listing:getPredictedClassification_yml} provide an example of an OpenAPI definition of the model of a response along with an accompanying endpoint definition.
-
-One thing to note is that OpenAPI has variable types which can be defined very precisely, allowing for strict type and value checking of variables at both the server and client levels (Listing~\ref{listing:predictedClassification_yml}, line 11-15).
-
-Another interesting aspect of the specification language is that it allows us to define an \verb|object| and extend it with another other \verb|object|.
-This object oriented approach allows us to avoid code repetition but also automatically define classes through the code generator.
-
-\begin{listing}[H]
-    \inputminted{yaml}{code/getPredictedClassification.yml}
-    \caption{Defining a GET endpoint in OpenAPI}\label{listing:getPredictedClassification_yml}
 \end{listing}
 
 \section{ReactJS components}
@@ -756,29 +798,6 @@ When the value within the \verb|TextField| component (Line 34) changes, this set
     \inputminted{jsx}{code/newSetForm.jsx}
     \caption{New document set form}\label{listing:newSetForm}
 \end{listing}
-
-\section{Redacting sensitive sections}
-
-\begin{wrapfigure}{r}{0.45\textwidth}
-    \includegraphics[width=\linewidth]{images/popover_menu_1.jpg}
-    \caption{Initial sensitive section selection popover menu}\label{fig:popover_1}
-    \vspace{-10pt}
-\end{wrapfigure}
-
-In order to select sensitive sections of a document for redaction, we initially embarked on creating our own text selection ``popover'' menu.
-
-Our base was \textcite{krispel-samselJuliankrispelReacttextselectionpopover2020}, a text selection popover library for ReactJS.
-Figure~\ref{fig:popover_1} shows our resulting initial popover menu implementation.
-The next step was to extract the document-wide offset for the selected text.
-We managed to do this and implement a redaction functionality to black out selected text.
-However, we could not find a way to do this without inserting a Document Object Model (DOM) node in the middle of the document text.
-This results in the character offset for the next selected piece of text to be calculated from the previous DOM node as opposed to the start of the document.
-We implemented a fix by traversing the DOM tree to sum each sibling node's character offsets and recalculating the document wide character offset.
-However, the final result however did not handle edge cases like overlapping text selections, instead of trying to fix every edge case, we moved on to another solution.
-
-We fell back to \textcite{camachoMcamacReacttextannotate2020} a ReactJS component for labelling sections of text.
-While not perfect (e.g. unable to customize style of selected text, no popover menu) our final solution using this library saved us time while allowing us to have basic document redaction up and running.
-In the future, this library could be extended to allow for the implementation of these missing features
 
 \section{Version-Control and Continuous Integration}
 
@@ -906,6 +925,7 @@ Table \ref{tab:clf_perf} shows the results we obtained while trying to find a cl
         \end{tabular}
     \end{adjustbox}
     \caption{Best performing classifiers using 5-fold cross validation targeting different metrics and sensitive classifications}\label{tab:clf_perf}
+    \vspace{-10pt}
 \end{table}
 
 Table~\ref{tab:clf_perf} confirms our assumptions to some extent.
@@ -929,6 +949,7 @@ We then selected both sensitive and non-sensitive documents in order to represen
         Predicted Sensitive     & 1                      & 1
     \end{tabular}
     \caption{Count of selected documents in the classifier's confusion matrix}\label{tab:confusion-matrix-selection}
+    \vspace{-15pt}
 \end{table}
 
 We sample test documents accordingly twice: once for each User Interface (UI).
@@ -948,6 +969,7 @@ The other, \textit{test mode 2} (Figure~\ref{fig:test-mode-2}) is a stripped dow
         \caption{Test mode 2}\label{fig:test-mode-2}
     \end{subfigure}
     \caption{The two test modes used for evaluation}\label{fig:test-modes}
+    \vspace{-15pt}
 \end{figure}
 
 We asked our participants to review each set of test documents with one of the two interfaces.
@@ -996,10 +1018,11 @@ We recode our 5 point Likert scale into three categories:
 %
 With these categories, we peform a two-tailed Fisher's exact test to evaluate the significance of a difference in confidence between interfaces.
 Ideally, we expect our p-value to be inferior than our critical value at a 95\% confidence level, which would confirm \textbf{H3} over \(\mathbf{H3_{null}}\).
-%TODO finish detailing fisher's exact test
 
 %==================================================================================================================================
 \chapter{Conclusion}
+
+Despite not being able to carry out a proper user study,
 
 % link back to requirements,  how have they been met?
 % reflections
