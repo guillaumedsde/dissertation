@@ -98,6 +98,7 @@
 \title{Why is This Sensitive? \\ Visualising Important Sensitivity Classification Features}
 \author{Guillaume de Susanne d'Epinay}
 \date{\today}
+\def\email{guillaume |at| desusanne |dot| com}
 
 \maketitle
 
@@ -447,13 +448,13 @@ We then illustrate these requirements in a set of wireframe diagrams which allow
 \section{User Stories}
 
 \paragraph*{File upload, text extraction and Machine Learning model}\mbox{}\\
-As a redactor I want my file uploaded for redaction to be pre-processed and displayed with redaction hints so that I can redact documents faster.
+As a redactor I want my file uploaded for redaction to be pre-processed and displayed with redaction aids so that I can redact documents faster.
 
 \paragraph*{Machine learning model explainer}\mbox{}\\
-As a redactor, I would like to understand the reasons for the sensitivity classfication suggestions so that I can decide on their relevance.
+As a redactor, I would like to understand the reasons for the sensitivity classification suggestions so that I can decide on their relevance.
 
 \paragraph*{Active Learning from user redactions to model}\mbox{}\\
-As a redactor, I would like the suggested redactions to improve as I redact documents.
+As a redactor, I would like the suggested redactions and classification to improve as I redact documents.
 
 \paragraph*{Redaction assistance}\mbox{}\\
 As a redactor, I expect some of my redactions to be reflected across an entire document so that I don’t have to go over them again.
@@ -465,7 +466,7 @@ As a redactor, I would like to redact on my MacOS, Windows or Linux based comput
 As a redactor, I want to add and remove redactions so that I can go back and edit my work.
 
 \paragraph*{API specification}\mbox{}\\
-As a developer I want to standardize API calls so that others can easily built upon or improve the final application
+As a developer I want to standardize API calls so that others can easily build upon or improve the final application
 
 \section{Scope and non-functional definition}
 
@@ -941,8 +942,11 @@ This is in part because of our participants lack of experience but also based on
 Due to time constraints, we only sampled documents to review from the test set that were under 2000 characters.
 We then selected both sensitive and non-sensitive documents in order to represent every category of the confusion matrix for the classifier as illustrated in Table~\ref{tab:confusion-matrix-selection}.
 
+As an aside note: we have left in the repository the scripts we used for the document selection and general experimental setup with fixed random number generator seeds so that anyone with the same dataset can reproduce this experiment with the same documents, classifications and explanations.
+
 \begin{table}[H]
     \centering
+    \small
     \begin{tabular}{l|ll}
                                 & Actually non-sensitive & Actually Sensitive \\ \hline
         Predicted non-sensitive & 3                      & 1                  \\
@@ -979,8 +983,6 @@ This questionnaire is split into three sections, the first two were an identical
 The first two sections were answered after each review batch was completed, then, the last section was handed out.
 It seeks to evaluate the usefulness of each invidual component in interface 1.
 
-We elected to nonetheless select
-
 \subsection{Results}
 
 As mentioned, each user is asked to review one collection of six documents for personal information sensitivities (FOIA Section 40) for each user interface.
@@ -1008,21 +1010,67 @@ Once again, we perform a paired sample two-tailed Student's T-Test, pairing perf
 
 Lastly, we suppose that \textit{Interface 1 significantly improves the the confidence of participants in the quality of their sensitivity review} (\textbf{H3}) or that \textit{Interface 1 does no significantly improves the the confidence of participants in the quality of their sensitivity review} (\(\mathbf{H3_{null}}\)) in response to \textbf{RQ3}.
 Since our sample size is expectedly quite restricted, we prefer Fisher's exact test over a Chi-square test for testing the significance of the difference in confidence between interface 1 and 2 to validate \textbf{H3} or \(\mathbf{H3_{null}}\).
-We recode our 5 point Likert scale into three categories:
-%
-\begin{itemize}[noitemsep,nolistsep]
-    \item Improved confidence
-    \item Unchanged confidence
-    \item Worsened confidence
-\end{itemize}
+We recode our 5 point Likert scale into three categories: Improved, Unchanged and Worsened Confidence
 %
 With these categories, we peform a two-tailed Fisher's exact test to evaluate the significance of a difference in confidence between interfaces.
 Ideally, we expect our p-value to be inferior than our critical value at a 95\% confidence level, which would confirm \textbf{H3} over \(\mathbf{H3_{null}}\).
 
+\section*{}
+
+Concluding this project in unexpected circunstances has left some things yet to be finished for this user study.
+Sensitivity Review being a complex matter, an in person user study is important for being able to explain the task and measure it properly: especially with novice reviewers like our targeted population.
+As we have mentioned we have left the tools we develop to conduct the user study, including the questionaire and setup scripts in order to allow for it to be conducted at a later date.
+This might also allow more time to recruit more participants than we would have or to recruit expert reviewers.
+
+We can note a couple of points from our one test user evaluation.
+There is still some work to be done on the text selection for redactions, notably, their is a noticable delay between selecting text and it actually becoming highlighted du to frontend waiting for confirmation for the backend.
+Furthermore, text selection is still sometimes buggy, notably when selecting overlapping sections of particular text.
+We also refactored the questionaire following the test user evaluation, notably the SUS section to clarify and reformulate section in order to emphasize that questions are to be answered from a sensitivity reviewer's perspective.
+
+Despite these shortcoming we feel that, especially since this is a proof of concept, sufficiently useful and constructive feedback and evaluation has been obtained from the expert panel's review to consitute a preliminary assessment of Harpocrates.
+
+
 %==================================================================================================================================
 \chapter{Conclusion}
 
-Despite not being able to carry out a proper user study,
+As much research often does: this project has introduced more questions than it has answered.
+It has however addressed the core of the initial scope, namely, to develop a proof of concept application for aiding sensitivity review with Machine Learning tools.
+
+\section{Achievements and reflections}
+
+While we have yet to evaluate whether it contributes to actually improving accuracy or review time, we have devised a user study to verify these claims along with the tools necessary to reproduce the a very close experimental setup.
+
+Our final application ``Harpocrates'' allow reviewers to upload documents, and have them displayed within a modern and simple interface for redaction.
+This interface allows reviewers to create editable redactions of sections of a document for a particular exemption with the aid of a selectable Machine Learning classifier complemented by an explanation for its classification.
+Once a reviewer is done with a document, he can chose to export the original or the redacted plaintext version.
+The document set view displays predicted classification for all documents in the set, albeit not sortable by sensitivity.
+The final producted is a partly test fullstack application with advanced documentation for the API and its client as well as the product as a whole.
+
+The original design and requirements did however evolve throughout the development process.
+Having fulltext search as a feature was not found to directly contribute to the proof of concept and could be implented in a more deployment ready application.
+We have not implemented any kind of suggested redaction, something which could perhaps be implemented with entity recognition (also unimplemented) similarly to \textcite{RedactedAIRemovea}.
+
+\section{Future work}
+
+Our application does however remain a proof of concept, as such, it is not fully deployable, in part due to its lack of more testing as well as a reviewer authentication scheme (which OpenAPI allows with its Oauth2 integration).
+
+Classifiying documents along with calculating is computationally expensive and thus, time consuming.
+Harpocrates needs some sort of computationally expensive task scheduling and distribution like \textcite{Celery2020} as well as a querying mechanism for diplaying document processing progress to the final user.
+
+Furthermore, at scale, such a system would require distributed computing capabilities with a load balancing reverse proxy.
+When reaching these scales, previously mentionned orchestration tools like \textcite{Kubernetes2020} really shine for painlessly deploying redudant, distributed and load balanced applications.
+
+A deployable version of Harpocrates would also probably need to be able to process common document formats like Word, PDF\dots %
+Displaying them in a web browser along with the capability to redact them is complex but not unfeasible with open source solutions like \textcite{tyurinAgentcooperReactpdfhighlighter2020} or more advanced multi-format commercial solutions like \textcite{ReactPDFLibrary2020}.
+To us, it seems like the best approach would be to convert files to PDF on upload and thus focus on developing PDF annotation and export tools.
+
+As we mentioned SHAP explanations are more ideal but more computationally expensive than LIME's.
+Proper task scheduling like we mentionned could alleviate some of this issue.
+It might also be worth investigating tree based ML classifiers which perform better with SHAP.
+
+The ML classifier could also be furthered: we focused on visualizing its output but there so much more to be done to improve it.
+The literature is abundant on techniques which can be used to improve our ``simple'' text classifiers: Part of Speech Tagging, Word Embeddings, Entity Recognition, Semantic Features \dots %
+Moreover, all these features introduce a wide range of challenges for visualization, especially those, like word embeddings which would imply illustrating the relationship between terms.
 
 % link back to requirements,  how have they been met?
 % reflections
