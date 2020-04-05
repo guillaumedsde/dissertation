@@ -1044,15 +1044,18 @@ Our final application ``Harpocrates'' allow reviewers to upload documents, and h
 This interface allows reviewers to create editable redactions of sections of a document for a particular exemption with the aid of a selectable Machine Learning classifier complemented by an explanation for its classification.
 Once a reviewer is done with a document, he can chose to export the original or the redacted plaintext version.
 The document set view displays predicted classification for all documents in the set, albeit not sortable by sensitivity.
-The final producted is a partly test fullstack application with advanced documentation for the API and its client as well as the product as a whole.
+The final producted is a partly tested fullstack application with advanced documentation for its API and associated client as well as the product as a whole.
 
 The original design and requirements did however evolve throughout the development process.
 Having fulltext search as a feature was not found to directly contribute to the proof of concept and could be implented in a more deployment ready application.
 We have not implemented any kind of suggested redaction, something which could perhaps be implemented with entity recognition (also unimplemented) similarly to \textcite{RedactedAIRemovea}.
 
+Learning and using ReactJS has left us partly satisfied and partly
+
 \section{Future work}
 
-Our application does however remain a proof of concept, as such, it is not fully deployable, in part due to its lack of more testing as well as a reviewer authentication scheme (which OpenAPI allows with its Oauth2 integration).
+Our application does however remain a proof of concept, as such, it is not fully deployable, in part due to its lack of more testing as well as a reviewer authentication scheme.
+This can be implemented through OpenAPI support for Oauth2 authentication.
 
 Classifiying documents along with calculating is computationally expensive and thus, time consuming.
 Harpocrates needs some sort of computationally expensive task scheduling and distribution like \textcite{Celery2020} as well as a querying mechanism for diplaying document processing progress to the final user.
@@ -1061,16 +1064,18 @@ Furthermore, at scale, such a system would require distributed computing capabil
 When reaching these scales, previously mentionned orchestration tools like \textcite{Kubernetes2020} really shine for painlessly deploying redudant, distributed and load balanced applications.
 
 A deployable version of Harpocrates would also probably need to be able to process common document formats like Word, PDF\dots %
-Displaying them in a web browser along with the capability to redact them is complex but not unfeasible with open source solutions like \textcite{tyurinAgentcooperReactpdfhighlighter2020} or more advanced multi-format commercial solutions like \textcite{ReactPDFLibrary2020}.
+Displaying them in a web browser along with the ability to redact them is complex but not unfeasible with open source solutions like \textcite{tyurinAgentcooperReactpdfhighlighter2020} or more advanced multi-format commercial solutions like \textcite{ReactPDFLibrary2020}.
 To us, it seems like the best approach would be to convert files to PDF on upload and thus focus on developing PDF annotation and export tools.
 
 As we mentioned SHAP explanations are more ideal but more computationally expensive than LIME's.
 Proper task scheduling like we mentionned could alleviate some of this issue.
-It might also be worth investigating tree based ML classifiers which perform better with SHAP.
+It might also be worth investigating tree based ML classifiers which perform better with SHAP in order to utilize SHAP's more accurate and complete explanations.
 
 The ML classifier could also be furthered: we focused on visualizing its output but there so much more to be done to improve it.
-The literature is abundant on techniques which can be used to improve our ``simple'' text classifiers: Part of Speech Tagging, Word Embeddings, Entity Recognition, Semantic Features \dots %
-Moreover, all these features introduce a wide range of challenges for visualization, especially those, like word embeddings which would imply illustrating the relationship between terms.
+The literature is abundant with techniques which can be used to improve our ``simple'' text classifiers: Part of Speech Tagging, Word Embeddings, Entity Recognition, Semantic Features \dots %
+Moreover, all these features introduce a wide range of challenges for visualization, especially those, like word embeddings, which imply illustrating the relationship between terms.
+
+Conducting the user study described previously would also be enlightening for understanding how and if tools like Harpocrates actually improve the sensitivity review process.
 
 % link back to requirements,  how have they been met?
 % reflections
