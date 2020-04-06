@@ -88,7 +88,7 @@
  
 \usepackage{multicol}
 
-\newenvironment{longlisting}{\captionsetup{type=listing}}{}
+\newenvironment{longlisting}{\captionsetup{type=listing}\vspace{10pt}}{}
 
 
 \begin{document}
@@ -217,10 +217,10 @@ Otherwise, the risk is for Public Institutions to become overwhelmed by their re
 \section{Objective}
 
 Our aim is to contribute to the research into these Technology Assisted Review (TAR) tools to assist sensitivity reviewers.
-Notably, we seek to expand upon the work in this emerging field which has produced Machine Learning classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources thus processing documents faster.
-A lot of effort has been dedicated to these Machine Learning algorithms: some work has focused on evaluating their impact at reducing review time, but there is not enough research on visualizing these sensitivities to display them in an understandable user interface (UI).
+Notably, we seek to expand upon the work in this emerging field which has produced Machine Learning (ML) classifiers focused on identifying sensitive documents to prioritize and better target reviewing resources thus processing documents faster.
+A lot of effort has been dedicated to these ML algorithms: some work has focused on evaluating their impact at reducing review time, but there is not enough research on visualizing these sensitivities to display them in an understandable user interface (UI).
 
-We want to introduce an approach to displaying sensitive information within documents based on these Machine Learning classifiers.
+We want to introduce an approach to displaying sensitive information within documents based on these ML classifiers.
 Our objective is to design, build and evaluate a proof of concept fullstack application for classifying, visualizing and redacting potentially sensitive documents.
 Ideally, we aim to decrease the time reviewers spend on documents and allow them to more accurately identify sensitive records.
 
@@ -228,7 +228,7 @@ Ideally, we aim to decrease the time reviewers spend on documents and allow them
 
 To proceed, we start with a review of the literature on the application of TAR to sensitivity review.
 Then we explore some of the works on the use of TAR in the legal profession, notably in legal discovery.
-We also assess some of the recent implementations of explanations for Machine Learning Classifiers' predictions.
+We also assess some of the recent implementations of explanations for ML Classifiers' predictions.
 Finally we survey some of the research into visualization of dense information spaces.
 % TODO dense information spaces might a little bullshitty?
 We then evaluate similar or otherwise related products, picking out key interesting features as well as antipatterns we wish to avoid.
@@ -239,7 +239,7 @@ We elaborate on the testing methodology for a user study and lastly we draw up w
 We then discuss our application design process and summarize our technology stack. We elaborate on our choice of libraries, the reasons for our final picks as well alternative options and why we did not elect them.
 
 Afterwards, we detail some of the important aspects of the software, highlighting key sections of the code as well as our Repository and Continuous Integration setup.
-We explain the issues we ran into, from data storage concerns to frontend implementation struggles as well as Machine Learning classifier optimization and debugging.
+We explain the issues we ran into, from data storage concerns to frontend implementation struggles as well as ML classifier optimization and debugging.
 
 Lastly before concluding, we detail the findings from an evaluation by an expert panel, as well as the user evaluation we would have conducted had the COVID-19 pandemic not rendered it infeasible.
 
@@ -253,10 +253,10 @@ Lastly before concluding, we detail the findings from an evaluation by an expert
 
 Early works on the application of Text Analytics for identifying sensitive information focused on personal and client information for use in enterprise.
 \textcite{cumbyMachineLearningBased2011} for instance developed a addon for identifying this information in Word documents.
-Given a set of documents associated with a sensitivity category, they trained a Machine Learning classifier for sensitive documents.
+Given a set of documents associated with a sensitivity category, they trained a ML classifier for sensitive documents.
 They then devised a framework for removing names, social security numbers or a client identity (company name) from these documents while preserving their utility.
 
-That same year \textcite{hartTextClassificationData2011} also published their work on applying Machine Learning classification for identifying sensitive corporate documents.
+That same year \textcite{hartTextClassificationData2011} also published their work on applying ML classification for identifying sensitive corporate documents.
 They create a corpus from publicly available corporate documents and determine that a linear Support Vector Classifier (SVC) along with further processing yielded the best results for automated binary classification of documents as ``secret'' or not.
 
 \textcite{sanchezDetectingSensitiveInformation2012} followed up on this work by creating a semi-supervised system for identifying private information within celebrities' personal Wikipedia pages.
@@ -264,7 +264,7 @@ They compare using an Information Content measure (specific terms contain ``more
 
 \subsection{TAR of sensitive governmental records}
 
-\textcite{mcdonaldClassifierDigitalSensitivity2014} was the first application of TAR for identifying sensitivities in governmental records for which they established an initial Machine Learning sensitive document classifier.
+\textcite{mcdonaldClassifierDigitalSensitivity2014} was the first application of TAR for identifying sensitivities in governmental records for which they established an initial ML sensitive document classifier.
 They combined the textual content of these documents with sentiment analysis, a custom country risk score, entity and name recognition in order to achieve a balanced accuracy (BAC) of 0.63 for FOIA S27 and 0.74 for S40.
 
 As a follow up, \textcite{berardiSemiAutomatedTextClassification2015} established that BAC and the \(F_{2}\) measure are best suited when evaluating sensitivity classifiers due to the predominance of recall over precision: a released sensitive document is potentially more problematic than an excessive closure of information.
@@ -311,7 +311,7 @@ Early on in TSAR research, the emphasis has been on designing systems that suppo
 This speaks to the level of trust we confer to these systems, while they might yield impressive results, we are not willing to delegate tasks we deem crucial to them entirely.
 
 This lack of trust is attributed to our lack of complete understanding of the decision process of such automated systems which are often referred to as ``black boxes'' \autocite{ribeiroWhyShouldTrust2016}.
-Recent research into Explanation techniques for Machine Learning models have noted this need for interpretability.
+Recent research into Explanation techniques for ML models have noted this need for interpretability.
 
 \textcite{ribeiroWhyShouldTrust2016} devised a method called ``Local Interpretable Model-agnostic Explanations'' (LIME).
 LIME provides explanations for individual predictions from any model.
@@ -319,7 +319,7 @@ It does so by sampling $k$ features from a classifier's input and evaluating the
 This allows them to calculate feature weights denoting ``how much'' each contributed to the actual model's prediction by randomly sampling them from the original model.
 Thus, they generated explanations for predictions that are simpler than the input data (e.g. words instead of documents).
 This makes it easier to understand the decision of a model without understanding the vectorial operations of classifier algorithms .
-As far as the user knows, the model can stay a ``black box'' because he now sees a simplified feature space with numeric values for each feature allowing him to better understand the model's decision.
+As far as the user knows, the model can stay a ``black box'' because she now sees a simplified feature space with numeric values for each feature allowing her to better understand the model's decision.
 
 \textcite{lundbergUnifiedApproachInterpreting2017} expanded on this work with a technique called ``SHapley Additive exPlanations'' (SHAP) which calculates predictions for all possible combinations of features.
 They used Shapley values \autocite{shapleyNotesNPersonGame1951}, a Game Theory concept for calculating an individual's contribution to a group, in order to compute a score for each feature's contribution to the classification.
@@ -447,10 +447,10 @@ We then illustrate these requirements in a set of wireframe diagrams which allow
 
 \section{User Stories}
 
-\paragraph*{File upload, text extraction and Machine Learning model}\mbox{}\\
+\paragraph*{File upload, text extraction and ML model}\mbox{}\\
 As a redactor I want my file uploaded for redaction to be pre-processed and displayed with redaction aids so that I can redact documents faster.
 
-\paragraph*{Machine learning model explainer}\mbox{}\\
+\paragraph*{ML model explainer}\mbox{}\\
 As a redactor, I would like to understand the reasons for the sensitivity classification suggestions so that I can decide on their relevance.
 
 \paragraph*{Active Learning from user redactions to model}\mbox{}\\
@@ -556,7 +556,7 @@ The latter, is portrayed more in depth as an expanded menu in Figure~\ref{fig:ex
     \centering
     \begin{subfigure}[b]{\linewidth}
         \centering
-        \includegraphics[width=0.5\linewidth]{images/wireframes/doc_view.jpg}
+        \includegraphics[width=0.7\linewidth]{images/wireframes/doc_view.jpg}
         \caption{Document View Wireframe}\label{fig:document-wireframe}
     \end{subfigure}
     \begin{subfigure}[b]{\linewidth}
@@ -564,7 +564,7 @@ The latter, is portrayed more in depth as an expanded menu in Figure~\ref{fig:ex
             \includegraphics[width=\linewidth]{images/wireframes/tooltip.jpg}
             \caption{minimized tooltip wireframe}\label{fig:tooltip-wireframe}
         \end{subfigure}
-        \begin{subfigure}[b]{0.2\linewidth}
+        \begin{subfigure}[b]{0.4\linewidth}
             \includegraphics[width=\linewidth]{images/wireframes/tooltip_comment.jpg}
             \caption{Expanded tooltip wireframe}\label{fig:expanded-tooltip-wireframe}
         \end{subfigure}
@@ -598,7 +598,7 @@ Based on this, the user will redact parts of the document, these redactions are 
 
 % TODO this sounds too much like a list
 % TODO justify choice of ML library
-The core of our application is the Machine Learning (ML) model.
+The core of our application is the ML model.
 To build it we used the Scikit-Learn library \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitivity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}.
 The library has a very well implemented and documented intuitive APIs for many ML classifiers (SVM, Random Forest \ldots) as well as text processing (TF-IDF, Bag of Words \ldots) evaluation and tuning (Grid Search \ldots) techniques.
 However, it sometimes fails to place performance at its core, which led us to replace its SVC implementation with a drop-in parallelized replacement ``ThunderSVM'' which can operate on multicore CPUs or CUDA enabled GPUs \autocite{wenThunderSVMFastSVM2018}.
@@ -627,6 +627,17 @@ This incentivizes you to write the specification'' \autocite{ZalandoConnexion202
 Furthermore, Flask is a Python API framework that is extensible with libraries notably implementing file upload size limits for requirement \textbf{W2}. Furthermore it is widely used by major technology companies like Reddit or Netflix \autocite{WhyDevelopersFlask}, a testament to its robustness and level of support which streamlines the implementation of requirement \textbf{M9}.
 
 Furthermore, the Connexion+Flask implements the Oauth2 Authentication specification for API endpoints, a state of the art authentication framework that allows us to securely authenticate reviewers for requirements \textbf{C5} \autocite{jonesOAuthAuthorizationFramework2012}.
+
+\section{Database}
+
+We elected a couple of different databases for storing document and their redactions.
+We started by considering using an SQL based database like \textcite{Postgres2020}, notably because of the libraries we found that allowed us to generate SQL model from an OpenAPI specification \autocite{jdkanderssonJdkanderssonOpenAlchemy2020}.
+
+However, we moved away from this idea: because of the fundamentally unstructured nature of our plaintext documents, we did not wish to burden ourselves with the constraints of modelling SQL schemas just for document redactions which would slow us down.
+Thus we turned to NoSQL databases, we initially considered using the \textcite{Terrier2020} Information Retrieval Platform but due to setup issues we turned to the more widely used alternative we were familiar with: \textcite{ElasticElasticsearch2020}.
+Notably we thought we could make use of some of the ML functionalities built in, however, we preferred the flexibility of running all ML tasks with scikit-learn.
+Furthermore, the elasticsearch python client is not very helpful in formulating queries which results in big JSON queries, this was not practical so we ultimately decided to use \textcite{MongoDB2020} as our database.
+It sped up development, not only because we had experience with it but also because the data is stored as BSON, a binary version of JSON which allowed us to mostly use JSON across our services without converting to other formats too often.
 
 \section{Frontend}
 
@@ -776,11 +787,14 @@ One of the features of ReactJS is its ``one-way data binding'' that is data is p
 In Listing~\ref{listing:sensitivity_bar}, we pass a document's classification to the \verb|SensitivityBar| component to change its appearance based on its sensitivity value.
 This one way data binding simplifies the flow of information thus making them easier to debug.
 
-
 \begin{listing}[H]
     \inputminted{jsx}{code/documentSensitivityBar.jsx}
     \caption{Document sensitivity bar}\label{listing:sensitivity_bar}
 \end{listing}
+
+This is a double edged sword however, the component in Listing~\ref{listing:sensitivity_bar} receives few props, but for more complex components, state management becomes an issue.
+Indeed, some of our ``parent'' components which hold other components in some cases receive many props (more than five) which makes managing the flow information complicated.
+This is where a projects aiming to be deployed would introduce a state management library like \textcite{Redux2020}, we did not use one because of the relatively small scale of our project.
 
 \section{API calls from ReactJS components}
 
@@ -795,10 +809,10 @@ In Listing~\ref{listing:newSetForm} we also see an example of the state manageme
 Upon instantiating \verb|newSetName| with a default value on line 10, we also receive a setter function to modify the component's newly created state.
 When the value within the \verb|TextField| component (Line 34) changes, this setter function is used to modify the component's state with the new value for the set name.
 
-\begin{listing}[H]
+\begin{longlisting}
     \inputminted{jsx}{code/newSetForm.jsx}
     \caption{New document set form}\label{listing:newSetForm}
-\end{listing}
+\end{longlisting}
 
 \section{Version-Control and Continuous Integration}
 
@@ -1034,23 +1048,28 @@ Despite these shortcoming we feel that, especially since this is a proof of conc
 \chapter{Conclusion}
 
 As much research often does: this project has introduced more questions than it has answered.
-It has however addressed the core of the initial scope, namely, to develop a proof of concept application for aiding sensitivity review with Machine Learning tools.
+It has however addressed the core of the initial scope, namely, to design, build and to some extent evaluate a proof of concept application for aiding sensitivity review with ML tools.
 
 \section{Achievements and reflections}
 
 While we have yet to evaluate whether it contributes to actually improving accuracy or review time, we have devised a user study to verify these claims along with the tools necessary to reproduce the a very close experimental setup.
 
-Our final application ``Harpocrates'' allow reviewers to upload documents, and have them displayed within a modern and simple interface for redaction.
-This interface allows reviewers to create editable redactions of sections of a document for a particular exemption with the aid of a selectable Machine Learning classifier complemented by an explanation for its classification.
-Once a reviewer is done with a document, he can chose to export the original or the redacted plaintext version.
+Our final application ``Harpocrates'' allows reviewers to upload documents, and have them displayed within a modern and simple interface for redaction.
+This interface allows reviewers to create editable redactions of sections of a document for a particular exemption with the aid of a selectable ML classifier complemented by an explanation for its classification.
+Once a reviewer is done with a document, she can chose to export the original or the redacted plaintext version.
 The document set view displays predicted classification for all documents in the set, albeit not sortable by sensitivity.
-The final producted is a partly tested fullstack application with advanced documentation for its API and associated client as well as the product as a whole.
+The final product is a partly tested fullstack application with advanced documentation for its API and associated client as well as the software as a whole.
 
-The original design and requirements did however evolve throughout the development process.
-Having fulltext search as a feature was not found to directly contribute to the proof of concept and could be implented in a more deployment ready application.
+The original design and requirements evolved throughout the development process.
+For example having fulltext search as a feature was not found to directly contribute to the proof of concept and could be implented in a more deployment ready application.
 We have not implemented any kind of suggested redaction, something which could perhaps be implemented with entity recognition (also unimplemented) similarly to \textcite{RedactedAIRemovea}.
 
-Learning and using ReactJS has left us partly satisfied and partly
+Choosing ReactJS as a frontend Javascript framework has given us flexibility and not constrained us into a complex out of the box project structure like the others would have.
+We did however, end up with somewhat verbose data passing between components because of our decision to avoid using a state management library because we were not familiar with the ReactJs ecosystem.
+
+We spent some time experimenting with different databases, especially converting from Elasticsearch to MongoDB, in hinsight, it would have been preferable to decide to use MongoDB earlier on in the project.
+
+
 
 \section{Future work}
 
