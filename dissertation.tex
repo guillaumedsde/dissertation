@@ -230,7 +230,6 @@ To proceed, we start with a review of the literature on the application of TAR t
 Then we explore some of the works on the use of TAR in the legal profession, notably in legal discovery.
 We also assess some of the recent implementations of explanations for ML Classifiers' predictions.
 Finally we survey some of the research into visualization of dense information spaces.
-% TODO dense information spaces might a little bullshitty?
 We then evaluate similar or otherwise related products, picking out key interesting features as well as antipatterns we wish to avoid.
 
 In order to build an application, we delineate a scope, clarifying our end product, we also establish a set of requirements to prioritize features to implement.
@@ -482,7 +481,6 @@ We also skipped over some requirements which were later deemed non essential dur
 
 \section{MoSCoW Functional Requirements}
 
-% TODO reformulate this a bit
 \begin{adjustbox}{width=\textwidth,center}
     \begin{minipage}[t]{.5\linewidth}
         \centerline{\textbf{Must Have}}
@@ -596,8 +594,6 @@ Based on this, the user will redact parts of the document, these redactions are 
 
 \section{Machine Learning Model and explanations}
 
-% TODO this sounds too much like a list
-% TODO justify choice of ML library
 The core of our application is the ML model.
 To build it we used the Scikit-Learn library \autocite{pedregosaScikitlearnMachineLearning2011} for predicting the sensitivity of documents to meet requirement \textbf{M3}, \textbf{M7} and \textbf{M6}.
 The library has a very well implemented and documented intuitive APIs for many ML classifiers (SVM, Random Forest \ldots) as well as text processing (TF-IDF, Bag of Words \ldots) evaluation and tuning (Grid Search \ldots) techniques.
@@ -609,7 +605,6 @@ We experimented with the previously mentioned \textcite{lundbergSlundbergShap202
 \section{OpenAPI specification and generator}
 
 ``The OpenAPI Specification is a community-driven open specification within the OpenAPI Initiative, a Linux Foundation Collaborative Project.'' \autocite{OAIOpenAPISpecification2020}.
-% TODO elaborate a bit more on this
 It is an increasingly popular framework for formally defining a REST API contract.
 Its precision and specificity is such that it has allowed powerful tools to expand it.
 Notably, the OpenAPI generator \autocite{OpenAPIToolsOpenapigenerator2020} which, given an OpenAPI specification, allows for the \textit{automatic} generation of API server code in more than 40 languages and API client code in more than 50.
@@ -661,7 +656,6 @@ ReactJS uses \lstinline{.jsx} files which allow for the integration of HTML and 
 Furthermore ReactJS is an Open Source project developed by Facebook, this backing along with its flexibility has given birth to a large ecosystem of both development support and advanced component libraries \autocite{wohlgethanSupportingWebDevelopmentDecisions2018}.
 It does however introduce more complex state management due to its ``one-way data binding'': information flows from parent to child component but the reverse operation needs to be done through callbacks or using a state management libraries like \textcite{Redux2020}.
 These problems mostly become prominent on larger scale projects, hence we opted for the flexibility of ReactJS for a quickly starting development, albeit encountering some of these state management issues in the latter stages of the project.
-% TODO refer back to proof of concept scope of project to justify this
 
 \section{Packaging application components}
 
@@ -881,7 +875,7 @@ We demoed the application to the panel, explaning the various parts of the UI, s
 
 We got positive feedback on the ``workflow oriented'' layout of the application as well as its complete yet extendable use of screen space.
 While controlling the number of explanation features was appreciated, a note was made on the lack of ability to control the infomration density within the document (e.g. viewing two pages at onces).
-A fix for this would be to have a layout more adaptable to various screen sizes. %TODO justify this as out of scope?
+A fix for this would be to have a layout more adaptable to various screen sizes.
 
 A remark was also made on the usefulness of the classification explanation words, noting that it was hard to relate them to sensitivity review.
 This is a result of our use of an unrelated dummy document to not reveal part of our document collection, reflecting on this, we should have used a more appropriate dummy document.
@@ -1045,6 +1039,7 @@ Despite these shortcoming we feel that, especially since this is a proof of conc
 
 
 %==================================================================================================================================
+
 \chapter{Conclusion}
 
 As much research often does: this project has introduced more questions than it has answered.
@@ -1069,8 +1064,6 @@ We did however, end up with somewhat verbose data passing between components bec
 
 We spent some time experimenting with different databases, especially converting from Elasticsearch to MongoDB, in hinsight, it would have been preferable to decide to use MongoDB earlier on in the project.
 
-
-
 \section{Future work}
 
 Our application does however remain a proof of concept, as such, it is not fully deployable, in part due to its lack of more testing as well as a reviewer authentication scheme.
@@ -1094,11 +1087,7 @@ The ML classifier could also be furthered: we focused on visualizing its output 
 The literature is abundant with techniques which can be used to improve our ``simple'' text classifiers: Part of Speech Tagging, Word Embeddings, Entity Recognition, Semantic Features \dots %
 Moreover, all these features introduce a wide range of challenges for visualization, especially those, like word embeddings, which imply illustrating the relationship between terms.
 
-Conducting the user study described previously would also be enlightening for understanding how and if tools like Harpocrates actually improve the sensitivity review process.
-
-% link back to requirements,  how have they been met?
-% reflections
-% future work
+Lastly conducting the user study described previously described would also be enlightening for understanding how and if tools like Harpocrates actually improve the sensitivity review process.
 
 %==================================================================================================================================
 %
@@ -1157,19 +1146,19 @@ Conducting the user study described previously would also be enlightening for un
         % width=\linewidth
     ]{figures/questionnaire.pdf}
 \end{appendices}
+
 %==================================================================================================================================
 %   BIBLIOGRAPHY   
 
-
 \newpage
-
 
 \section*{References}
 
 \printbibliography[heading=none]
 
 \vspace*{\fill}
+
 % print license
-\doclicenseThis%
+\doclicenseThis
 
 \end{document}
