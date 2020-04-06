@@ -105,12 +105,13 @@
 %==============================================================================
 %% ABSTRACT
 \begin{abstract}
-    Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
-    \vskip 0.5em
-    ``XYZ is bad. This project investigated ABC to determine if it was better.
-    ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
-    never been used together. It was found that
-    ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
+    With 817,615 documents pending review across major British institutions, there is an urgent need for digital tools to aid sensitivity reviewers to process documents for public release.
+    The alternative is a broad closure of records preventing rightful public access and the Democratic accountability of Governments.
+
+    This work seeks to address this issue by designing, building and evaluating a proof of concept application for visualizing and redacting potentially sensitive documents with the aid of explained Machine Learning classifications.
+
+    We implement a modern, simple and well documented web application, submit it for review by an expert panel and prepare a user study for future evaluation.
+    Our work introduces an initial ``end to end'' solution for tackling the growing backlogs of unreleased governmental records pending review.
 \end{abstract}
 
 %==============================================================================
@@ -188,11 +189,14 @@
 
 \section{The need for Technology Assisted Sensitivity Review}
 
-\lettrine[lines=3,nindent=0em]{O}{n} June 2nd 2013, in a busy Hongkongese commercial district, tens of thousands of neatly organized documents traded hands from a soon to be ex-NSA Employee to two American journalists refuged in one of the 492 rooms of the Mira Hotel.
-The Snowden archive handed over that day, ``stunning both in size and scope'' ``had been produced by virtually every unit and subdivision within the sprawling agency, and [\ldots] closely aligned foreign intelligence agencies'' \autocite[77]{greenwaldNoPlaceHide2014}.
-Months later, even after developing indexing and search tools, Greenwald and his team were still pouring over the mountain of documents that had been disclosed in order to redact information that could cause harm to privacy or national interest \autocite{greenwaldFactsHowNSA2014}.
-Consequently, the review process was not without flaws with misredactions actually revealing such information \autocite{oliverGovernmentSurveillanceLast2015}.
-Thus, the many hands that worked on the Snowden archive were confronted with a task only a fraction the scale of the work of today's sensitivity reviewers.
+\lettrine[lines=3,nindent=0em]{B}{efore} the release of the 30,000 emails from Hillary Clinton's private email server, the Republican National Committee filed a lawsuit to force the release of her emails and her aides' during her time as Secretary of State.
+The response from the State Department was that the review of all the 450,000 pages of the required records would take an estimated 75 years, a diplomatic way to refuse the request for public access to Mrs. Clinton's ultimately public emails.
+
+\vspace{0.2cm}
+
+\blockquote{``Given the Department’s current FOIA workload and the complexity of these documents, it can process about 500 pages a month, meaning it would take approximately 16-and-2/3 years to complete the review of the Mills documents, 33-and-1/3 years to finish the review of the Sullivan documents, and 25 years to wrap up the review of the Kennedy documents – or 75 years in total'' \\ \flushright\textcite[6-7]{phillipsRepublicanNationalCommitee2016}}
+
+\vspace{0.3cm}
 
 In the United Kingdom (UK), the \textcite{PublicRecordsAct1958} created what is today known as The National Archives (TNA), a public institution keeper of governmental records that the act stipulates, should be released within thirty years of their creation.
 The \textcite{FreedomInformationAct2000} (FOIA) later introduced a public ``right of access'' through requests to information held by public authorities.
@@ -454,7 +458,7 @@ We then illustrate these requirements in a set of wireframe diagrams which allow
 \section{User Stories}
 
 \paragraph*{File upload, text extraction and ML model}\mbox{}\\
-As a redactor I want my file uploaded for redaction to be pre-processed and displayed with redaction aids so that I can redact documents faster.
+As a redactor I want my file uploaded for redaction to be pre-processed and displayed with redaction aides so that I can redact documents faster.
 
 \paragraph*{ML model explainer}\mbox{}\\
 As a redactor, I would like to understand the reasons for the sensitivity classification suggestions so that I can decide on their relevance.
@@ -971,9 +975,9 @@ As an aside note: we have left in the repository the scripts we used for the doc
     \vspace{-15pt}
 \end{table}
 
-We sample test documents accordingly twice: once for each User Interface (UI).
-One interface \textit{test mode 1} (Figure~\ref{fig:test-mode-1}) is a simplified version of the final interface containing the classification prediction and the accompanying explanations.
-The other, \textit{test mode 2} (Figure~\ref{fig:test-mode-2}) is a stripped down version that only displays the document, and the manual redaction tools (document title and sensitivity type selection).
+We sampled test documents accordingly twice: once for each User Interface (UI).
+One interface \textit{test mode 1} (Figure~\ref{fig:test-mode-1}) was a simplified version of the final interface containing the classification prediction and the accompanying explanations.
+The other, \textit{test mode 2} (Figure~\ref{fig:test-mode-2}) was a stripped down version that only displayed the document, and the manual redaction tools (document title and a sensitivity type selection menu).
 
 \begin{figure}[H]
     \centering
@@ -994,18 +998,18 @@ The other, \textit{test mode 2} (Figure~\ref{fig:test-mode-2}) is a stripped dow
 We asked our participants to review each set of test documents with one of the two interfaces.
 The starting interface and the document order within each set was chosen randomly in to minimize the learning effect on the reviewing task.
 After each batch of documents, we handed our reviewers sections of a questionnaire (Appendix~\ref{appendix:questionnaire}) to record their impressions about the interface, confidence about their work and time to review each document.
-This questionnaire is split into three sections, the first two were an identical based on the System Usability Survey (SUS) format \autocite[Chap.~21]{jordanUsabilityEvaluationIndustry1996} which aimed at evaluating the interface as a whole.
+This questionnaire was split into three sections, the first two were identical and based on the System Usability Survey (SUS) format \autocite[Chap.~21]{jordanUsabilityEvaluationIndustry1996} which aimed at evaluating the interface as a whole.
 The first two sections were answered after each review batch was completed, then, the last section was handed out.
-It seeks to evaluate the usefulness of each invidual component in interface 1.
+It sought to evaluate the usefulness of each invidual component in interface 1 with a Likert scale.
 
 \subsection{Results}
 
-As mentioned, each user is asked to review one collection of six documents for personal information sensitivities (FOIA Section 40) for each user interface.
-The independent variables will a set of two user interfaces: with and without the predicted classification and explanations (more details below) which all users will both use. We will measure multiple dependent variables against our two interfaces (the independant variables):
+As mentioned, each user was asked to review one collection of six documents for personal information sensitivities (FOIA Section 40) for each user interface.
+The independent variables were the two user interfaces: with and without the predicted classification and explanations (more details below) which all users both used.
+We measured multiple dependent variables against our two interfaces (the independant variables):
 
 \begin{itemize}
-    \item Firstly, we measure the time to review each document in both collections.
-          We normalize document review time with the document's word count in order to account for differing document length, although it should be noted that a simple word count does not necessarily reflect the complexity of a document, especially for sensitivity review.
+    \item Firstly, the time to review each document in both collections.
     \item Secondly we record the accuracy of each reviewer on each interface for all documents.
           We extract two measures from our participants' review batches: the balanced accuracy and \(F_{2}\), measures particularly well suited to evaluating sensitivity review \autocite{mcdonaldStudySVMKernel2017}.
     \item Lastly, we evaluate the confidence of the reviewers after using each interface with a Likert scale in the questionnaires.
