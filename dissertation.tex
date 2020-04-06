@@ -1045,7 +1045,9 @@ Despite these shortcoming we feel that, especially since this is a proof of conc
 As much research often does: this project has introduced more questions than it has answered.
 It has however addressed the core of the initial scope, namely, to design, build and to some extent evaluate a proof of concept application for aiding sensitivity review with ML tools.
 
-\section{Achievements and reflections}
+We conclude this dissertation by summarizing what we have achieved, reflecting on what we should or should not have done and lastly addressing the work that needs to be completed before this project can become a deployable solution for tackling the growing backlogs of documents in need of sensitivity review.
+
+\section{Achievements}
 
 While we have yet to evaluate whether it contributes to actually improving accuracy or review time, we have devised a user study to verify these claims along with the tools necessary to reproduce the a very close experimental setup.
 
@@ -1059,18 +1061,29 @@ The original design and requirements evolved throughout the development process.
 For example having fulltext search as a feature was not found to directly contribute to the proof of concept and could be implented in a more deployment ready application.
 We have not implemented any kind of suggested redaction, something which could perhaps be implemented with entity recognition (also unimplemented) similarly to \textcite{RedactedAIRemovea}.
 
+\section{Reflections}
+
 Choosing ReactJS as a frontend Javascript framework has given us flexibility and not constrained us into a complex out of the box project structure like the others would have.
-We did however, end up with somewhat verbose data passing between components because of our decision to avoid using a state management library because we were not familiar with the ReactJs ecosystem.
+We did however, end up with somewhat verbose data passing between components because of our decision to avoid using a state management library because we were not familiar with the ReactJS ecosystem.
 
 We spent some time experimenting with different databases, especially converting from Elasticsearch to MongoDB, in hinsight, it would have been preferable to decide to use MongoDB earlier on in the project.
 
+We have not spent much time doing formal issue tracking: most of project's weekly objectives and reflections were captured in our weekly \textcite{MeetingNotes2019} as well as in a \textcite{DissertationLogbook2019}.
+This was probably the most adequate way to log this kind of information, formal issue tracking is very useful in a collaboration environment.
+However there was only one developer on this project which would have made it very time consuming to keep a proper issue tracking system up to date, moreover, the ``blog'' and notes style approach seems like it made it easier for anyone not actually developing the project to keep up with it.
+
+It is hard for any developer to put oneself into the user's shoes, this was even harder such a specific task as sensitivity review.
+``Anyone'' can imagine needing to order food from a delivery app, but conceptualizing the task of sensitivity review without seeing it is complex.
+This might have been easier had we studied more in depth the regulatory background and legislations that surround this task.
+While it is by nature secretive and sensitivity reviewers are rare (this is in part the reason why our project is needed), actually observing reviewers at work would also have been helpful in understanding their needs and better design this application.
+
 \section{Future work}
 
-Our application does however remain a proof of concept, as such, it is not fully deployable, in part due to its lack of more testing as well as a reviewer authentication scheme.
+Indeed, this application remains a proof of concept, as such, it is not fully deployable, in part due to its lack of more testing as well as a reviewer authentication scheme.
 This can be implemented through OpenAPI support for Oauth2 authentication.
 
 Classifiying documents along with calculating is computationally expensive and thus, time consuming.
-Harpocrates needs some sort of computationally expensive task scheduling and distribution like \textcite{Celery2020} as well as a querying mechanism for diplaying document processing progress to the final user.
+Harpocrates needs some sort of ML task scheduling and distribution like \textcite{Celery2020} as well as a querying mechanism for diplaying document processing progress to the final user.
 
 Furthermore, at scale, such a system would require distributed computing capabilities with a load balancing reverse proxy.
 When reaching these scales, previously mentionned orchestration tools like \textcite{Kubernetes2020} really shine for painlessly deploying redudant, distributed and load balanced applications.
@@ -1085,7 +1098,7 @@ It might also be worth investigating tree based ML classifiers which perform bet
 
 The ML classifier could also be furthered: we focused on visualizing its output but there so much more to be done to improve it.
 The literature is abundant with techniques which can be used to improve our ``simple'' text classifiers: Part of Speech Tagging, Word Embeddings, Entity Recognition, Semantic Features \dots %
-Moreover, all these features introduce a wide range of challenges for visualization, especially those, like word embeddings, which imply illustrating the relationship between terms.
+Moreover, all these features introduce a wide range of challenges for visualization, especially those, like word embeddings, which imply illustrating the relationship between multiple terms.
 
 Lastly conducting the user study described previously described would also be enlightening for understanding how and if tools like Harpocrates actually improve the sensitivity review process.
 
